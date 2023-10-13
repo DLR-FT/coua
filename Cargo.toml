@@ -1,0 +1,27 @@
+[package]
+name = "coua"
+description = "Framework for agile certification"
+version = "0.1.0"
+edition = "2021"
+authors = [
+  "Tim Schubert <dadada@dadada.li>"
+]
+license = "MIT OR Apache-2.0"
+keywords = [
+  "avionics",
+  "certification",
+  "cli",
+  "devops",
+  "testing",
+]
+categories = [
+  "aerospace", 
+  "command-line-utilities",
+  "development-tools",
+  "testing"
+]
+repository = "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

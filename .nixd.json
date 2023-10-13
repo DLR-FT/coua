@@ -1,0 +1,12 @@
+{
+  "eval": {
+    "target": {
+      "args": ["-f", "default.nix"],
+      "installable": ".#packages.x86_64-linux.default",
+      "depth": 10
+    }
+  },
+  "formatting": {
+    "command": "nix fmt"
+  },
+}
