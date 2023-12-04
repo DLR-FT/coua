@@ -9,6 +9,10 @@ formatting:
   script:
     - nix fmt -- --fail-on-change --no-cache
 
+commit-check:
+  script:
+    - nix develop --command cog check
+
 rust-tests:
   script:
     - ./ci/rust-tests.sh

@@ -30,6 +30,9 @@ in
       # Runs cargo test and generate JUnit reports
       pkgs.cargo-nextest
 
+      # Check commit message styles
+      pkgs.cocogitto
+
       # Nightly version of rust-analyzer
       pkgs.fenix.rust-analyzer
 
