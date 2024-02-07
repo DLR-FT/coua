@@ -6,81 +6,10 @@
 // tool outputs report
 // coua collects reports
 
-use std::process::Command;
-use url::Url;
+use coua::evidence::{EvidenceKind, EvidenceMeta};
+use coua::objective::{Objective, Reference};
 
 static PROJECT_PATH: &str = "/home/brei_no/Projects/a653rs-linux";
-
-type ObjectiveId = String;
-
-struct CouaURI {
-    uri: Url,
-}
-
-impl std::str::FromStr for CouaURI {
-    type Err = anyhow::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(Self {
-            uri: Url::parse(s)?,
-        })
-    }
-}
-
-impl CouaURI {
-    fn execute_command(&mut self) -> anyhow::Result<std::process::Output> {
-        let command_str = self
-            .uri
-            .host_str()
-            .and_then(|s| s.split_once("-"))
-            .ok_or_else(|| anyhow::anyhow!("Failed to convert URI to command"))?;
-
-        let mut command = Command::new(command_str.0);
-        let command = command.arg(command_str.1);
-        println!("running {:?}", command);
-
-        command.output().map_err(Into::into)
-    }
-}
-
-struct Objective {
-    id: ObjectiveId,
-    name: String,         // 1.1 (name is not quite right)
-    description: String,  // "The activities of the software life cycle processes are defined.""
-    reference: Reference, //  4.1.a (Chapter in the Standard)
-    //applicability: Applicability, // not here, we already know which DAL level we need
-    satisfied: Option<ObjectiveState>,
-}
-
-#[derive(Clone)]
-struct Reference {
-    document: String,
-    isbn: Option<()>,
-    reference: String, // chapter in standard
-}
-
-enum ObjectiveState {
-    Failed,
-    Satisfied,
-    // We want to be stateless, thus an objective is always either failed or satisfied.
-    // Pending
-}
-
-struct EvidenceMeta {
-    objective: ObjectiveId,
-    uri: CouaURI,
-    kind: EvidenceKind,
-}
-
-// determine how the associated evidence is interpreted
-// should follow from the uri
-enum EvidenceKind {
-    Justification,
-    CoverageReport,
-    TestReport,
-    StaticAnalysisReport,
-    FileJustExists,
-}
 
 // Should come from the manifest
 // mock associated manifests
@@ -99,22 +28,6 @@ fn associated_evidences(objective: &Objective) -> Vec<EvidenceMeta> {
         _ => todo!(),
     };
     vec![ev]
-}
-
-impl EvidenceMeta {
-    fn get_evidence(mut self) -> anyhow::Result<()> {
-        println!("{:?}", std::env::current_dir()?);
-        std::env::set_current_dir(PROJECT_PATH)?;
-        let output = self.uri.execute_command()?;
-
-        let status = output.status;
-        println!("status {status}");
-        let report = std::str::from_utf8(&output.stdout)?;
-        println!("report\n{report}");
-        let errors = std::str::from_utf8(&output.stderr)?;
-        println!("errors\n{errors}");
-        Ok(())
-    }
 }
 
 // mock objectives
@@ -149,7 +62,7 @@ fn main() -> anyhow::Result<()> {
         .flatten()
         .collect::<Vec<_>>();
     for e in evidences {
-        e.get_evidence()?
+        e.get_evidence(PROJECT_PATH)?
     }
     Ok(())
 }
