@@ -26,3 +26,4 @@ repository = "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+url = "2.5.0"
