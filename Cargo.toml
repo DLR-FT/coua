@@ -4,7 +4,8 @@ description = "Framework for agile certification"
 version = "0.1.0"
 edition = "2021"
 authors = [
-  "Tim Schubert <dadada@dadada.li>"
+  "Tim Schubert <dadada@dadada.li>",
+  "Nora Breitmoser-Widdecke <nora.breitmoser-widdecke@dlr.de>"
 ]
 license = "MIT OR Apache-2.0"
 keywords = [
