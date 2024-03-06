@@ -6,10 +6,13 @@
 // tool outputs report
 // coua collects reports
 
+use std::fs::File;
+use std::io::{self, stdout};
+
+use anyhow::Context;
 use coua::evidence::{EvidenceKind, EvidenceMeta};
 use coua::objective::{Objective, Reference};
-
-static PROJECT_PATH: &str = "/home/brei_no/Projects/a653rs-linux";
+use coua::requirements::{load_file, RequirementsData};
 
 // Should come from the manifest
 // mock associated manifests
@@ -54,15 +57,29 @@ fn create_objectives() -> Vec<Objective> {
     vec![objective1, objective2]
 }
 
+pub fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
+    let reqs: RequirementsData =
+        load_file(file).with_context(|| "Failed to read requirements from standard input")?;
+    let reqs = reqs
+        .try_into_reqs()
+        .with_context(|| "Failed to transform requirements into graph")?;
+    reqs.render_to(&mut stdout())
+        .with_context(|| "Failed to render requirements")
+}
+
 fn main() -> anyhow::Result<()> {
+    let project_path = std::env::current_dir()?;
     let objectives = create_objectives();
     let evidences = objectives
         .iter()
-        .map(|o| associated_evidences(o))
-        .flatten()
+        .flat_map(associated_evidences)
         .collect::<Vec<_>>();
     for e in evidences {
-        e.get_evidence(PROJECT_PATH)?
+        e.get_evidence(&project_path)?
     }
+    let mut requirements = project_path.clone();
+    requirements.push("requirements.yml");
+    let requirements = File::open(requirements)?;
+    display_requirements(requirements)?;
     Ok(())
 }

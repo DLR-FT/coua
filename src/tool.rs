@@ -20,7 +20,7 @@ impl CouaURI {
         let command_str = self
             .uri
             .host_str()
-            .and_then(|s| s.split_once("-"))
+            .and_then(|s| s.split_once('-'))
             .ok_or_else(|| anyhow::anyhow!("Failed to convert URI to command"))?;
 
         let mut command = Command::new(command_str.0);
