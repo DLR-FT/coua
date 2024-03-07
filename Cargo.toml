@@ -30,5 +30,5 @@ anyhow = "1.0.79"
 itertools = "0.12.1"
 dot = "0.1"
 serde = { version = "1.0", features = ["derive"] }
-serde_yaml = "0.9"
-url = "2.5.0"
+serde_json = "1.0.114"
+toml = "0.8.10"

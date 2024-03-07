@@ -57,8 +57,10 @@ impl RequirementsData {
     }
 }
 
-pub fn load_file<T: io::Read>(file: T) -> anyhow::Result<RequirementsData> {
-    serde_yaml::from_reader(file).with_context(|| "Failed to read requirements from standard input")
+pub fn load_file<T: io::Read>(mut file: T) -> anyhow::Result<RequirementsData> {
+    let mut requirements = String::new();
+    let _ = file.read_to_string(&mut requirements);
+    toml::from_str(&requirements).with_context(|| "Failed to read requirements")
 }
 
 #[cfg(test)]
@@ -70,8 +72,8 @@ mod tests {
     #[test]
     fn process_example() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        file.push("requirements.yml");
-        let file = File::open(file).expect("Failed to open example.yml");
+        file.push("requirements.toml");
+        let file = File::open(file).expect("Failed to open requirements file");
         let file = BufReader::new(file);
         load_file(file).unwrap().try_into_reqs().unwrap();
     }

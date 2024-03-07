@@ -8,9 +8,11 @@ use std::fs::File;
 use std::io::{self, stdout};
 
 use anyhow::Context;
+use coua::artifact::Artifact;
+use coua::manifest::CouaManifest;
 use coua::requirements::{load_file, RequirementsData};
 
-pub fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
+fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
     let reqs: RequirementsData =
         load_file(file).with_context(|| "Failed to read requirements from standard input")?;
     let reqs = reqs
@@ -20,11 +22,29 @@ pub fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
         .with_context(|| "Failed to render requirements")
 }
 
+fn parse_manifest<T: io::Read>(mut file: T) -> anyhow::Result<CouaManifest> {
+    let mut manifest = String::new();
+    let _ = file
+        .read_to_string(&mut manifest)
+        .with_context(|| "Failed to read from manifest file")?;
+    let manifest = toml::from_str(&manifest).with_context(|| "Failed to parse manifest")?;
+    Ok(manifest)
+}
+
 fn main() -> anyhow::Result<()> {
     let project_path = std::env::current_dir()?;
-    let mut requirements = project_path.clone();
-    requirements.push("requirements.yml");
-    let requirements = File::open(requirements)?;
-    display_requirements(requirements)?;
+    let mut manifest_path = project_path.clone();
+    manifest_path.push("coua.toml");
+    let manifest = parse_manifest(File::open(manifest_path)?)?;
+    dbg!(&manifest);
+    let requirements: Vec<Artifact> = manifest
+        .artifacts
+        .into_iter()
+        .filter(|r| matches!(r, Artifact::Requirements(_)))
+        .collect();
+    for file in requirements.into_iter() {
+        dbg!(&file);
+        display_requirements(File::open(file)?)?;
+    }
     Ok(())
 }

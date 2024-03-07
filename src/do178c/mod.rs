@@ -87,7 +87,7 @@ impl Deref for DataItemReference {
 pub struct DataItem {
     pub reference: DataItemReference,
     pub description: DataItemDescription,
-    pub artifact: ArtifactLocator,
+    pub artifact: Option<ArtifactLocator>,
 }
 
 #[derive(Debug, Clone)]
