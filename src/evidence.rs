@@ -1,17 +1,10 @@
-use crate::{artifact::ArtifactLocator, objective::ObjectiveId};
+use crate::artifact::ArtifactLocator;
 
 #[derive(Debug, Clone)]
-pub struct EvidenceMetaData {
-    pub objective: ObjectiveId,
-    pub location: ArtifactLocator,
-    pub kind: EvidenceKind,
-}
-
-#[derive(Debug, Clone)]
-pub enum EvidenceKind {
-    Justification,
-    CoverageReport,
-    TestReport,
-    StaticAnalysisReport,
-    FileJustExists,
+pub enum Evidence {
+    Justification(ArtifactLocator),
+    CoverageReport(ArtifactLocator),
+    TestReport(ArtifactLocator),
+    StaticAnalysisReport(ArtifactLocator),
+    FileJustExists(ArtifactLocator),
 }
