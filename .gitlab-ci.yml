@@ -32,3 +32,11 @@ rust-coverage:
       coverage_report:
         coverage_format: cobertura
         path: coverage-cobertura.xml
+
+coua-cert:
+  script:
+    - nix build .#coua-cert
+    - nix develop -c cp -L result report.json
+  artifacts:
+    paths:
+      [report.json]

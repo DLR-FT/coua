@@ -12,5 +12,6 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://gitlab.dlr.de/ft-ssy-avs/ap/coua";
     license = with licenses; [ mit /* or */ asl20 ];
     maintainers = [ ];
+    mainProgram = "coua";
   };
 }

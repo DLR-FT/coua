@@ -34,6 +34,7 @@
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
       packages = eachSystem (pkgs: rec {
         coua = pkgs.callPackage ./nix/coua.nix { };
+        coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
         default = coua;
       });
     };
