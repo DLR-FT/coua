@@ -1,0 +1,14 @@
+id = 6
+title = "Defining Ontologies"
+actor = "Vendor"
+goal = "DLR-SMART2"
+scope = "Ontologies"
+affects = [2.2, 2.3, 4.1]
+level = "User"
+story = "As the vendor I want to define my own extensions to the certification objectives to check additional or adapted objectives so that I can adapt my processes to the requirements of the CA."
+stakeholders = ["Vendor"]
+pre = ["The certification framework defines ontology classes for objectives, data-items, evidences and other outputs."]
+trigger = "The CA requires that an objective or requirement that is not explicitly specified by an ontology for an existing regulation is added."
+flow = ["The vendor adds definitions for the objectives including what inputs are needed to evaluate them."]
+post = ["The objective is related to other objectives and evaluated by the certification framework using the artifacts."]
+extensions = ["As the certification authority I want to have a mechanised description of the objective and its inputs to have a common and definite language with the vendor."]

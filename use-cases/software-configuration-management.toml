@@ -1,0 +1,14 @@
+id = 3
+title = "Retrieve Artifact"
+actor = "System Integrator"
+goal = "DLR-SMART2"
+scope = "ADF"
+affects = [2.2, 2.3]
+level = "System"
+story = "As the vendor I want to retrieve or reproduce the software, configuration, required build environment, test environment, artifacts, evidences and certification progress during any point during any iteration of the software life cycle so that I can trace defective changes and make corrective changes to previous versions."
+stakeholders = ["Developer", "Systems Integrator"]
+pre = ["All changes to the software, configuration and non-reproducible artifacts that represent the state of the project at a given time during the software lifecycle are versioned and permanently recorded."]
+trigger = "A change of the software, its requirements or its configuration items is accepted."
+flow = ["The developer or systems integrator makes a checkout of the revision in question from the SCM.", "The developer or systems integrator reproducibly recreates or retrieves all artifacts."]
+post = ["The artifacts are identical to the artifacts that were previously created using the revision.", "The results from running the certification framework to evaluate the objectives is identical to previous runs using the same revision."]
+extensions = ["As a software developer or systems integrator I want to reproduce a previous state of the integrated software to reproduce a situation in which a fault occurs so that I can identify the defective change."]

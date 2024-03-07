@@ -1,0 +1,14 @@
+id = 2
+title = "Continuous Testing"
+actor = "Developer"
+goal = "DLR-SMART2"
+affects = [2.2, 2.3, 4.1]
+scope = "Certification Report"
+level = "User"
+story = "As a software developer I want the CI to check the progress towards the certification objectives so that I can prevent regressions and assess the effectiveness of my attempts to make progress towards the objectives."
+stakeholders = ["Developer", "Tester"]
+pre = ["The CI produces or discovers artifacts that can be used for generating evidence towards the certification objectives, such as trace-data, test-results, requirements, coverage data.", "Transformations for creating evidences from the artifacts are available.", "The projects defines which evidence to use for which objective."]
+post = ["The CI indicates the progress towards each objective and which change produces a regression."]
+trigger = "A developer submits code or documents to the SCM."
+flow = ["The CI runs the certification framework, producing a certification report."]
+extensions = ["As a reviewer I want to check the certification status before accepting changes to the software so that no regressions from the certification objectives are made when applying a change."]

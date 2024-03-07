@@ -1,0 +1,14 @@
+id = 7
+title = "Tracking Artifact Dependencies"
+actor = "Vendor"
+goal = "DLR-SMART2"
+affects = [2.2, 2.3]
+scope = "ADF"
+level = "User"
+story = "As the vendor I want to track down why an objective is not completed so that I can take appropriate action."
+stakeholders = ["Vendor", "Developer", "Certification Authority"]
+pre = ["An ontology links objectives to input and output artifacts.", "The inputs and outputs are tracable onto each other if there is a relationship between them and this relationship is expressed in the ontology."]
+trigger = "Changes are made to the product."
+flow = ["The certification framework evaluates the relationships between the inputs and outputs and traces them back to objectives.", "The relationship is displayed as part of the certification report."]
+post = ["An incomplete objective is detected by tracing the defect from individual artifacts to one or more objectives."]
+extensions = ["As the CA I want to inspect the report to verify that each objective has been completed."]

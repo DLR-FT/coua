@@ -1,0 +1,18 @@
+# TODO import requirements from requirements.pdf
+[reqA1]
+description = 'While there is no card in the ATM, the ATM shall display "insert card to begin".'
+owner = "CompanyA"
+level = "Functional"
+trace = [ "reqB1" ]
+
+[reqB1]
+description = "The ATM shall provide instructions during the process"
+owner = "CompanyB"
+level = "System"
+use_cases = [ "UC1" ]
+
+[reqA2]
+description = "If an invalid card is inserted, then the ATM shall push out the card."
+owner = "CompanyB"
+level = "Functional"
+trace = [ "reqB1" ]

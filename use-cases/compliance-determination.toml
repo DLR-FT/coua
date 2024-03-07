@@ -1,0 +1,14 @@
+id = 1
+title = "Check Objectives"
+actor = "Certification Authority"
+affects = [2.2, 2.3]
+goal = "DLR-SMART1"
+scope = "Certification Report"
+level = "User"
+story = "As the certification authority I want to be able to inspect all relevant data and documents for certification so that I can verify that sufficient evidence is provided to show that the certification objectives are completed."
+stakeholders = ["Certification Authority", "Vendor"]
+pre = ["The Software Accomplishment Summary is created by the CI."]
+post = ["The certification authority can determine which objectives are not completed.", "The certification authority can determine that all objectives are completed."]
+trigger = "The certification liaison process enters a new iteration."
+flow = ["The vendor prepares the certification report along with all supporting materials.", "The certification authority obtains the report along with the supporting materials from the vendor.", "The certification authority reviews the materials and determines compliance.", "The certification authority submits their findings to the vendor."]
+extensions = ["As a vendor I want the report to clearly state if all objectives are met so that I can determine when the report is ready to be handed in to the CA."]
