@@ -1,0 +1,149 @@
+[UC05]
+title = "Shared Reality"
+actor = "Developer"
+goal = "DLR-SMART3"
+scope = "ADF"
+affects = [2.2, 2.3, 4.1]
+level = "System"
+story = "As a developer I want the certification framework to produce the same results every time I give it the same inputs as someone else so that everyone has a shared reality of the current certification status of the project."
+stakeholders = ["Developer", "Reviewer", "Certification Authority"]
+pre = ["The project's artifacts are reproducible in a way that they do not change if they are created twice from the same data."]
+trigger = "The certification status is queried by a stakeholder."
+flow = ["The artifacts are reproducibly retrieved or created.", "All stakeholders run the certification framework using the same version of the artifacts."]
+post = ["All stakeholders get the same certification results."]
+extensions = ["As the certification authority I want to inspect the identical report as the developer so that I am sure to certify the right revision of the product."]
+
+[UC01]
+title = "Check Objectives"
+actor = "Certification Authority"
+affects = [2.2, 2.3]
+goal = "DLR-SMART1"
+scope = "Certification Report"
+level = "User"
+story = "As the certification authority I want to be able to inspect all relevant data and documents for certification so that I can verify that sufficient evidence is provided to show that the certification objectives are completed."
+stakeholders = ["Certification Authority", "Vendor"]
+pre = ["The Software Accomplishment Summary is created by the CI."]
+post = ["The certification authority can determine which objectives are not completed.", "The certification authority can determine that all objectives are completed."]
+trigger = "The certification liaison process enters a new iteration."
+flow = ["The vendor prepares the certification report along with all supporting materials.", "The certification authority obtains the report along with the supporting materials from the vendor.", "The certification authority reviews the materials and determines compliance.", "The certification authority submits their findings to the vendor."]
+extensions = ["As a vendor I want the report to clearly state if all objectives are met so that I can determine when the report is ready to be handed in to the CA."]
+
+[UC02]
+title = "Continuous Testing"
+actor = "Developer"
+goal = "DLR-SMART2"
+affects = [2.2, 2.3, 4.1]
+scope = "Certification Report"
+level = "User"
+story = "As a software developer I want the CI to check the progress towards the certification objectives so that I can prevent regressions and assess the effectiveness of my attempts to make progress towards the objectives."
+stakeholders = ["Developer", "Tester"]
+pre = ["The CI produces or discovers artifacts that can be used for generating evidence towards the certification objectives, such as trace-data, test-results, requirements, coverage data.", "Transformations for creating evidences from the artifacts are available.", "The projects defines which evidence to use for which objective."]
+post = ["The CI indicates the progress towards each objective and which change produces a regression."]
+trigger = "A developer submits code or documents to the SCM."
+flow = ["The CI runs the certification framework, producing a certification report."]
+extensions = ["As a reviewer I want to check the certification status before accepting changes to the software so that no regressions from the certification objectives are made when applying a change."]
+
+[UC06]
+title = "Defining Ontologies"
+actor = "Vendor"
+goal = "DLR-SMART2"
+scope = "Ontologies"
+affects = [2.2, 2.3, 4.1]
+level = "User"
+story = "As the vendor I want to define my own extensions to the certification objectives to check additional or adapted objectives so that I can adapt my processes to the requirements of the CA."
+stakeholders = ["Vendor"]
+pre = ["The certification framework defines ontology classes for objectives, data-items, evidences and other outputs."]
+trigger = "The CA requires that an objective or requirement that is not explicitly specified by an ontology for an existing regulation is added."
+flow = ["The vendor adds definitions for the objectives including what inputs are needed to evaluate them."]
+post = ["The objective is related to other objectives and evaluated by the certification framework using the artifacts."]
+extensions = ["As the certification authority I want to have a mechanised description of the objective and its inputs to have a common and definite language with the vendor."]
+
+[UC10]
+title = "Incremental Certification"
+actor = "Developer"
+affects = [2.2, 2.3]
+goal = "DLR-SMART10"
+scope = "Certification Report"
+level = "User"
+story = "As a developer, during development, I want to be able to mark objectives which have not yet been worked on as not achievable, so that I can focus on the progress of the objective(s) I am working on."
+stakeholders = ["Vendor", "Developer", "Reviewer"]
+pre = ["The list of objectives for a project is known."]
+trigger = "An objective that is currently not completed, but is planned to be completed in the future."
+flow = ["The developer marks the objective as not achievable using the manifest file."]
+post = ["The certification framework reports the failures of objectives, but the failures of marked objectives are featured less prominently."]
+extensions = ["As a developer, I want to remove the marker from the objective I am working on so that I am notified of regressions."]
+
+[UC09]
+title = "Machine-Readable Certification Report"
+actor = "Developer"
+goal = "DLR-SMART2"
+scope = "Certification Report"
+affects = [2.2, 2.3, 4.1]
+level = "User"
+story = "As a developer I want the certification report to be machine-readable so that it be processed by additional tools."
+stakeholders = ["Developer"]
+pre = ["The certification report is generated in a standardized format."]
+trigger = "The certification report is created."
+flow = ["The certification report data is created and serialized in the standardized format."]
+post = ["The report data is displayed by the COTS tools."]
+extensions = ["As the vendor, I want to archive the report data to make historical data of my product searchable."]
+
+[UC04]
+title = "Use COTS Tools"
+actor = "Developer"
+goal = "DLR-SMART3"
+affects = [2.2, 2.3, 4.1]
+scope = "TDF"
+level = "User"
+story = "As a developer I want to use artifacts provided by my existing tooling as inputs for the certification framework so that I can check my certification progress."
+stakeholders = ["Developer", "Reviewer"]
+pre = ["The certification framework provides a means for describing how artifacts are created by custom tools.", "The certification framework provides ingestion methods for some pre-defined artifact types."]
+trigger = "An output of a COTS tool is to be used as an input for the certification framework."
+flow = ["The developer defines which artifact type the artifact has using the ADF and the tool which creates the artifact type using the TDF."]
+post = ["The definitions are used by the certification framework to discover or create the artifacts and ingest them."]
+extensions = ["As a developer, I want the certification framework to provide default definitions for some tools, so that I don't have to provide my own."]
+
+[UC07]
+title = "Tracking Artifact Dependencies"
+actor = "Vendor"
+goal = "DLR-SMART2"
+affects = [2.2, 2.3]
+scope = "ADF"
+level = "User"
+story = "As the vendor I want to track down why an objective is not completed so that I can take appropriate action."
+stakeholders = ["Vendor", "Developer", "Certification Authority"]
+pre = ["An ontology links objectives to input and output artifacts.", "The inputs and outputs are tracable onto each other if there is a relationship between them and this relationship is expressed in the ontology."]
+trigger = "Changes are made to the product."
+flow = ["The certification framework evaluates the relationships between the inputs and outputs and traces them back to objectives.", "The relationship is displayed as part of the certification report."]
+post = ["An incomplete objective is detected by tracing the defect from individual artifacts to one or more objectives."]
+extensions = ["As the CA I want to inspect the report to verify that each objective has been completed."]
+
+[UC08]
+title = "Tracing"
+actor = "Software Developer"
+goal = "DLR-SMART3"
+affects = [2.2, 2.3]
+scope = "ADF"
+level = "User"
+story = "As a developer I want to track the contents of artifacts like requirements, test cases, source code and object code onto each other so that I can use the tracing as a data-item."
+stakeholders = ["Developer", "Reviewer"]
+pre = ["The artifact types that should be traced are modeled using the ADF."]
+trigger = "A new artifact is added."
+flow = ["The developer uses an existing class defintion or creates a new class definition for the ADF inside an ontology.", "The developer declares that a specific artifact is of that type.", "The certification framework understands the defition and can use the contents of the artifacts for tracing."]
+post = ["The report shows the tracing between the artifacts."]
+extensions = ["As the certification authority I want to inspect the report to verify that sufficient coverage of requirements, source and object code exists."]
+
+[UC03]
+title = "Retrieve Artifact"
+actor = "System Integrator"
+goal = "DLR-SMART2"
+scope = "ADF"
+affects = [2.2, 2.3]
+level = "System"
+story = "As the vendor I want to retrieve or reproduce the software, configuration, required build environment, test environment, artifacts, evidences and certification progress during any point during any iteration of the software life cycle so that I can trace defective changes and make corrective changes to previous versions."
+stakeholders = ["Developer", "Systems Integrator"]
+pre = ["All changes to the software, configuration and non-reproducible artifacts that represent the state of the project at a given time during the software lifecycle are versioned and permanently recorded."]
+trigger = "A change of the software, its requirements or its configuration items is accepted."
+flow = ["The developer or systems integrator makes a checkout of the revision in question from the SCM.", "The developer or systems integrator reproducibly recreates or retrieves all artifacts."]
+post = ["The artifacts are identical to the artifacts that were previously created using the revision.", "The results from running the certification framework to evaluate the objectives is identical to previous runs using the same revision."]
+extensions = ["As a software developer or systems integrator I want to reproduce a previous state of the integrated software to reproduce a situation in which a fault occurs so that I can identify the defective change."]
