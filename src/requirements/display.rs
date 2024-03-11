@@ -8,6 +8,8 @@ use std::{
     ops::Deref,
 };
 
+use anyhow::Context;
+
 use super::*;
 
 #[derive(Debug, Clone)]
@@ -107,4 +109,14 @@ impl<'a> dot::GraphWalk<'a, &Req<'a, 'a>, (&'a Req<'a, 'a>, &'a Req<'a, 'a>)> fo
     fn target(&'a self, edge: &(&'a Req<'a, 'a>, &'a Req<'a, 'a>)) -> &Req<'a, 'a> {
         edge.1
     }
+}
+
+pub fn display_requirements<T: io::Read, O: io::Write>(file: T, mut out: O) -> anyhow::Result<()> {
+    let reqs: RequirementsData =
+        load_requirements(file).with_context(|| "Failed to read requirements from file")?;
+    let reqs = reqs
+        .try_into_reqs()
+        .with_context(|| "Failed to transform requirements into graph")?;
+    reqs.render_to(&mut out)
+        .with_context(|| "Failed to render requirements")
 }

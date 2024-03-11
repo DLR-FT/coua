@@ -10,8 +10,8 @@ impl AsRef<Path> for ArtifactLocator {
     }
 }
 
-impl From<String> for ArtifactLocator {
-    fn from(value: String) -> Self {
+impl From<&str> for ArtifactLocator {
+    fn from(value: &str) -> Self {
         Self(value.into())
     }
 }
@@ -39,5 +39,17 @@ impl AsRef<Path> for Artifact {
             | Artifact::Requirements(l)
             | Artifact::UseCases(l) => l.as_ref(),
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::{Artifact, ArtifactLocator};
+
+    #[test]
+    fn as_path() {
+        let r = Artifact::Justification("/nix/store/2298shs98hs98sh-test".into());
+        let ref_r = r.as_ref();
+        assert!(ref_r == ArtifactLocator::from("/nix/store/2298shs98hs98sh-test").as_ref())
     }
 }

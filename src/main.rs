@@ -4,32 +4,10 @@
 // tool outputs report
 // coua collects reports
 
-use std::fs::File;
-use std::io::{self, stdout};
+use std::{fs::File, io::stdout};
 
 use anyhow::Context;
-use coua::{
-    load_requirements, load_use_cases, Artifact, CouaManifest, RequirementsData, UseCaseData,
-};
-
-fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
-    let reqs: RequirementsData =
-        load_requirements(file).with_context(|| "Failed to read requirements from file")?;
-    let reqs = reqs
-        .try_into_reqs()
-        .with_context(|| "Failed to transform requirements into graph")?;
-    reqs.render_to(&mut stdout())
-        .with_context(|| "Failed to render requirements")
-}
-
-fn parse_manifest<T: io::Read>(mut file: T) -> anyhow::Result<CouaManifest> {
-    let mut manifest = String::new();
-    let _ = file
-        .read_to_string(&mut manifest)
-        .with_context(|| "Failed to read from manifest file")?;
-    let manifest = toml::from_str(&manifest).with_context(|| "Failed to parse manifest")?;
-    Ok(manifest)
-}
+use coua::{display_requirements, load_use_cases, parse_manifest, Artifact, UseCaseData};
 
 fn main() -> anyhow::Result<()> {
     let project_path = std::env::current_dir()?;
@@ -42,7 +20,7 @@ fn main() -> anyhow::Result<()> {
         .filter(|r| matches!(r, Artifact::Requirements(_)))
         .collect();
     for file in requirements.into_iter() {
-        display_requirements(File::open(file)?)?;
+        display_requirements(File::open(file)?, stdout())?;
     }
     let use_cases: Vec<&Artifact> = manifest
         .artifacts

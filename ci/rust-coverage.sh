@@ -6,7 +6,7 @@ set -o pipefail
 set -x
 
 # run tests
-nix develop --command cargo llvm-cov nextest run --profile ci
+nix develop --command cargo llvm-cov run
 
 # generate lcov and html report
 nix develop --command cargo llvm-cov --no-run --html
