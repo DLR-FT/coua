@@ -48,29 +48,29 @@ impl ReqDesc {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
-pub struct ReqOwner(String);
+pub struct Stakeholder(String);
 
-impl ReqOwner {
+impl Stakeholder {
     pub fn as_str(&self) -> &str {
         self.0.as_str()
     }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ReqLevel(String);
+pub struct Level(String);
 
-impl ReqLevel {
+impl Level {
     pub fn as_str(&self) -> &str {
         self.0.as_str()
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
-pub struct ReqData {
+pub struct Requirement {
     pub description: ReqDesc,
-    pub owner: ReqOwner,
-    pub level: ReqLevel,
+    pub owner: Stakeholder,
+    pub level: Level,
     #[serde(default)]
     pub use_cases: HashSet<UseCaseId>,
     #[serde(default)]

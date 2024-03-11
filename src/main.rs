@@ -8,13 +8,13 @@ use std::fs::File;
 use std::io::{self, stdout};
 
 use anyhow::Context;
-use coua::artifact::Artifact;
-use coua::manifest::CouaManifest;
-use coua::requirements::{load_file, RequirementsData};
+use coua::{
+    load_requirements, load_use_cases, Artifact, CouaManifest, RequirementsData, UseCaseData,
+};
 
 fn display_requirements<T: io::Read>(file: T) -> anyhow::Result<()> {
     let reqs: RequirementsData =
-        load_file(file).with_context(|| "Failed to read requirements from standard input")?;
+        load_requirements(file).with_context(|| "Failed to read requirements from file")?;
     let reqs = reqs
         .try_into_reqs()
         .with_context(|| "Failed to transform requirements into graph")?;
@@ -36,15 +36,24 @@ fn main() -> anyhow::Result<()> {
     let mut manifest_path = project_path.clone();
     manifest_path.push("coua.toml");
     let manifest = parse_manifest(File::open(manifest_path)?)?;
-    dbg!(&manifest);
-    let requirements: Vec<Artifact> = manifest
+    let requirements: Vec<&Artifact> = manifest
         .artifacts
-        .into_iter()
+        .iter()
         .filter(|r| matches!(r, Artifact::Requirements(_)))
         .collect();
     for file in requirements.into_iter() {
-        dbg!(&file);
         display_requirements(File::open(file)?)?;
+    }
+    let use_cases: Vec<&Artifact> = manifest
+        .artifacts
+        .iter()
+        .filter(|uc| matches!(uc, Artifact::UseCases(_)))
+        .collect();
+    for file in use_cases.into_iter() {
+        let ucs: UseCaseData = load_use_cases(File::open(file).unwrap())
+            .with_context(|| "Failed to read use-cases from file")
+            .unwrap();
+        dbg!(ucs);
     }
     Ok(())
 }

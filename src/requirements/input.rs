@@ -1,17 +1,20 @@
-use std::{collections::HashMap, io};
+use std::{cell::RefCell, collections::HashMap, io};
 
-use super::*;
-use anyhow::Context;
+use super::{
+    display::{Req, Reqs},
+    *,
+};
+use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct RequirementsData(HashMap<ReqId, ReqData>);
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RequirementsData(HashMap<ReqId, Requirement>);
 
 impl RequirementsData {
     // TODO impl TryInto
     pub fn try_into_reqs<'a, 'b>(&'a self) -> Result<&'b Reqs<'a, 'b>> {
         // Lives on the heap
-        let rs: Box<Reqs<'a, 'b>> = Box::new(Reqs(
+        let rs: Box<Reqs<'a, 'b>> = Box::new(Reqs::new(
             self.0
                 .iter()
                 .map(|(id, req)| {
@@ -39,7 +42,7 @@ impl RequirementsData {
         for (l_rid, rdat) in self.0.iter() {
             for r_rid in rdat.trace.iter() {
                 if l_rid == r_rid {
-                    return Err(anyhow!("Requirement is referencing itself"));
+                    bail!("Requirement is referencing itself");
                 }
                 // Safety: This is safe becasue the reference in trace is not used while `rs` is beeing modified
                 // It is required so we can later mutably borrow `r_req` to modify its trace targets.
@@ -57,7 +60,7 @@ impl RequirementsData {
     }
 }
 
-pub fn load_file<T: io::Read>(mut file: T) -> anyhow::Result<RequirementsData> {
+pub fn load_requirements<T: io::Read>(mut file: T) -> anyhow::Result<RequirementsData> {
     let mut requirements = String::new();
     let _ = file.read_to_string(&mut requirements);
     toml::from_str(&requirements).with_context(|| "Failed to read requirements")
@@ -67,7 +70,7 @@ pub fn load_file<T: io::Read>(mut file: T) -> anyhow::Result<RequirementsData> {
 mod tests {
     use std::{fs::File, io::BufReader, path::PathBuf};
 
-    use super::load_file;
+    use super::load_requirements;
 
     #[test]
     fn process_example() {
@@ -75,6 +78,6 @@ mod tests {
         file.push("requirements.toml");
         let file = File::open(file).expect("Failed to open requirements file");
         let file = BufReader::new(file);
-        load_file(file).unwrap().try_into_reqs().unwrap();
+        load_requirements(file).unwrap().try_into_reqs().unwrap();
     }
 }

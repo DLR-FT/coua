@@ -1,10 +1,48 @@
 use std::{
     borrow::Cow,
+    cell::RefCell,
     collections::hash_map::DefaultHasher,
+    collections::HashMap,
     hash::{Hash, Hasher},
+    io::{self, Write},
+    ops::Deref,
 };
 
 use super::*;
+
+#[derive(Debug, Clone)]
+pub struct Req<'a, 'b>
+where
+    'b: 'a,
+{
+    pub id: &'a ReqId,
+    pub description: &'a ReqDesc,
+    pub owner: &'a Stakeholder,
+    pub level: &'a Level,
+    // TODO use reference to actual use-case
+    pub use_cases: Vec<&'a UseCaseId>,
+    pub trace: Vec<&'b Req<'a, 'b>>,
+}
+
+pub struct Reqs<'a, 'b>(HashMap<ReqId, RefCell<Req<'a, 'b>>>);
+
+impl<'a, 'b> Deref for Reqs<'a, 'b> {
+    type Target = HashMap<ReqId, RefCell<Req<'a, 'b>>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<'a, 'b> Reqs<'a, 'b> {
+    pub fn new(value: HashMap<ReqId, RefCell<Req<'a, 'b>>>) -> Self {
+        Self(value)
+    }
+
+    pub fn render_to<W: Write>(&'a self, output: &mut W) -> io::Result<()> {
+        dot::render(self, output)
+    }
+}
 
 impl<'a> dot::Labeller<'a, &'a Req<'a, 'a>, (&'a Req<'a, 'a>, &'a Req<'a, 'a>)> for Reqs<'a, 'a> {
     fn graph_id(&'a self) -> dot::Id<'a> {
