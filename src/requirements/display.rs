@@ -12,7 +12,6 @@ use anyhow::Context;
 
 use super::*;
 
-#[derive(Debug, Clone)]
 pub struct Req<'a, 'b>
 where
     'b: 'a,
@@ -119,4 +118,26 @@ pub fn display_requirements<T: io::Read, O: io::Write>(file: T, mut out: O) -> a
         .with_context(|| "Failed to transform requirements into graph")?;
     reqs.render_to(&mut out)
         .with_context(|| "Failed to render requirements")
+}
+
+#[cfg(test)]
+mod test {
+    use std::{
+        fs::File,
+        io::{sink, BufReader},
+        path::PathBuf,
+    };
+
+    use crate::load_requirements;
+
+    #[test]
+    fn display_example() {
+        let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        file.push("requirements.toml");
+        let file = File::open(file).expect("Failed to open requirements file");
+        let file = BufReader::new(file);
+        let binding = load_requirements(file).unwrap();
+        let reqs = binding.try_into_reqs().unwrap();
+        reqs.render_to(&mut sink()).unwrap()
+    }
 }

@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::path::{Path, PathBuf};
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Deserialize)]
 pub struct ArtifactLocator(PathBuf);
 
 impl AsRef<Path> for ArtifactLocator {
@@ -16,7 +16,7 @@ impl From<&str> for ArtifactLocator {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Artifact {
     Justification(ArtifactLocator),
@@ -48,8 +48,19 @@ mod test {
 
     #[test]
     fn as_path() {
-        let r = Artifact::Justification("/nix/store/2298shs98hs98sh-test".into());
-        let ref_r = r.as_ref();
-        assert!(ref_r == ArtifactLocator::from("/nix/store/2298shs98hs98sh-test").as_ref())
+        const PATH: &str = "/nix/store/2298shs98hs98sh-test";
+        let rs = vec![
+            Artifact::Justification(PATH.into()),
+            Artifact::CoverageReport(PATH.into()),
+            Artifact::TestReport(PATH.into()),
+            Artifact::StaticAnalysisReport(PATH.into()),
+            Artifact::FileJustExists(PATH.into()),
+            Artifact::Requirements(PATH.into()),
+            Artifact::UseCases(PATH.into()),
+        ];
+        for r in rs.into_iter() {
+            let ref_r = r.as_ref();
+            assert!(ref_r == ArtifactLocator::from(PATH).as_ref())
+        }
     }
 }

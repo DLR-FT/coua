@@ -5,9 +5,9 @@ use super::{
     *,
 };
 use anyhow::{anyhow, bail, Context, Result};
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Deserialize)]
 pub struct RequirementsData(HashMap<ReqId, Requirement>);
 
 impl RequirementsData {

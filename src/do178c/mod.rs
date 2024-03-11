@@ -1,59 +1,19 @@
-use std::ops::Deref;
-
 use crate::artifact::ArtifactLocator;
 
-#[derive(Debug, Clone)]
 pub struct ObjectiveId(String);
 
-impl Deref for ObjectiveId {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-#[derive(Debug, Clone)]
 pub struct ObjectiveDesc(String);
 
-impl Deref for ObjectiveDesc {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-#[derive(Debug, Clone)]
 pub struct ObjectiveRef(String);
 
-impl Deref for ObjectiveRef {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        self.0.as_str()
-    }
-}
-
-#[derive(Debug, Clone)]
 pub struct ActivityRef(String);
 
-impl Deref for ActivityRef {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ApplicabilityMode {
     NotApplicable,
     WithoutIndependence,
     WithIndependence,
 }
 
-#[derive(Debug, Clone)]
 pub struct ObjectiveApplicability {
     pub dal_a: ApplicabilityMode,
     pub dal_b: ApplicabilityMode,
@@ -61,36 +21,16 @@ pub struct ObjectiveApplicability {
     pub dal_d: ApplicabilityMode,
 }
 
-#[derive(Debug, Clone)]
 pub struct DataItemDescription(String);
 
-impl Deref for DataItemDescription {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-#[derive(Debug, Clone)]
 pub struct DataItemReference(String);
 
-impl Deref for DataItemReference {
-    type Target = str;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-#[derive(Debug, Clone)]
 pub struct DataItem {
     pub reference: DataItemReference,
     pub description: DataItemDescription,
     pub artifact: Option<ArtifactLocator>,
 }
 
-#[derive(Debug, Clone)]
 pub struct ObjectiveControlCategory {
     pub dal_a: ControlCategory,
     pub dal_b: ControlCategory,
@@ -98,14 +38,12 @@ pub struct ObjectiveControlCategory {
     pub dal_d: ControlCategory,
 }
 
-#[derive(Debug, Clone)]
 pub enum ControlCategory {
     None,
     CC1,
     CC2,
 }
 
-#[derive(Debug, Clone)]
 pub struct Objective {
     /// "The activities of the software life cycle processes are defined.""
     pub description: ObjectiveDesc,

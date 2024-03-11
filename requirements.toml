@@ -1,3 +1,5 @@
+# TODO sort infor system level and functional, add tracing
+
 [Req01]
 description = "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."
 owner = "DLR"
