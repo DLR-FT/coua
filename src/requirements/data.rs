@@ -66,6 +66,7 @@ impl ReqLevel {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
 pub struct ReqData {
     pub description: ReqDesc,
     pub owner: ReqOwner,
