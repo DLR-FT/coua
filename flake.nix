@@ -32,10 +32,16 @@
       checks = eachSystem (pkgs: import ./nix/checks.nix (inputs // { inherit pkgs treefmtEval; }));
       devShells = eachSystem (pkgs: import ./nix/devshells.nix (inputs // { inherit pkgs; }));
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
-      packages = eachSystem (pkgs: rec {
-        coua = pkgs.callPackage ./nix/coua.nix { };
-        coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
-        default = coua;
-      });
+      packages = eachSystem (pkgs:
+        let
+          fenix' = fenix.packages.${pkgs.system};
+          rustToolchain = with fenix'; combine [ latest.rustc latest.cargo ];
+          rustPlatform = (pkgs.makeRustPlatform { cargo = rustToolchain; rustc = rustToolchain; });
+        in
+        rec {
+          coua = pkgs.callPackage ./nix/coua.nix { inherit rustPlatform; };
+          coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
+          default = coua;
+        });
     };
 }
