@@ -1,17 +1,11 @@
-use std::{collections::HashMap, io};
+use std::collections::HashMap;
 
 use anyhow::Context;
 use serde::Deserialize;
 
 use crate::{UseCase, UseCaseId};
 
-pub fn load_use_cases<T: io::Read>(mut file: T) -> anyhow::Result<UseCaseData> {
-    let mut ucs = String::new();
-    let _ = file.read_to_string(&mut ucs);
-    load_ucs(&ucs)
-}
-
-fn load_ucs(ucs: &str) -> Result<UseCaseData, anyhow::Error> {
+pub fn parse_use_cases(ucs: &str) -> Result<UseCaseData, anyhow::Error> {
     toml::from_str(ucs).with_context(|| "Failed to read use-cases")
 }
 
@@ -20,17 +14,16 @@ pub struct UseCaseData(HashMap<UseCaseId, UseCase>);
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, path::PathBuf};
+    use std::{fs::read_to_string, path::PathBuf};
 
-    use crate::load_use_cases;
-
-    use super::load_ucs;
+    use crate::parse_use_cases;
 
     #[test]
     fn test_load_use_cases() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("use-cases.toml");
-        load_use_cases(File::open(file).unwrap()).unwrap();
+        let use_cases = read_to_string(file).unwrap();
+        parse_use_cases(&use_cases).unwrap();
     }
 
     #[test]
@@ -51,6 +44,6 @@ trigger = "The certification status is queried by a stakeholder."
 flow = ["The artifacts are reproducibly retrieved or created.", "All stakeholders run the certification framework using the same version of the artifacts."]
 post = ["All stakeholders get the same certification results."]
 extensions = ["As the certification authority I want to inspect the identical report as the developer so that I am sure to certify the right revision of the product."]        "#;
-        assert!(load_ucs(ucs).is_err());
+        assert!(parse_use_cases(ucs).is_err());
     }
 }

@@ -5,15 +5,16 @@
 // coua collects reports
 
 use std::{
-    fs::File,
+    fs::{read_to_string, File},
     io::Read,
-    path::{Path},
+    path::Path,
 };
 
-use anyhow::{Context};
+use anyhow::Context;
 use clap::Parser;
 use coua::{
-    display_requirements, load_use_cases, parse_manifest, Artifact, CouaManifest, UseCaseData,
+    parse_manifest, parse_requirements, parse_use_cases, Artifact, CouaManifest, Reqs,
+    RequirementsData, UseCaseData,
 };
 
 mod cli;
@@ -46,9 +47,11 @@ fn main() -> anyhow::Result<()> {
             p.push("requirements.dot");
             p
         };
-        let input = File::open(file)?;
-        let output = File::create(requirements_out)?;
-        display_requirements(input, output)?;
+        let requirements: RequirementsData = parse_requirements(&read_to_string(file)?)
+            .with_context(|| "Failed to read requirements from file")?;
+        let mut output = File::create(requirements_out)?;
+        let reqs: &Reqs<'_, '_> = (&requirements).try_into()?;
+        dot::render(reqs, &mut output)?;
     }
     let use_cases: Vec<&Artifact> = manifest
         .artifacts
@@ -56,7 +59,7 @@ fn main() -> anyhow::Result<()> {
         .filter(|uc| matches!(uc, Artifact::UseCases(_)))
         .collect();
     for file in use_cases.into_iter() {
-        let _ucs: UseCaseData = load_use_cases(File::open(file).unwrap())
+        let _ucs: UseCaseData = parse_use_cases(&read_to_string(file)?)
             .with_context(|| "Failed to read use-cases from file")
             .unwrap();
     }

@@ -4,11 +4,10 @@ use std::{
     collections::hash_map::DefaultHasher,
     collections::HashMap,
     hash::{Hash, Hasher},
-    io::{self, Write},
     ops::Deref,
 };
 
-use anyhow::Context;
+use anyhow::{anyhow, bail};
 
 use super::*;
 
@@ -38,10 +37,6 @@ impl<'a, 'b> Deref for Reqs<'a, 'b> {
 impl<'a, 'b> Reqs<'a, 'b> {
     pub fn new(value: HashMap<ReqId, RefCell<Req<'a, 'b>>>) -> Self {
         Self(value)
-    }
-
-    pub fn render_to<W: Write>(&'a self, output: &mut W) -> io::Result<()> {
-        dot::render(self, output)
     }
 }
 
@@ -110,34 +105,71 @@ impl<'a> dot::GraphWalk<'a, &Req<'a, 'a>, (&'a Req<'a, 'a>, &'a Req<'a, 'a>)> fo
     }
 }
 
-pub fn display_requirements<T: io::Read, O: io::Write>(file: T, mut out: O) -> anyhow::Result<()> {
-    let reqs: RequirementsData =
-        load_requirements(file).with_context(|| "Failed to read requirements from file")?;
-    let reqs = reqs
-        .try_into_reqs()
-        .with_context(|| "Failed to transform requirements into graph")?;
-    reqs.render_to(&mut out)
-        .with_context(|| "Failed to render requirements")
+impl<'a, 'b> TryFrom<&'a RequirementsData> for &'b Reqs<'a, 'b> {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &'a RequirementsData) -> Result<&'b Reqs<'a, 'b>, Self::Error> {
+        // Lives on the heap
+        let rs: Box<Reqs<'a, 'b>> = Box::new(Reqs::new(
+            value
+                .iter()
+                .map(|(id, req)| {
+                    (
+                        id.clone(),
+                        // Allows us to use dynamic lifetimes when modifying the traces between requirements
+                        RefCell::new(Req {
+                            id,
+                            description: &req.description,
+                            owner: &req.owner,
+                            level: &req.level,
+                            use_cases: req.use_cases.iter().collect(),
+                            trace: Default::default(), // init later
+                        }),
+                    )
+                })
+                .collect(),
+        ));
+
+        // We leak this returning a reference that lives as long as the contained data.
+        // This is neccessary so that the requirement values do not get moved or freed, potentially invalidating the references.
+        // The memory will be freed when the process exits, which is fine in this case.
+        let rs = Box::leak(rs);
+
+        for (l_rid, rdat) in value.iter() {
+            for r_rid in rdat.trace.iter() {
+                if l_rid == r_rid {
+                    bail!("Requirement is referencing itself");
+                }
+                // Safety: This is safe becasue the reference in trace is not used while `rs` is beeing modified
+                // It is required so we can later mutably borrow `r_req` to modify its trace targets.
+                let r_req = unsafe {
+                    rs.get(r_rid)
+                        .ok_or(anyhow!("Unknown requirement '{}'", r_rid))?
+                        .try_borrow_unguarded()
+                        .unwrap()
+                };
+                rs.get(l_rid).unwrap().borrow_mut().trace.push(r_req);
+            }
+        }
+
+        Ok(rs)
+    }
 }
 
 #[cfg(test)]
 mod test {
-    use std::{
-        fs::File,
-        io::{sink, BufReader},
-        path::PathBuf,
-    };
+    use std::{fs::read_to_string, io::sink, path::PathBuf};
 
-    use crate::load_requirements;
+    use crate::parse_requirements;
+
+    use super::Reqs;
 
     #[test]
     fn display_example() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("requirements.toml");
-        let file = File::open(file).expect("Failed to open requirements file");
-        let file = BufReader::new(file);
-        let binding = load_requirements(file).unwrap();
-        let reqs = binding.try_into_reqs().unwrap();
-        reqs.render_to(&mut sink()).unwrap()
+        let binding = parse_requirements(&read_to_string(file).unwrap()).unwrap();
+        let reqs: &Reqs<'_, '_> = (&binding).try_into().unwrap();
+        dot::render(reqs, &mut sink()).unwrap()
     }
 }

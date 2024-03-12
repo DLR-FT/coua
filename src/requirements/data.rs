@@ -1,9 +1,12 @@
-use std::{collections::HashSet, fmt::Display};
+use std::{
+    collections::{HashMap, HashSet},
+    fmt::Display,
+    ops::Deref,
+};
 
 use serde::Deserialize;
 
 #[derive(Deserialize, PartialEq, Eq, Hash)]
-#[serde(deny_unknown_fields)]
 pub struct UseCaseId(String);
 
 impl UseCaseId {
@@ -50,6 +53,7 @@ pub struct Level(String);
 
 #[derive(Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[serde(deny_unknown_fields)]
 pub struct Requirement {
     pub description: ReqDesc,
     pub owner: Stakeholder,
@@ -58,4 +62,15 @@ pub struct Requirement {
     pub use_cases: HashSet<UseCaseId>,
     #[serde(default)]
     pub trace: HashSet<ReqId>,
+}
+
+#[derive(Deserialize)]
+pub struct RequirementsData(HashMap<ReqId, Requirement>);
+
+impl Deref for RequirementsData {
+    type Target = HashMap<ReqId, Requirement>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
