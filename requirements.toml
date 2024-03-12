@@ -3,25 +3,26 @@
 [Req01]
 description = "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."
 owner = "DLR"
-level = "functional"
+level = "system"
 use-cases = [ "UC04" ]
 
 [Req02]
 description = "The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools."
 owner = "DLR"
-level = "functional"
+level = "system"
 use-cases = [ "UC04" ]
 
 [Req03]
 description = "Coua shall generate a certification report which includes all certification objectives and references to all required evidences it has access to."
 owner = "DLR"
-level = "functional"
+level = "system"
 use-cases = [ "UC01" ]
 
 [Req04]
 description = "While CI is in use, when changes are committed to the SCM, Coua shall generate a certification report."
 owner = "DLR"
 level = "functional"
+trace = ["Req03"]
 use-cases = [ "UC02" ]
 
 [Req05]
@@ -49,7 +50,7 @@ level = "functional"
 use-cases = ["UC6"]
 
 [Req9]
-description = "Coua shall provide means to identify which ontologies were used to perform verifica- tion and validation in the certification report."
+description = "Coua shall provide means to identify which ontologies were used to perform verification and validation in the certification report."
 owner = "DLR"
 level = "functional"
 use-cases = ["UC6"]
@@ -57,7 +58,7 @@ use-cases = ["UC6"]
 [Req10]
 description = "Coua shall track the association between artifacts like requirements, test cases, source code and object code (tracing)."
 owner = "DLR"
-level = "functional"
+level = "system"
 use-cases = ["UC8"]
 
 [Req11]
@@ -69,7 +70,7 @@ use-cases = ["UC08"]
 [Req12]
 description = "Coua shall generate certification reports."
 owner = "DLR"
-level = "functional"
+level = "system"
 use-cases = []
 
 [Req13]
@@ -99,7 +100,7 @@ use-cases = ["UC10"]
 [Req17]
 description = "While CI is in use, Coua shall signal failed objectives as errors"
 owner = "DLR"
-level = "functional"
+level = "non-functional"
 use-cases = []
 
 [Req18]
@@ -135,32 +136,27 @@ level = "functional"
 [Req23]
 description = "If the ontology contains syntactical errors, then Coua shall refuse to evaluate the ontology and produce a meaningful error message."
 owner = "DLR"
-level = "functional"
-
+level = "non-functional"
 
 [Req24]
 description = "If an artifact contains syntactical errors, then Coua shall refuse to produce a certification report that includes it and issue a meaningful error message."
 owner = "DLR"
-level = "functional"
-
+level = "non-functional"
 
 [Req25]
 description = "Coua shall allow for importing requirements data in a Comma Separated Values (CSV) format."
 owner = "DLR"
 level = "functional"
 
-
 [Req26]
 description = "Coua shall specify the format for requirements data."
 owner = "DLR"
 level = "functional"
 
-
 [Req27]
 description = "Coua shall allow for defining custom content in the certification report."
 owner = "DLR"
 level = "functional"
-
 
 [Req28]
 description = "Coua shall allow a project to run custom queries on the ontologies."
@@ -173,12 +169,10 @@ description = "Coua shall provide a well-defined output schema for the certifica
 owner = "DLR"
 level = "functional"
 
-
 [Req30]
 description = "The project using Coua shall track all changes in an SCM."
 owner = "DLR"
-level = "functional"
-
+level = "non-functional"
 
 [Req31]
 description = "When a new version of the component is released, the artifact archive shall version and permanently record all software, configuration and non-reproducible artifacts that are required for recreating the certification report for that version."
@@ -186,25 +180,21 @@ owner = "DLR"
 level = "functional"
 use-cases = ["UC03"]
 
-
 [Req32]
 description = "The ontologies shall model all necessary knowledge from the documents that specify what is required for certification approval."
 owner = "DLR"
 level = "functional"
-
 
 [Req33]
 description = "Coua shall be able to ingest ontologies in the OWL2 format."
 owner = "DLR"
 level = "functional"
 
-
 [Req34]
 description = "The certification report shall clearly display which objective is satisfied."
 owner = "DLR"
 level = "functional"
 use-cases = ["UC01"]
-
 
 [Req35]
 description = "If the certification report indicates that all objectives are met, Coua shall make it clear that this is not guaranteed."
