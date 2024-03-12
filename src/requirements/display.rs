@@ -160,6 +160,8 @@ impl<'a, 'b> TryFrom<&'a RequirementsData> for &'b Reqs<'a, 'b> {
 mod test {
     use std::{fs::read_to_string, io::sink, path::PathBuf};
 
+    use anyhow::Result;
+
     use crate::parse_requirements;
 
     use super::Reqs;
@@ -171,5 +173,21 @@ mod test {
         let binding = parse_requirements(&read_to_string(file).unwrap()).unwrap();
         let reqs: &Reqs<'_, '_> = (&binding).try_into().unwrap();
         dot::render(reqs, &mut sink()).unwrap()
+    }
+
+    #[test]
+    fn reference_cycle() {
+        let rs = parse_requirements(
+            r#"
+[Req01]
+description = "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."
+owner = "DLR"
+level = "system"
+use-cases = [ "UC04" ]
+trace = ["Req01"]
+            "#,
+        ).unwrap();
+        let reqs: Result<&Reqs<'_, '_>> = (&rs).try_into();
+        assert!(reqs.is_err());
     }
 }
