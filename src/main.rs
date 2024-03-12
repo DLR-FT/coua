@@ -6,14 +6,17 @@
 
 use std::{
     fs::File,
-    io::{stdout, Read},
-    path::Path,
+    io::Read,
+    path::{Path},
 };
 
-use anyhow::Context;
+use anyhow::{Context};
+use clap::Parser;
 use coua::{
     display_requirements, load_use_cases, parse_manifest, Artifact, CouaManifest, UseCaseData,
 };
+
+mod cli;
 
 pub fn do_parse_manifest<T: AsRef<Path>>(file: T) -> anyhow::Result<CouaManifest> {
     let mut manifest = String::new();
@@ -26,17 +29,26 @@ pub fn do_parse_manifest<T: AsRef<Path>>(file: T) -> anyhow::Result<CouaManifest
 }
 
 fn main() -> anyhow::Result<()> {
-    let project_path = std::env::current_dir()?;
-    let mut manifest_path = project_path.clone();
-    manifest_path.push("coua.toml");
-    let manifest = do_parse_manifest(&manifest_path)?;
+    let cli = cli::Cli::parse();
+
+    let (out_dir, manifest_path) = cli::process_args(cli)?;
+
+    let manifest = do_parse_manifest(manifest_path)?;
+
     let requirements: Vec<&Artifact> = manifest
         .artifacts
         .iter()
         .filter(|r| matches!(r, Artifact::Requirements(_)))
         .collect();
     for file in requirements.into_iter() {
-        display_requirements(File::open(file)?, stdout())?;
+        let requirements_out = {
+            let mut p = out_dir.clone();
+            p.push("requirements.dot");
+            p
+        };
+        let input = File::open(file)?;
+        let output = File::create(requirements_out)?;
+        display_requirements(input, output)?;
     }
     let use_cases: Vec<&Artifact> = manifest
         .artifacts
