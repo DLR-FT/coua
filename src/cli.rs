@@ -7,7 +7,7 @@ use anyhow::bail;
 use clap::Parser;
 
 /// Coua certification utility
-#[derive(Parser, Debug)]
+#[derive(Parser)]
 #[command(version, about, long_about = None)]
 pub(crate) struct Cli {
     /// Change the directory before doing anything

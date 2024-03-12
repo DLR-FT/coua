@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use std::path::{Path, PathBuf};
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 pub struct ArtifactLocator(PathBuf);
 
 impl AsRef<Path> for ArtifactLocator {
@@ -16,7 +16,7 @@ impl From<&str> for ArtifactLocator {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Artifact {
     Justification(ArtifactLocator),
