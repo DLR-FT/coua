@@ -25,3 +25,5 @@ code-quality-report.json
 # Junit
 junit-debug.xml
 junit-release.xml
+
+out/
