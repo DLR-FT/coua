@@ -61,7 +61,7 @@ pub struct Requirement {
     #[serde(default)]
     pub use_cases: HashSet<UseCaseId>,
     #[serde(default)]
-    pub trace: HashSet<ReqId>,
+    pub trace: Option<ReqId>,
 }
 
 #[derive(Deserialize)]
