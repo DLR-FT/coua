@@ -16,6 +16,9 @@ in
 {
   default = pkgs.mkShell {
     packages = [
+      # For producing requirement graphs
+      pkgs.graphviz
+
       # Nix language server
       nixd.packages.${system}.nixd
 
