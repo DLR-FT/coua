@@ -184,7 +184,7 @@ description = "The certification framework shall provide a library of functions 
 owner = "DLR"
 level = "system"
 use-cases = [ "UC04" ]
-trace = ["Req01"]
+trace = "Req01"
             "#,
         ).unwrap();
         let reqs: Result<&Reqs<'_, '_>> = (&rs).try_into();

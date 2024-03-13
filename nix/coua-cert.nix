@@ -10,7 +10,8 @@ stdenvNoCC.mkDerivation rec {
   version = "0.1.0";
   src = ../.;
   buildPhase = ''
-    ${lib.getExe coua} > $out
+    mkdir $out
+    ${lib.getExe coua} -d "${coua}" -o "$out"
   '';
   meta = with lib; {
     inherit description;
