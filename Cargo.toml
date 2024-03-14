@@ -40,3 +40,6 @@ tempfile = "3"
 
 [profile.ci]
 inherits = "dev"
+
+[workspace]
+members = ["coua-rust"]

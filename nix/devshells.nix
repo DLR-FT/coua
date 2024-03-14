@@ -12,6 +12,16 @@ let
     cargo nextest run
     cargo llvm-cov
   '';
+  rustToolchain = pkgs.fenix.latest.withComponents [
+    "cargo"
+    "clippy"
+    "rust-src"
+    "rustc-dev"
+    "rustc"
+    "rustfmt"
+    "llvm-tools-preview"
+    "rust-analyzer"
+  ];
 in
 {
   default = pkgs.mkShell {
@@ -23,14 +33,7 @@ in
       nixd.packages.${system}.nixd
 
       # Rust toolchain
-      (pkgs.fenix.complete.withComponents [
-        "cargo"
-        "clippy"
-        "rust-src"
-        "rustc"
-        "rustfmt"
-        "llvm-tools-preview"
-      ])
+      rustToolchain
 
       # Runs cargo test and generate coverage reports
       pkgs.cargo-llvm-cov
@@ -40,9 +43,6 @@ in
 
       # Check commit message styles
       pkgs.cocogitto
-
-      # Nightly version of rust-analyzer
-      pkgs.fenix.rust-analyzer
 
       # Converts clippy reports to GitLab Code Quality Reports
       pkgs.gitlab-clippy

@@ -35,7 +35,7 @@
       packages = eachSystem (pkgs:
         let
           fenix' = fenix.packages.${pkgs.system};
-          rustToolchain = with fenix'; combine [ latest.rustc latest.cargo ];
+          rustToolchain = with fenix'; combine (with latest; [ rustc cargo rustc-dev rust-src ]);
           rustPlatform = (pkgs.makeRustPlatform { cargo = rustToolchain; rustc = rustToolchain; });
         in
         rec {
