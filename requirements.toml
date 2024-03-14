@@ -181,24 +181,28 @@ description = "Coua shall allow for defining custom content in the certification
 owner = "DLR"
 level = "functional"
 trace = "Req12"
+use-cases = ["UC04"]
 
 [Req28]
 description = "Coua shall allow a project to run custom queries on the ontologies."
 owner = "DLR"
 level = "functional"
 trace = "Req50"
+use-cases = ["UC01"]
 
 [Req29]
 description = "Coua shall provide a well-defined output schema for the certification report."
 owner = "DLR"
 level = "functional"
 trace = "Req12"
+use-cases = ["UC09"]
 
 [Req30]
 description = "The project using Coua shall track all changes in an SCM."
 owner = "DLR"
 level = "non-functional"
 trace = "Req01"
+use-cases = ["UC05"]
 
 [Req31]
 description = "When a new version of the component is released, the artifact archive shall version and permanently record all software, configuration and non-reproducible artifacts that are required for recreating the certification report for that version."
@@ -219,6 +223,7 @@ description = "Coua shall be able to ingest ontologies in the OWL2 format."
 owner = "DLR"
 level = "functional"
 trace = "Req50"
+use-cases = ["UC04"]
 
 [Req34]
 description = "The certification report shall clearly display which objective is satisfied."
@@ -301,27 +306,31 @@ description = "While the artifacts provide the required information, the certifi
 owner = "DLR"
 level = "functional"
 trace = "Req12"
+use-cases = ["UC10"]
 
 [Req46]
 description = "The certification framework shall allow for defining custom content in the rendered certification report."
 owner = "DLR"
 level = "functional"
 trace = "Req12"
+use-cases = ["UC10"]
 
 [Req47]
 description = "Coua shall finish producing the report in a time that allows for fast feedback during development."
 owner = "DLR"
 level = "non-functional"
 trace = "Req12"
+use-cases = ["UC02"]
 
 [Req48]
 description = "Coua shall use not more than half of the memory that is available in the CI or in the development requirement."
 owner = "DLR"
 level = "non-functional"
 trace = "Req12"
+use-cases = ["UC02"]
 
 [Req50]
 description = "Coua shall validate if the objectives for certification of the project are satisfied"
 owner = "DLR"
 level = "system"
-use-cases = []
+use-cases = ["UC01"]
