@@ -11,9 +11,6 @@ nix develop --command cargo build --release
 
 # generate docs
 nix develop --command cargo doc --document-private-items
-cat << EOF > target/doc/index.html
-<meta http-equiv="Refresh" content="0; url='network_partition/index.html'"/>
-EOF
 
 # generate clippy report
 nix develop --command cargo clippy --message-format=json > clippy-lints.json

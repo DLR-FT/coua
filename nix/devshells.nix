@@ -10,7 +10,7 @@ let
   run-checks = pkgs.writeShellScriptBin "run-checks" ''
     cargo check
     cargo nextest run
-    cargo llvm-cov nextest run
+    cargo llvm-cov
   '';
 in
 {

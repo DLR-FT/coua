@@ -5,12 +5,11 @@ set -u
 set -o pipefail
 set -x
 
-# run tests
-nix develop --command cargo llvm-cov run
-
 # generate lcov and html report
-nix develop --command cargo llvm-cov --no-run --html
-nix develop --command cargo llvm-cov --no-run --lcov --output-path coverage-lcov.dat
+nix develop --command cargo llvm-cov --no-report nextest --profile ci
+nix develop --command cargo llvm-cov --no-report --doc
+nix develop --command cargo llvm-cov report --doctests --lcov --output-path coverage-lcov.dat
+nix develop --command cargo llvm-cov report --doctests --html
 
 # convert lcov to cobertura
 nix develop --command lcov_cobertura coverage-lcov.dat --base-dir=$(pwd) --output=coverage-cobertura.xml
