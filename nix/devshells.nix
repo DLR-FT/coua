@@ -20,7 +20,6 @@ let
     "rustc"
     "rustfmt"
     "llvm-tools-preview"
-    "rust-analyzer"
   ];
 in
 {
@@ -46,6 +45,9 @@ in
 
       # Converts clippy reports to GitLab Code Quality Reports
       pkgs.gitlab-clippy
+
+      # More up-to-date version of rust-analyzer
+      pkgs.rust-analyzer-nightly
 
       # For converting lcov to cobertura
       pkgs.python311Packages.lcov_cobertura

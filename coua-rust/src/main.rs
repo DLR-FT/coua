@@ -14,6 +14,7 @@ extern crate rustc_span;
 use std::{path, process, str};
 
 use rustc_errors::registry;
+use rustc_errors::DIAGNOSTICS;
 use rustc_hash::FxHashMap;
 use rustc_session::config;
 
@@ -25,6 +26,10 @@ fn main() {
         .unwrap();
     let sysroot = str::from_utf8(&out.stdout).unwrap().trim();
     let config = rustc_interface::Config {
+        hash_untracked_state: Default::default(),
+        psess_created: Default::default(),
+        using_internal_features: Default::default(),
+
         // Command line options
         opts: config::Options {
             maybe_sysroot: Some(path::PathBuf::from(sysroot)),
@@ -49,7 +54,6 @@ fn main() {
         locale_resources: rustc_driver::DEFAULT_LOCALE_RESOURCES,
         lint_caps: FxHashMap::default(), // FxHashMap<lint::LintId, lint::Level>
         // This is a callback from the driver that is called when [`ParseSess`] is created.
-        parse_sess_created: None, //Option<Box<dyn FnOnce(&mut ParseSess) + Send>>
         // This is a callback from the driver that is called when we're registering lints;
         // it is called during plugin registration when we have the LintStore in a non-shared state.
         //
@@ -62,7 +66,7 @@ fn main() {
         // The second parameter is local providers and the third parameter is external providers.
         override_queries: None, // Option<fn(&Session, &mut ty::query::Providers<'_>, &mut ty::query::Providers<'_>)>
         // Registry of diagnostics codes.
-        registry: registry::Registry::new(rustc_error_codes::DIAGNOSTICS),
+        registry: registry::Registry::new(DIAGNOSTICS),
         make_codegen_backend: None,
         expanded_args: Vec::new(),
         ice_file: None,
