@@ -26,6 +26,7 @@ pub enum Artifact {
     FileJustExists(ArtifactLocator),
     Requirements(ArtifactLocator),
     UseCases(ArtifactLocator),
+    RequirementTraces(ArtifactLocator),
 }
 
 impl AsRef<Path> for Artifact {
@@ -37,6 +38,7 @@ impl AsRef<Path> for Artifact {
             | Artifact::StaticAnalysisReport(l)
             | Artifact::FileJustExists(l)
             | Artifact::Requirements(l)
+            | Artifact::RequirementTraces(l)
             | Artifact::UseCases(l) => l.as_ref(),
         }
     }
@@ -56,6 +58,7 @@ mod test {
             Artifact::StaticAnalysisReport(PATH.into()),
             Artifact::FileJustExists(PATH.into()),
             Artifact::Requirements(PATH.into()),
+            Artifact::RequirementTraces(PATH.into()),
             Artifact::UseCases(PATH.into()),
         ];
         for r in rs.into_iter() {

@@ -1,3 +1,7 @@
+#![feature(register_tool)] // For marking tests that cover requirements in the AST
+#![register_tool(coua)]
+#![allow(dead_code)]
+
 mod artifact;
 mod check;
 mod data;

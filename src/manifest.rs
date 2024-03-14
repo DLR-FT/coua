@@ -33,6 +33,7 @@ mod tests {
 
     use super::parse_manifest;
 
+    #[coua::trace = "Req01"]
     #[test]
     fn parse_example() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));

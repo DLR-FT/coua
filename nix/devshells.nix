@@ -12,9 +12,20 @@ let
     cargo nextest run
     cargo llvm-cov
   '';
+  rustToolchain = pkgs.fenix.latest.withComponents [
+    "cargo"
+    "clippy"
+    "rust-src"
+    "rustc-dev"
+    "rustc"
+    "rustfmt"
+    "llvm-tools-preview"
+  ];
 in
 {
   default = pkgs.mkShell {
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+
     packages = [
       # For producing requirement graphs
       pkgs.graphviz
@@ -23,14 +34,7 @@ in
       nixd.packages.${system}.nixd
 
       # Rust toolchain
-      (pkgs.fenix.complete.withComponents [
-        "cargo"
-        "clippy"
-        "rust-src"
-        "rustc"
-        "rustfmt"
-        "llvm-tools-preview"
-      ])
+      rustToolchain
 
       # Runs cargo test and generate coverage reports
       pkgs.cargo-llvm-cov
@@ -41,14 +45,18 @@ in
       # Check commit message styles
       pkgs.cocogitto
 
-      # Nightly version of rust-analyzer
-      pkgs.fenix.rust-analyzer
-
       # Converts clippy reports to GitLab Code Quality Reports
       pkgs.gitlab-clippy
 
+      # More up-to-date version of rust-analyzer
+      pkgs.rust-analyzer-nightly
+
       # For converting lcov to cobertura
       pkgs.python311Packages.lcov_cobertura
+
+      # Openssl-sys
+      pkgs.openssl
+      pkgs.pkg-config
 
       # e.g. for running checks in commit hooks
       run-checks

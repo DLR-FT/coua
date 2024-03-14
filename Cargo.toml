@@ -39,3 +39,6 @@ tempfile = "3"
 
 [profile.ci]
 inherits = "dev"
+
+[workspace]
+members = ["cargo-coua"]
