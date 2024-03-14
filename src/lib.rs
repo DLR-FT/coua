@@ -1,3 +1,6 @@
+#![feature(register_tool)] // For marking tests that cover requirements in the AST
+#![register_tool(coua)]
+
 mod artifact;
 mod check;
 pub mod do178c;

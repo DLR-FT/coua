@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use anyhow::Context;
 use serde::Deserialize;
 
@@ -22,6 +24,7 @@ mod tests {
 
     use crate::parse_manifest;
 
+    #[coua::requirement = "Req01"]
     #[test]
     fn parse_example() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
