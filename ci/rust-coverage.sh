@@ -12,4 +12,4 @@ nix develop --command cargo llvm-cov report --doctests --lcov --output-path cove
 nix develop --command cargo llvm-cov report --doctests --html
 
 # convert lcov to cobertura
-nix develop --command lcov_cobertura coverage-lcov.dat --base-dir=$(pwd) --output=coverage-cobertura.xml
+nix develop --command lcov_cobertura coverage-lcov.dat --output=coverage-cobertura.xml

@@ -18,7 +18,7 @@ rust-tests:
     - ./ci/rust-tests.sh
   artifacts:
     paths:
-      [clippy-lints.json, code-quality-report.json, junit-**.xml, target/doc]
+      [clippy-lints.json, code-quality-report.json, target/doc]
     reports:
       codequality: code-quality-report.json
       junit: junit-*.xml
@@ -27,7 +27,7 @@ rust-coverage:
   script:
     - ./ci/rust-coverage.sh
   artifacts:
-    paths: [coverage-lcov.dat, coverage-cobertura.xml, target/llvm-cov/html]
+    paths: [coverage-lcov.dat, target/llvm-cov/html]
     reports:
       coverage_report:
         coverage_format: cobertura
