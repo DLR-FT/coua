@@ -9,9 +9,10 @@ stdenvNoCC.mkDerivation rec {
   description = "Certification Package for Coua";
   version = "0.1.0";
   src = ../.;
+  nativeBuildInputs = [ coua ];
   buildPhase = ''
     mkdir $out
-    ${lib.getExe coua} -d "${coua}" -o "$out"
+    coua -d "${coua.src}" -o $out
   '';
   meta = with lib; {
     inherit description;

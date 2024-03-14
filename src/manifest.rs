@@ -18,7 +18,7 @@ pub fn parse_manifest(manifest: &str) -> Result<CouaManifest, anyhow::Error> {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Read, path::PathBuf};
+    use std::{fs::read_to_string, path::PathBuf};
 
     use crate::parse_manifest;
 
@@ -26,11 +26,7 @@ mod tests {
     fn parse_example() {
         let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         file.push("coua.toml");
-        let mut manifest = String::new();
-        let _ = File::open(file)
-            .unwrap()
-            .read_to_string(&mut manifest)
-            .unwrap();
+        let manifest = read_to_string(file).unwrap();
         parse_manifest(&manifest).unwrap();
     }
 

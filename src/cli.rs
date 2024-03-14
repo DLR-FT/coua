@@ -19,7 +19,7 @@ pub(crate) struct Cli {
     pub(crate) out: Option<PathBuf>,
 }
 
-pub fn process_args(cli: Cli) -> Result<(PathBuf, PathBuf), anyhow::Error> {
+pub(crate) fn process_args(cli: Cli) -> Result<(PathBuf, PathBuf), anyhow::Error> {
     let out_dir: PathBuf = {
         let path = current_dir()?;
         let path = cli.out.unwrap_or(path.clone()).canonicalize()?;
