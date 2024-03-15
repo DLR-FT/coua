@@ -54,6 +54,10 @@ in
 
       # e.g. for running checks in commit hooks
       run-checks
+
+      # rustc-dev does not work with fenix, needed for coua-rust to work with rust-analyzer
+      # rustup +nightly rust-src rustc-dev llvm-tools-preview rustfmt clippy cargo rust-analyzer
+      pkgs.rustup
     ];
   };
 }
