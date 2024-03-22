@@ -84,6 +84,7 @@ fn main() {
         ice_file: None,
         override_queries: Default::default(),
     };
+    // TODO use simply rustc_session::parse::ParseSess
     rustc_interface::run_compiler(config, |compiler| {
         compiler.enter(|queries| {
             // Parse the program and print the syntax tree.
