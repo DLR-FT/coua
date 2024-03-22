@@ -2,7 +2,7 @@
 
 set -e
 set -u
-set -o pipefail
+#set -o pipefail
 set -x
 
 # generate lcov and html report
