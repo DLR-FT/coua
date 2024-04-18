@@ -1,3 +1,8 @@
+//! Use cases
+
+// Data is only parsed but not used right now.
+#![allow(dead_code)]
+
 use serde::Deserialize;
 
 use crate::requirements::{Level, Stakeholder};

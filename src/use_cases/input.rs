@@ -9,6 +9,8 @@ pub fn parse_use_cases(ucs: &str) -> Result<UseCaseData, anyhow::Error> {
     toml::from_str(ucs).with_context(|| "Failed to read use-cases")
 }
 
+// Not used right now, only parsed
+#[allow(dead_code)]
 #[derive(Deserialize)]
 pub struct UseCaseData(HashMap<UseCaseId, UseCase>);
 

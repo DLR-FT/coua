@@ -1,3 +1,7 @@
+//! Data structure for DO-178C objectives
+
+#![allow(dead_code)]
+
 use crate::artifact::ArtifactLocator;
 
 pub struct ObjectiveId(String);
