@@ -1,7 +1,5 @@
-mod data;
+mod check;
 mod display;
 mod input;
 
-pub use data::*;
-pub use display::*;
-pub use input::*;
+pub use check::check_requirements;

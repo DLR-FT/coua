@@ -1,9 +1,11 @@
+pub(super) mod data;
+
 use std::collections::HashMap;
 
 use anyhow::Context;
 use serde::Deserialize;
 
-use crate::{UseCase, UseCaseId};
+use data::{UseCase, UseCaseId};
 
 pub fn parse_use_cases(ucs: &str) -> Result<UseCaseData, anyhow::Error> {
     toml::from_str(ucs).with_context(|| "Failed to read use-cases")
@@ -18,7 +20,7 @@ pub struct UseCaseData(HashMap<UseCaseId, UseCase>);
 mod tests {
     use std::{fs::read_to_string, path::PathBuf};
 
-    use crate::parse_use_cases;
+    use super::parse_use_cases;
 
     #[test]
     fn test_load_use_cases() {

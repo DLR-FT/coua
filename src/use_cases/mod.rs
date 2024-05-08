@@ -1,5 +1,5 @@
-mod data;
+mod checks;
 mod input;
 
-pub use data::*;
-pub use input::{parse_use_cases, UseCaseData};
+pub use checks::check_use_cases;
+pub use input::data::UseCaseId;

@@ -1,3 +1,5 @@
+use std::{fs::read_to_string, path::PathBuf};
+
 use anyhow::Context;
 use serde::Deserialize;
 
@@ -12,7 +14,16 @@ pub struct CouaManifest {
     pub artifacts: Vec<Artifact>,
 }
 
-pub fn parse_manifest(manifest: &str) -> Result<CouaManifest, anyhow::Error> {
+pub fn get_manifest(manifest_path: PathBuf) -> Result<CouaManifest, anyhow::Error> {
+    let manifest: CouaManifest = {
+        let manifest =
+            read_to_string(manifest_path).with_context(|| "Failed to read from manifest file")?;
+        parse_manifest(&manifest)?
+    };
+    Ok(manifest)
+}
+
+fn parse_manifest(manifest: &str) -> Result<CouaManifest, anyhow::Error> {
     toml::from_str(manifest).with_context(|| "Failed to parse manifest")
 }
 
@@ -20,7 +31,7 @@ pub fn parse_manifest(manifest: &str) -> Result<CouaManifest, anyhow::Error> {
 mod tests {
     use std::{fs::read_to_string, path::PathBuf};
 
-    use crate::parse_manifest;
+    use super::parse_manifest;
 
     #[test]
     fn parse_example() {

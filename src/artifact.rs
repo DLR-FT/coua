@@ -44,7 +44,7 @@ impl AsRef<Path> for Artifact {
 
 #[cfg(test)]
 mod test {
-    use crate::{Artifact, ArtifactLocator};
+    use crate::artifact::{Artifact, ArtifactLocator};
 
     #[test]
     fn as_path() {

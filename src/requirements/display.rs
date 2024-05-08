@@ -7,7 +7,16 @@ use std::{
     ops::Deref,
 };
 
+// TODO rewrite using sqlite3
+
 use anyhow::{anyhow, bail};
+
+use crate::{
+    data::{Level, Stakeholder},
+    use_cases::UseCaseId,
+};
+
+use self::input::data::{ReqDesc, ReqId, RequirementsData};
 
 use super::*;
 
@@ -162,9 +171,7 @@ mod test {
 
     use anyhow::Result;
 
-    use crate::parse_requirements;
-
-    use super::Reqs;
+    use super::{input::parse_requirements, Reqs};
 
     #[test]
     fn display_example() {

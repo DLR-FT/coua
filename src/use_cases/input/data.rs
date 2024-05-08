@@ -5,7 +5,7 @@
 
 use serde::Deserialize;
 
-use crate::requirements::{Level, Stakeholder};
+use crate::data::{Level, Stakeholder};
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -62,3 +62,12 @@ pub struct Trigger(String);
 
 #[derive(Deserialize)]
 pub struct WorkPackage(f32);
+
+#[derive(Deserialize, PartialEq, Eq, Hash)]
+pub struct UseCaseId(String);
+
+impl UseCaseId {
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}

@@ -6,14 +6,10 @@ use std::{
 
 use serde::Deserialize;
 
-#[derive(Deserialize, PartialEq, Eq, Hash)]
-pub struct UseCaseId(String);
-
-impl UseCaseId {
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-}
+use crate::{
+    data::{Level, Stakeholder},
+    use_cases::UseCaseId,
+};
 
 #[derive(Clone, Deserialize, PartialEq, Eq, Hash)]
 pub struct ReqId(String);
@@ -38,18 +34,6 @@ impl ReqDesc {
         self.0.as_str()
     }
 }
-
-#[derive(Deserialize)]
-pub struct Stakeholder(String);
-
-impl Stakeholder {
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-}
-
-#[derive(Deserialize, Hash)]
-pub struct Level(String);
 
 #[derive(Deserialize)]
 #[serde(rename_all = "kebab-case")]

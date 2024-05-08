@@ -1,6 +1,8 @@
+pub(super) mod data;
+
 use anyhow::Context;
 
-use crate::RequirementsData;
+use self::data::RequirementsData;
 
 pub fn parse_requirements(requirements: &str) -> anyhow::Result<RequirementsData> {
     toml::from_str(requirements).with_context(|| "Failed to read requirements")

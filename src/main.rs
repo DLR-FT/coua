@@ -5,7 +5,7 @@
 // coua collects reports
 
 use clap::Parser;
-use coua::do_run;
+use coua::{check, get_manifest};
 
 mod cli;
 
@@ -13,5 +13,6 @@ fn main() -> anyhow::Result<()> {
     let cli = cli::Cli::parse();
     let (out_dir, manifest_path) = cli::process_args(cli)?;
 
-    do_run(manifest_path, out_dir)
+    let manifest = get_manifest(manifest_path)?;
+    check(&manifest, out_dir)
 }
