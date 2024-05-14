@@ -21,9 +21,18 @@ pub(crate) struct Cli {
 
 pub(crate) fn process_args(cli: Cli) -> Result<(PathBuf, PathBuf), anyhow::Error> {
     let out_dir: PathBuf = {
-        let path = current_dir()?;
-        let path = cli.out.unwrap_or(path.clone()).canonicalize()?;
-        if !path.is_dir() {
+        let path = if let Some(out) = cli.out {
+            if out.is_absolute() {
+                out
+            } else {
+                let mut path = current_dir()?;
+                path.push(out);
+                path
+            }
+        } else {
+            current_dir()?
+        };
+        if path.exists() && !path.is_dir() {
             bail!("{path:?} is not a directory");
         }
         path

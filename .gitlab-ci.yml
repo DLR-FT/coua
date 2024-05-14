@@ -35,8 +35,7 @@ rust-coverage:
 
 coua-cert:
   script:
-    - nix build .#coua-cert
-    - nix develop -c cp -rL result report
+    - nix develop --command cargo run -p coua -- -o report
   artifacts:
     paths:
       [report]

@@ -39,9 +39,10 @@
           rustPlatform = (pkgs.makeRustPlatform { cargo = rustToolchain; rustc = rustToolchain; });
         in
         rec {
-          coua = pkgs.callPackage ./nix/coua.nix { inherit rustPlatform; };
-          coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
-          default = coua;
+          # FIXME: Will only compile interactively, because of incompatible libLLVM or writable rust-src required for cargo metadata, not sure
+          # coua = pkgs.callPackage ./nix/coua.nix { inherit rustPlatform; };
+          # coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
+          # default = coua;
         });
     };
 }
