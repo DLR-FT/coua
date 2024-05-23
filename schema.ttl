@@ -1,0 +1,153 @@
+@prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> a owl:Ontology ;
+	dc:title "The Coua schema" .
+
+coua:UseCasesData a rdf:Bag ;
+	rdfs:comment "A collection of use-cases" ;
+	rdfs:label "Use Cases" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+
+coua:RequirementsData a rdf:Bag ;
+	rdfs:comment "A collection of requirements" ;
+	rdfs:label "Requirements" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+
+coua:Manifest a rdf:Class ;
+	rdfs:comment "A manifest of the data to consider in the certification" ;
+	rdfs:label "Manifest" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+
+coua:TestCase a rdf:Class ;
+	rdfs:comment "A test case" ;
+	rdfs:label "Test Case" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+
+coua:covers a rdf:Property ;
+	rdfs:comment "Requirement is traced by a test-case" ;
+	rdfs:label "Covers" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:TestCase ;
+	rdfs:range coua:Requirement .
+
+coua:requires a rdf:Property ;
+	rdfs:comment "The manifest references a requirement" ;
+	rdfs:label "Requires" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:Manifest ;
+	rdfs:range coua:RequirementData .
+
+coua:hasUseCase a rdf:Property ;
+	rdfs:comment "The manifest references a use-case" ;
+	rdfs:label "Has Use-Case" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:Manifest ;
+	rdfs:range coua:UseCasesData .
+
+coua:Requirement a rdf:Class ;
+	rdfs:comment "A requirement for a software" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Requirement" ;
+	rdfs:subClassOf rdfs:Resource .
+
+coua:UseCase a rdf:Class ;
+	rdfs:comment "A use-case for a software" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "UseCase" ;
+	rdfs:subClassOf rdfs:Resource .
+
+coua:description a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Description" ;
+	rdfs:range coua:Requirement ;
+	rdfs:domain coua:Requirement ;
+	rdfs:subPropertyOf dc:description .
+
+coua:owner a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Owner" ;
+	rdfs:range coua:Requirement ;
+	rdfs:domain coua:Requirement ;
+	rdfs:subPropertyOf dc:provenance .
+
+coua:level a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Level" ;
+	rdfs:range coua:Requirement .
+
+coua:useCase a coua:UseCase ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Use-Case" ;
+	rdfs:domain coua:Requirement ;
+	rdfs:range coua:UseCase .
+
+coua:title a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Title" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase ;
+	rdfs:subPropertyOf dc:title .
+
+coua:actor a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Actor" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:goal a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Goal" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:scope a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Scope" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:story a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Story" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:stakeholder a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Story" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:precondition a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Precondition" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:postcondition a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Postcondition" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:trigger a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Trigger" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:flow a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Flow" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .
+
+coua:extension a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Extension" ;
+	rdfs:range coua:UseCase ;
+	rdfs:domain coua:UseCase .

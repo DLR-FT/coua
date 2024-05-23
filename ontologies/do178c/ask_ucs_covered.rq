@@ -1,0 +1,18 @@
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+
+ASK
+{
+	{
+		SELECT ?uc (COUNT(distinct ?req) AS ?covered)
+		WHERE
+		{
+			?req coua:useCase ?uc ;
+				a coua:Requirement ;
+				coua:description ?desc .
+			?uc a coua:UseCase ;
+				coua:story ?story .
+		}
+		GROUP BY ?uc
+	}
+	FILTER (?covered = 0) .
+}

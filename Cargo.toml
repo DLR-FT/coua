@@ -29,9 +29,10 @@ repository = "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/"
 anyhow = "1.0.79"
 clap = { version = "4.5.2", features = ["derive"] }
 itertools = "0.12.1"
-dot = "0.1"
+log = "0"
+oxigraph = "0.3.22"
 serde = { version = "1.0", features = ["derive"] }
-toml = "0.8.10"
+sparesults = "0.1.8"
 
 [dev-dependencies]
 assert_cmd = "2.0.14"

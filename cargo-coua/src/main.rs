@@ -21,7 +21,9 @@ use cargo::{
     util::{homedir, important_paths},
     CargoResult,
 };
-use clap::{arg, Parser};
+use clap::{Parser, ValueEnum};
+use oxrdf::{NamedNodeRef, TripleRef};
+use oxttl::TurtleSerializer;
 use rustc_ast::{AttrArgs, AttrArgsEq, AttrKind};
 use rustc_driver::RunCompiler;
 use rustc_hir::Item;
@@ -50,7 +52,31 @@ struct RequirementTrace {
 pub(crate) struct Cli {
     /// Output file
     #[arg(long, value_name = "FILE")]
-    output: Option<PathBuf>,
+    output: PathBuf,
+
+    /// Output format
+    #[arg(long, default_value_t, value_enum, rename_all = "kebab_case")]
+    format: Format,
+
+    /// Requirements namespace for TTL output
+    #[arg(long, default_value_t)]
+    reqns: String,
+
+    /// Test namespace for TTL output
+    #[arg(long, default_value_t)]
+    testns: String,
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+enum Format {
+    Json,
+    Ttl,
+}
+
+impl Default for Format {
+    fn default() -> Self {
+        Self::Json
+    }
 }
 
 fn main() {
@@ -75,14 +101,39 @@ fn main() {
     let out = Arc::new(Mutex::new(Output::default()));
     compile(&ws, &compile_options, out.clone()).unwrap();
 
-    let out_file = args.output.unwrap_or_else(|| {
-        let mut target = ws.target_dir();
-        target.push("coua_trace.json");
-        target.into_path_unlocked()
-    });
+    let out_file = args.output;
 
     let out = out.lock().unwrap();
-    serde_json::to_writer(BufWriter::new(File::create(out_file).unwrap()), &*out).unwrap();
+
+    let output = BufWriter::new(File::create(out_file).unwrap());
+    match args.format {
+        Format::Json => serde_json::to_writer(output, &*out).unwrap(),
+        Format::Ttl => write_ttl(&args.reqns, &args.testns, &out, output).unwrap(),
+    }
+}
+
+fn write_ttl(
+    reqns: &str,
+    testns: &str,
+    out: &Output,
+    output: BufWriter<File>,
+) -> anyhow::Result<()> {
+    let mut writer = TurtleSerializer::new()
+        .with_prefix("coua", "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#")?
+        .with_prefix("test", testns)?
+        .with_prefix("req", reqns)?
+        .serialize_to_write(output);
+    for (k, v) in out.0.iter() {
+        for v in v.iter() {
+            writer.write_triple(TripleRef::new(
+                NamedNodeRef::new(&format!("{testns}{v}"))?,
+                NamedNodeRef::new_unchecked("coua:covers"),
+                NamedNodeRef::new(&format!("{reqns}{k}"))?,
+            ))?;
+        }
+    }
+    writer.finish()?;
+    Ok(())
 }
 
 fn sysroot() -> String {

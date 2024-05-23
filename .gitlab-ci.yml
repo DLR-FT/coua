@@ -35,7 +35,7 @@ rust-coverage:
 
 coua-cert:
   script:
-    - nix develop --command cargo run -p coua -- -o report
+    - nix develop --command cargo run -p coua -- -o report -s ontologies/do178c resources/*
   artifacts:
     paths:
       [report]

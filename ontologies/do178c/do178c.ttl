@@ -1,0 +1,24 @@
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> a owl:Ontology ;
+	dc:title "An ontology for DO-178C" .
+
+do178c:Objective a rdfs:Class ;
+	rdfs:comment "Certification Objective" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+
+do178c:outputs a rdfs:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C outputs" ;
+	rdfs:domain do178c:Objective ;
+	rdfs:range do178c:Output .
+
+do178c:Output a rdfs:Bag .
+
+do178c:SoftwareRequirementsData a do178c:Output .
+
+do178c:ObjectiveA-2-1 a do178c:Objective ;
+	do178c:outputs ( do178c:SoftwareRequirementsData ) .

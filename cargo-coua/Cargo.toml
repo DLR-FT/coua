@@ -10,6 +10,8 @@ anyhow = "1.0.79"
 clap = { version = "4.5.2", features = ["derive"] }
 cargo = "0.78.1"
 cargo-util = "0.2.10"
+oxttl = "0.1.0-alpha.6"
+oxrdf = "0.2.0-alpha.5"
 serde_json = "1.0.117"
 serde = "1.0.202"
 
