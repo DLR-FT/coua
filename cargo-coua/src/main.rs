@@ -28,7 +28,7 @@ use rustc_hir::Item;
 use rustc_middle::ty::TyCtxt;
 use rustc_span::Symbol;
 use serde::Serialize;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashSet};
 use std::fs::File;
 use std::io::BufWriter;
 use std::path::PathBuf;
@@ -36,7 +36,7 @@ use std::sync::{Arc, Mutex};
 use std::{env, process, str};
 
 #[derive(Debug, Default, Serialize)]
-struct Output(HashMap<String, Vec<String>>);
+struct Output(BTreeMap<String, Vec<String>>);
 
 #[derive(Debug)]
 struct RequirementTrace {
