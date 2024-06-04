@@ -9,7 +9,7 @@ use clap::Parser;
 /// Coua certification utility
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
-pub(crate) struct Cli {
+pub struct Cli {
     /// Change the directory before doing anything
     #[arg(short = 'D', long, value_name = "DIRECTORY")]
     pub(crate) directory: Option<PathBuf>,
@@ -26,7 +26,7 @@ pub(crate) struct Cli {
     pub(crate) out: Option<PathBuf>,
 }
 
-pub(crate) fn process_args(cli: Cli) -> anyhow::Result<(Vec<PathBuf>, Vec<PathBuf>, PathBuf)> {
+pub fn process_args(cli: Cli) -> anyhow::Result<(Vec<PathBuf>, Vec<PathBuf>, PathBuf)> {
     if let Some(dir) = cli.directory {
         set_current_dir(dir)?;
     }

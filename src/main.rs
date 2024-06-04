@@ -1,3 +1,5 @@
+use coua::cli;
+
 use std::{
     fs::{self, read_to_string, File},
     io::BufReader,
@@ -8,8 +10,6 @@ use oxigraph::{
     io::GraphFormat::Turtle, model::GraphNameRef, sparql::QueryResultsFormat, store::Store,
 };
 use sparesults::{QueryResultsParser, QueryResultsReader};
-
-mod cli;
 
 fn main() -> anyhow::Result<()> {
     let cli = cli::Cli::parse();
