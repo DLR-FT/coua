@@ -1,5 +1,9 @@
-{ pkgs, fenix, nixd, nixpkgs, ... }@inputs:
+{ self, pkgs, cargo-requirements, fenix, nixpkgs, ... }@inputs:
 let
+  cargoreqs = import cargo-requirements {
+    inherit pkgs;
+    fenix = fenix.packages.${pkgs.system};
+  };
   system = inputs.pkgs.system;
   pkgs = import nixpkgs {
     inherit system;
@@ -24,14 +28,12 @@ let
 in
 {
   default = pkgs.mkShell {
-    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+    inputsFrom = [
+      self.packages.${pkgs.system}.default
+    ];
 
     packages = [
-      # For producing requirement graphs
-      pkgs.graphviz
-
-      # Nix language server
-      nixd.packages.${system}.nixd
+      cargoreqs
 
       # Rust toolchain
       rustToolchain
@@ -54,18 +56,8 @@ in
       # For converting lcov to cobertura
       pkgs.python311Packages.lcov_cobertura
 
-      # Openssl-sys
-      pkgs.openssl
-      pkgs.pkg-config
-
       # Conversion utils
       pkgs.python3
-
-      # Oxigraph
-      pkgs.llvmPackages.libclang
-      pkgs.openssl
-      pkgs.pkg-config
-      pkgs.rustPlatform.bindgenHook
 
       # e.g. for running checks in commit hooks
       run-checks

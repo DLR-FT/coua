@@ -35,6 +35,7 @@ rust-coverage:
 
 coua-cert:
   script:
+    - nix develop --command cargo-requirements --format ttl --testns "http://coua" --reqns "http://coua"
     - nix develop --command cargo run -p coua -- -o report -s ontologies/do178c resources/*
   artifacts:
     paths:
