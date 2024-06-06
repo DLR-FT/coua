@@ -30,3 +30,5 @@ out/
 
 # Output files of queries
 *.json
+
+venv/
