@@ -151,3 +151,28 @@ coua:extension a rdf:Property ;
 	rdfs:label "Extension" ;
 	rdfs:range coua:UseCase ;
 	rdfs:domain coua:UseCase .
+
+coua:project a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "classname" ;
+	rdfs:domain coua:TestCase .
+
+coua:timestamp a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Execution Timestamp" ;
+	rdfs:domain coua:TestCase .
+
+coua:time a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Execution duration" ;
+	rdfs:domain coua:TestCase .
+
+coua:failureType a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Test failure type" ;
+	rdfs:domain coua:TestCase .
+
+coua:failure a rdf:Property ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Failure reason" ;
+	rdfs:domain coua:TestCase .
