@@ -1,16 +1,27 @@
 @prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
 <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> a owl:Ontology ;
 	dc:title "An ontology for DO-178C" .
 
-do178c:Objective a rdfs:Class ;
+do178c:DO178C do178c:objectives (
+	do178c:ObjectiveA-2-1
+) .
+
+do178c:objectives a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C objectives" ;
+	rdfs:range do178c:Objective ;
+	rdfs:domain do178c:DO178C .
+
+do178c:Objective a owl:Class ;
 	rdfs:comment "Certification Objective" ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 
-do178c:outputs a rdfs:Property ;
+do178c:outputs a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
 	rdfs:label "DO-178C outputs" ;
 	rdfs:domain do178c:Objective ;
@@ -20,5 +31,33 @@ do178c:Output a rdfs:Bag .
 
 do178c:SoftwareRequirementsData a do178c:Output .
 
+do178c:TraceData a do178c:Output .
+
+do178c:requires a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C Software Requirements Data" ;
+	rdfs:range do178c:Requirement ;
+	rdfs:domain do178c:SoftwareRequirementsData .
+
+do178c:traces a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C Trace Data" ;
+	rdfs:domain do178c:TraceData ;
+	rdfs:range do178c:TestCase .
+
 do178c:ObjectiveA-2-1 a do178c:Objective ;
-	do178c:outputs ( do178c:SoftwareRequirementsData ) .
+	do178c:outputs ( do178c:SoftwareRequirementsData do178c:TraceData ) .
+
+do178c:covers a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C Trace Data" ;
+	rdfs:range do178c:Requirement ;
+	rdfs:domain do178c:TestCase .
+
+do178c:TestCase a owl:Class ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:comment "DO-178C Software Test Case" .
+
+do178c:Requirement a owl:Class ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:comment "DO-178C Software Requirement" .

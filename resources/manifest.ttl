@@ -15,74 +15,28 @@
 # Data #
 ########
 
-(
-	req:Req01
-	req:Req02
-	req:Req03
-	req:Req04
-	req:Req05
-	req:Req06
-	req:Req07
-	req:Req08
-	req:Req09
-	req:Req10
-	req:Req11
-	req:Req12
-	req:Req13
-	req:Req14
-	req:Req15
-	req:Req16
-	req:Req17
-	req:Req18
-	req:Req19
-	req:Req20
-	req:Req21
-	req:Req22
-	req:Req23
-	req:Req24
-	req:Req25
-	req:Req26
-	req:Req27
-	req:Req28
-	req:Req29
-	req:Req30
-	req:Req31
-	req:Req32
-	req:Req33
-	req:Req34
-	req:Req35
-	req:Req36
-	req:Req37
-	req:Req38
-	req:Req39
-	req:Req40
-	req:Req41
-	req:Req42
-	req:Req43
-	req:Req44
-	req:Req45
-	req:Req46
-	req:Req47
-	req:Req48
-	req:Req50
-) a coua:RequirementsData .
+m:Requirements a do178c:SoftwareRequirementsData ;
+	do178c:requires (
+		req:Req01 req:Req02 req:Req03 req:Req04 req:Req05 req:Req06 req:Req07 req:Req08
+		req:Req09 req:Req10 req:Req11 req:Req12 req:Req13 req:Req14 req:Req15 req:Req16
+		req:Req17 req:Req18 req:Req19 req:Req20 req:Req21 req:Req22 req:Req23 req:Req24
+		req:Req25 req:Req26 req:Req27 req:Req28 req:Req29 req:Req30 req:Req31 req:Req32
+		req:Req33 req:Req34 req:Req35 req:Req36 req:Req37 req:Req38 req:Req39 req:Req40
+		req:Req41 req:Req42 req:Req43 req:Req44 req:Req45 req:Req46 req:Req47 req:Req48
+		req:Req50 ) .
 
-(
-	uc:UC02
-	uc:UC03
-	uc:UC04
-	uc:UC05
-	uc:UC06
-	uc:UC07
-	uc:UC08
-	uc:UC09
-	uc:UC10
-) a coua:UseCaseData .
+m:Coua a coua:Product ;
+	coua:useCases (
+		uc:UC02 uc:UC03 uc:UC04 uc:UC05 uc:UC06 uc:UC07 uc:UC08 uc:UC09 uc:UC10 ) .
 
+m:Test1 a coua:TestCase ;
+	coua:covers req:Req01 .
 
-##########
-# Usages #
-##########
+coua:Requirement a do178c:Requirement .
+coua:TestCase a do178c:TestCase .
 
-# Declares that these requirements should be used as Software Requirements Data of DO-178C
-coua:RequirementsData a do178c:SoftwareRequirementsData .
+coua:covers rdfs:subPropertyOf do178c:covers .
+coua:requires rdfs:subPropertyOf do178c:requires .
+
+m:TestCases a do178c:TraceData ;
+	coua:traces ( m:Test1 ) .
