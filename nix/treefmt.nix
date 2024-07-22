@@ -2,7 +2,11 @@
 {
   projectRootFile = "flake.nix";
   programs = {
-    nixpkgs-fmt.enable = true;
+    black.enable = true;
+    nixfmt = {
+      enable = true;
+      package = pkgs.nixfmt-rfc-style;
+    };
     rustfmt.enable = true;
   };
 }

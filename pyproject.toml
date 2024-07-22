@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "coua"
+description = "Certification Ontologies Using Automation"
+version = "0.0.1"
+dependencies = [
+    "morph-kgc",
+    "pyoxigraph",
+    "rdflib",
+    "sphinx",
+    "sphinx-sparql",
+]
+optional-dependencies.test = [
+    "black",
+    "pytest",
+    "pytest-cov[all]",
+    "pylint",
+]
+requires-python = ">=3.8"
+authors = [
+    { name = "Tim Schubert", email = "tim.schubert@dlr.de" },
+]
+maintainers = [
+    { name = "Tim Schubert", email = "tim.schubert@dlr.de" },
+]
+readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
+]
+keywords = ["sparql", "rdf", "sphinx", "documentation"]
+
+[project.urls]
+Homepage = "https://dlr.de/ft/ssy"
+#Documentation = "https://readthedocs.org"
+#Repository = "https://github.com/me/spam.git"
+#"Bug Tracker" = "https://github.com/me/spam/issues"
+#Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+
+[tool.pylsp.plugins]
+black.enabled = true
+ruff.enabled = true
+
+[project.scripts]
+coua-conv-junit = "coua:convert_junit"
+coua-conv-cargo-requirements = "coua:convert_cargo_requirements"
+coua-gen-do178c = "coua:gen_do178c_bindings"
+coua-check-do178c = "coua:run_check_do178c"

@@ -1,15 +1,9 @@
 {
-  description = "Coua - Certification onthlogies using automation";
+  description = "Coua - Certification ontologies using automation";
 
   inputs = {
-    cargo-requirements = {
-      url = "git+ssh://git@gitlab.dlr.de/ft-ssy-avs/ap/cargo-requirements.git";
-      flake = false;
-    };
-
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
     };
 
     nixpkgs = {
@@ -20,29 +14,86 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    pyproject-nix = {
+      url = "github:nix-community/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    sphinx-sparql = {
+      url = "git+https://gitlab.dlr.de/ft-ssy-avs/ap/sphinx-sparql.git?branch=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, cargo-requirements, fenix, nixpkgs, treefmt-nix, ... }@inputs:
-    let
-      systems = [ "aarch64-linux" "x86_64-linux" ];
-      eachSystem = f: nixpkgs.lib.genAttrs systems (system: f (import nixpkgs { inherit system; }));
-      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix);
-    in
+  outputs =
     {
-      checks = eachSystem (pkgs: import ./nix/checks.nix (inputs // { inherit pkgs treefmtEval; }));
-      devShells = eachSystem (pkgs: import ./nix/devshells.nix (inputs // { inherit self pkgs cargo-requirements; }));
-      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
-      packages = eachSystem (pkgs:
+      self,
+      flake-utils,
+      nixpkgs,
+      pyproject-nix,
+      sphinx-sparql,
+      treefmt-nix,
+      ...
+    }@inputs:
+    flake-utils.lib.eachSystem
+      [
+        "aarch64-linux"
+        "x86_64-linux"
+      ]
+      (
+        system:
         let
-          fenix' = fenix.packages.${pkgs.system};
-          rustToolchain = with fenix'; combine (with complete; [ rustc cargo rustc-dev rust-src ]);
-          rustPlatform = (pkgs.makeRustPlatform { cargo = rustToolchain; rustc = rustToolchain; });
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              sphinx-sparql.overlays.default
+              self.overlays.default
+            ];
+          };
+          project = pyproject-nix.lib.project.loadPyproject { projectRoot = ./.; };
+          python = pkgs.python3;
+          treefmtEval = treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix;
         in
         rec {
-          # FIXME: Will only compile interactively, because of incompatible libLLVM or writable rust-src required for cargo metadata, not sure
-          coua = pkgs.callPackage ./nix/coua.nix { inherit rustPlatform; };
-          # coua-cert = pkgs.callPackage ./nix/coua-cert.nix { inherit coua; };
-          default = coua;
-        });
+          packages.default =
+            let
+              attrs = project.renderers.buildPythonPackage { inherit python; };
+            in
+            python.pkgs.buildPythonPackage attrs;
+          checks = import ./nix/checks.nix (inputs // { inherit pkgs treefmtEval; });
+          devShells.default =
+            let
+              arg = project.renderers.withPackages { inherit python; };
+              pythonEnv = python.withPackages arg;
+            in
+            pkgs.mkShell {
+              packages = [
+                pkgs.nodePackages.prettier
+                pkgs.nixpkgs-fmt
+                pkgs.cocogitto
+                packages.default.passthru.optional-dependencies.test
+                pythonEnv
+                pkgs.ruff-lsp
+                python.pkgs.pythonPackages.pylsp-rope
+                python.pkgs.pythonPackages.python-lsp-ruff
+                python.pkgs.pythonPackages.python-lsp-server
+              ];
+            };
+          formatter = treefmtEval.config.build.wrapper;
+        }
+      )
+    // {
+      overlays.default = final: prev: {
+        python3 = prev.python3.override {
+          packageOverrides = final: prev: {
+            coua = prev.pythonPackages.callPackage ./default.nix { };
+            jsonpath-python = prev.pythonPackages.callPackage ./nix/jsonpath-python.nix { };
+            morph-kgc = prev.pythonPackages.callPackage ./nix/morph-kgc.nix { };
+            pyoxigraph = prev.pythonPackages.callPackage ./nix/pyoxigraph.nix { };
+            sphinx-sparql = prev.pythonPackages.callPackage sphinx-sparql { };
+          };
+        };
+      };
     };
 }

@@ -16,7 +16,7 @@
 ########
 
 m:Requirements a do178c:SoftwareRequirementsData ;
-	do178c:requires (
+	coua:requires (
 		req:Req01 req:Req02 req:Req03 req:Req04 req:Req05 req:Req06 req:Req07 req:Req08
 		req:Req09 req:Req10 req:Req11 req:Req12 req:Req13 req:Req14 req:Req15 req:Req16
 		req:Req17 req:Req18 req:Req19 req:Req20 req:Req21 req:Req22 req:Req23 req:Req24
@@ -29,14 +29,14 @@ m:Coua a coua:Product ;
 	coua:useCases (
 		uc:UC02 uc:UC03 uc:UC04 uc:UC05 uc:UC06 uc:UC07 uc:UC08 uc:UC09 uc:UC10 ) .
 
-m:Test1 a coua:TestCase ;
+m:Test1 rdfs:subClassOf coua:TestCase ;
 	coua:covers req:Req01 .
 
-coua:Requirement a do178c:Requirement .
-coua:TestCase a do178c:TestCase .
+coua:Requirement rdfs:subClassOf do178c:Requirement .
+coua:TestCase rdfs:subClassOf do178c:TestCase .
 
 coua:covers rdfs:subPropertyOf do178c:covers .
 coua:requires rdfs:subPropertyOf do178c:requires .
 
-m:TestCases a do178c:TraceData ;
+m:TestCases rdfs:subClassOf do178c:TraceData ;
 	coua:traces ( m:Test1 ) .

@@ -3,246 +3,295 @@
 @prefix uc: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/use-cases#> .
 
 req:Req01 a coua:Requirement ;
+    coua:id "Req01" ;
     coua:description "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."@en ;
     coua:owner "DLR" ;
     coua:level "system" ;
     coua:useCase uc:UC04 .
 req:Req02 a coua:Requirement ;
+    coua:id "Req02" ;
     coua:description "The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC04 .
 req:Req03 a coua:Requirement ;
+    coua:id "Req03" ;
     coua:description "Coua shall generate a certification report which includes all certification objectives and references to all required evidences it has access to."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC01 .
 req:Req04 a coua:Requirement ;
+    coua:id "Req04" ;
     coua:description "While CI is in use, when changes are committed to the SCM, Coua shall generate a certification report."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC02 .
 req:Req05 a coua:Requirement ;
+    coua:id "Req05" ;
     coua:description "Coua shall be able to ingest requirements, evidences, justifications and data-items from artifacts produced by COTS tools."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC04 .
 req:Req06 a coua:Requirement ;
+    coua:id "Req06" ;
     coua:description "Coua shall provide means to specify how to obtain artifacts created by other tools."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC06 .
 req:Req07 a coua:Requirement ;
+    coua:id "Req07" ;
     coua:description "When the certification report is generated, Coua shall always produce the same report for the same project state."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC05 .
 req:Req08 a coua:Requirement ;
+    coua:id "Req08" ;
     coua:description "Coua shall provide means to extend the ontologies of generalized standards such as DO-178C to project-specific certification objectives"@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC6 .
-req:Req9 a coua:Requirement ;
+req:Req09 a coua:Requirement ;
+    coua:id "Req09" ;
     coua:description "Coua shall provide means to identify which ontologies were used to perform verification and validation in the certification report."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC6 .
 req:Req10 a coua:Requirement ;
+    coua:id "Req10" ;
     coua:description "Coua shall track the association between artifacts like requirements, test cases, source code and object code (tracing)."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC8 .
 req:Req11 a coua:Requirement ;
+    coua:id "Req11" ;
     coua:description "Coua shall track the association between artifacts and objectives."@en ;
     coua:owner "DLR" ;
     coua:level "system" ;
     coua:useCase uc:UC08 .
 req:Req12 a coua:Requirement ;
+    coua:id "Req12" ;
     coua:description "Coua shall generate certification reports."@en ;
     coua:owner "DLR" ;
     coua:level "system" ;
     coua:useCase uc:UC01 .
 req:Req13 a coua:Requirement ;
+    coua:id "Req13" ;
     coua:description "While Coua performs validation activities, if any failing satisfiable objectives are encountered, Coua shall indicate to the CI that its activities have failed."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req14 a coua:Requirement ;
+    coua:id "Req14" ;
     coua:description "While Coua performs validation activities, if any failing unsatisfiable objectives are encountered, Coua shall not indicate that its activities have failed. "@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req15 a coua:Requirement ;
+    coua:id "Req15" ;
     coua:description "Coua shall provide a way to mark objectives as unsatisfiable"@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req16 a coua:Requirement ;
+    coua:id "Req16" ;
     coua:description "Coua shall provide a way to remove the unsatisfiable mark from objectives."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req17 a coua:Requirement ;
+    coua:id "Req17" ;
     coua:description "While CI is in use, Coua shall signal failed objectives as errors"@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC02 .
 req:Req18 a coua:Requirement ;
+    coua:id "Req18" ;
     coua:description "Coua shall ingest artifacts in the Static Analysis Results Interchange Format (SARIF) format without additional processing"@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC07 .
 req:Req19 a coua:Requirement ;
+    coua:id "Req19" ;
     coua:description "Coua shall be executable independently of CI, e.g. locally on a developer’s or tester’s computer"@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC05 .
 req:Req20 a coua:Requirement ;
+    coua:id "Req20" ;
     coua:description "Coua shall be executable in CI"@en ;
     coua:owner "DLR" ;
     coua:level "system" ;
     coua:useCase uc:UC02 .
 req:Req21 a coua:Requirement ;
+    coua:id "Req21" ;
     coua:description "Coua shall provide means for ingesting artifacts from the local filesystem"@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC03 .
 req:Req22 a coua:Requirement ;
+    coua:id "Req22" ;
     coua:description "When Coua produces a certification report, where data from artifacts is used, Coua shall include data about the tools that produced the artifacts."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC05 .
 req:Req23 a coua:Requirement ;
+    coua:id "Req23" ;
     coua:description "If the ontology contains syntactical errors, then Coua shall refuse to evaluate the ontology and produce a meaningful error message."@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC06 .
 req:Req24 a coua:Requirement ;
+    coua:id "Req24" ;
     coua:description "If an artifact contains syntactical errors, then Coua shall refuse to produce a certification report that includes it and issue a meaningful error message."@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC04 .
 req:Req25 a coua:Requirement ;
+    coua:id "Req25" ;
     coua:description "Coua shall allow for importing requirements data in a Comma Separated Values (CSV) format."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC04 .
 req:Req26 a coua:Requirement ;
+    coua:id "Req26" ;
     coua:description "Coua shall specify the format for requirements data."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC08 .
 req:Req27 a coua:Requirement ;
+    coua:id "Req27" ;
     coua:description "Coua shall allow for defining custom content in the certification report."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC04 .
 req:Req28 a coua:Requirement ;
+    coua:id "Req28" ;
     coua:description "Coua shall allow a project to run custom queries on the ontologies."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC01 .
 req:Req29 a coua:Requirement ;
+    coua:id "Req29" ;
     coua:description "Coua shall provide a well-defined output schema for the certification report."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC09 .
 req:Req30 a coua:Requirement ;
+    coua:id "Req30" ;
     coua:description "The project using Coua shall track all changes in an SCM."@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC05 .
 req:Req31 a coua:Requirement ;
+    coua:id "Req31" ;
     coua:description "When a new version of the component is released, the artifact archive shall version and permanently record all software, configuration and non-reproducible artifacts that are required for recreating the certification report for that version."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC03 .
 req:Req32 a coua:Requirement ;
+    coua:id "Req32" ;
     coua:description "The ontologies shall model all necessary knowledge from the documents that specify what is required for certification approval."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC06 .
 req:Req33 a coua:Requirement ;
+    coua:id "Req33" ;
     coua:description "Coua shall be able to ingest ontologies in the OWL2 format."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC04 .
 req:Req34 a coua:Requirement ;
+    coua:id "Req34" ;
     coua:description "The certification report shall clearly display which objective is satisfied."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC01 .
 req:Req35 a coua:Requirement ;
+    coua:id "Req35" ;
     coua:description "If the certification report indicates that all objectives are met, Coua shall make it clear that this is not guaranteed."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC01 .
 req:Req36 a coua:Requirement ;
+    coua:id "Req36" ;
     coua:description "The certification report shall clearly display whether an objective has regressed."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC02 .
 req:Req37 a coua:Requirement ;
+    coua:id "Req37" ;
     coua:description "The certification report shall mark failing satisfiable objectives."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req38 a coua:Requirement ;
+    coua:id "Req38" ;
     coua:description "The certification report shall mark not yet satisfiable objectives."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req39 a coua:Requirement ;
+    coua:id "Req39" ;
     coua:description "When an objective is violated, the certification report shall highlight the precise artifacts that are the source of the violation."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC07 .
 req:Req40 a coua:Requirement ;
+    coua:id "Req40" ;
     coua:description "The certification report shall be human-readable."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC01 .
 req:Req41 a coua:Requirement ;
+    coua:id "Req41" ;
     coua:description "The certification report shall be machine-readable."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC09 .
 req:Req42 a coua:Requirement ;
+    coua:id "Req42" ;
     coua:description "The certification reports shall have the same contents in both human- and machine- readable forms."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC09 .
 req:Req43 a coua:Requirement ;
+    coua:id "Req43" ;
     coua:description "The certification report shall include all failed objectives."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC02 .
 req:Req44 a coua:Requirement ;
+    coua:id "Req44" ;
     coua:description "The certification report shall present unsatisfiable objectives less prominently."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req45 a coua:Requirement ;
+    coua:id "Req45" ;
     coua:description "While the artifacts provide the required information, the certification report shall include all data items and evidences required to build an assurance case."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req46 a coua:Requirement ;
+    coua:id "Req46" ;
     coua:description "The certification framework shall allow for defining custom content in the rendered certification report."@en ;
     coua:owner "DLR" ;
     coua:level "functional" ;
     coua:useCase uc:UC10 .
 req:Req47 a coua:Requirement ;
+    coua:id "Req47" ;
     coua:description "Coua shall finish producing the report in a time that allows for fast feedback during development."@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC02 .
 req:Req48 a coua:Requirement ;
+    coua:id "Req48" ;
     coua:description "Coua shall use not more than half of the memory that is available in the CI or in the development requirement."@en ;
     coua:owner "DLR" ;
     coua:level "non-functional" ;
     coua:useCase uc:UC02 .
 req:Req50 a coua:Requirement ;
+    coua:id "Req50" ;
     coua:description "Coua shall validate if the objectives for certification of the project are satisfied"@en ;
     coua:owner "DLR" ;
     coua:level "system" ;

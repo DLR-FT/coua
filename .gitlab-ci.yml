@@ -6,11 +6,11 @@ stages:
 default:
   tags: [nix]
   before_script:
-    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.dlr.de/".insteadOf "ssh://git@gitlab.dlr.de"
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.dlr.de/".insteadOf "https://gitlab.dlr.de/"
     - mkdir -p ~/.config/nix
     - echo 'accept-flake-config = true' >> ~/.config/nix/nix.conf
 
-formatting:
+check-formatting:
   stage: check
   script:
     - nix fmt -- --fail-on-change --no-cache
@@ -20,33 +20,19 @@ commit-check:
   script:
     - nix develop --command cog check
 
-rust-tests:
-  stage: test
-  script:
-    - ./ci/rust-tests.sh
-  artifacts:
-    paths:
-      [clippy-lints.json, code-quality-report.json, target/doc, junit-*.xml]
-    reports:
-      codequality: code-quality-report.json
-      junit: junit-*.xml
-
-rust-coverage:
-  stage: test
-  script:
-    - ./ci/rust-coverage.sh
-  artifacts:
-    paths: [coverage-lcov.dat, target/llvm-cov/html]
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage-cobertura.xml
-
 coua-cert:
+  variables:
+    COUA_STORE: "db"
+    COUA_JUNIT_XML: ""
+    COUA_CARGO_REQUIREMENTS: ""
   stage: cert
-  dependencies: [ rust-tests, rust-coverage ]
-  script:
-    - nix develop --command ./ci/coua-cert.sh
+  script: |
+    nix build .#
+    ./result/bin/coua-conv-junit $COUA_JUNIT_XML doc/source/junit.ttl
+    ./result/bin/coua-conv-cargo-requirements $COUA_CARGO_REQUIREMENTS doc/source/cargo-requirements.ttl
+    ./result/bin/coua-check-do178c doc/source/*.ttl
+    cd doc
+    nix develop --command make html
   artifacts:
     paths:
-      [report]
+      [doc/build/html]

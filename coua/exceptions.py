@@ -1,0 +1,2 @@
+class CouaException(Exception):
+    pass

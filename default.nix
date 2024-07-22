@@ -1,10 +1,23 @@
-(import
-  (
-    let lock = builtins.fromJSON (builtins.readFile ./flake.lock); in
-    fetchTarball {
-      url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
-      sha256 = lock.nodes.flake-compat.locked.narHash;
-    }
-  )
-  { src = ./.; }
-).defaultNix
+{
+  buildPythonPackage,
+  hatchling,
+  morph-kgc,
+  pyoxigraph,
+  sphinx,
+  sphinx-sparql,
+  rdflib,
+}:
+buildPythonPackage {
+  pname = "sphinx-sparql";
+  pyproject = true;
+  version = "0.1";
+  src = ./.;
+  build-system = [ hatchling ];
+  dependencies = [
+    sphinx
+    pyoxigraph
+    morph-kgc
+    rdflib
+    sphinx-sparql
+  ];
+}

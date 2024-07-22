@@ -63,6 +63,13 @@ coua:UseCase a owl:Class ;
 	rdfs:label "UseCase" ;
 	rdfs:subClassOf rdfs:Resource .
 
+coua:requirementId a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "ID" ;
+	rdfs:domain coua:Requirement ;
+	rdfs:range rdfs:Literal ;
+	rdfs:subPropertyOf dc:identifier .
+
 coua:description a owl:DatatypeProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
 	rdfs:label "Description" ;
