@@ -10,7 +10,6 @@ class COUA(DefinedNamespace):
     covers: URIRef
     name: URIRef
     requires: URIRef
-    Product: URIRef
     useCases: URIRef
     Requirement: URIRef
     UseCase: URIRef

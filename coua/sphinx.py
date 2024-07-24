@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Type, List
 
 import sphinx_sparql
 from pyoxigraph import Store
@@ -22,16 +22,17 @@ class CouaTableDirective(SphinxDirective):
     ontology: Type[Ontology]
     query_path_seqment: str
 
-    def run(self) -> list(Node):
-        store: Store = self.env.get_domain("sparql").store
-        solutions = self.module.select(store, self.query_path_seqment)
+    def run(self) -> List[Node]:
+        domain: sphinx_sparql.SparqlDomain = self.env.get_domain("sparql")
+        store: Store = domain.store
+        solutions = self.ontology.select(store, self.query_path_seqment)
 
         return [sphinx_sparql.render_table(self, solutions)]
 
 
 # TODO render as paragraphs instead
 class CouaDO178CRequirementsList(CouaTableDirective):
-    module = DO178C
+    ontology = DO178C
     query_path_seqment = "requirements_list.rq"
 
 

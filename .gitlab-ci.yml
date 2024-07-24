@@ -20,6 +20,11 @@ commit-check:
   script:
     - nix develop --command cog check
 
+mypy:
+  stage: check
+  script:
+    - nix develop --command mypy coua
+
 coua-cert:
   variables:
     COUA_STORE: "db"

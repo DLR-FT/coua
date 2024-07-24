@@ -15,6 +15,8 @@ dependencies = [
 ]
 optional-dependencies.test = [
     "black",
+    "mypy",
+    "types-docutils",
     "pytest",
     "pytest-cov[all]",
     "pylint",
@@ -42,7 +44,11 @@ Homepage = "https://dlr.de/ft/ssy"
 
 [tool.pylsp.plugins]
 black.enabled = true
+mypy.enabled = true
 ruff.enabled = true
+
+[tool.mypy]
+disable_error_code = "import-untyped"
 
 [project.scripts]
 coua-conv-junit = "coua:convert_junit"

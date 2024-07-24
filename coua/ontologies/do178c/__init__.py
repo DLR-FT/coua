@@ -1,5 +1,7 @@
 from importlib import resources
 
+from typing import Iterable, Tuple
+
 from pyoxigraph import QuerySolutions, Store
 from rdflib import URIRef, Graph
 from rdflib.namespace import RDFS, DefinedNamespace, Namespace
@@ -23,6 +25,7 @@ class DO178C(DefinedNamespace):
 class DO178COntology(Ontology):
     namespace = DO178C
 
+    @staticmethod
     def apply(graph: Graph, **kwargs):
         """Relates the contents of the graph to DO178C.
 
@@ -42,12 +45,14 @@ class DO178COntology(Ontology):
         graph.add((trace_class, RDFS.subClassOf, DO178C.TraceData))
         graph.add((covers_property, RDFS.subPropertyOf, DO178C.covers))
 
-    def check(graph: Graph) -> iter(str, bool):
+    @staticmethod
+    def check(graph: Graph) -> Iterable[Tuple[str, bool]]:
         qs = resources.files(questions)
         for question in qs.iterdir():
             query = question.read_text()
             yield question.name, bool(graph.query(query))
 
+    @staticmethod
     def select(store: Store, query_path_segment: str) -> QuerySolutions:
         query: str = (
             resources.files(selections).joinpath(query_path_segment).read_text()
