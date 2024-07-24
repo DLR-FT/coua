@@ -18,4 +18,8 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. automodule:: coua
+
+Requirements
+============
 .. coua:requirements_list::

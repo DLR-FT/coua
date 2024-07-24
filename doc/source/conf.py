@@ -21,6 +21,7 @@ author = "Tim Schubert"
 extensions = [
     "coua",
     "sphinx_sparql",
+    "sphinx.ext.autodoc",
 ]
 
 templates_path = ["_templates"]
