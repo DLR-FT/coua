@@ -1,4 +1,0 @@
-[profile.ci.junit]
-# Generate a junit.xml test report for GitLab
-path = "junit.xml"
-store-failure-output = true
