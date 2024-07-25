@@ -15,7 +15,7 @@
 		# May be overridden using file_path config option of morph-kgc
 		rml:source "junit.xml" ;
 		rml:refereceFormulation ql:XPath ;
-		rml:iterator "/testsuites/testsuite/testcase"
+		rml:iterator "/testsuites/descendant::testsuite/testcase"
 	] .
 
 <#TriplesMap> rr:subjectMap [

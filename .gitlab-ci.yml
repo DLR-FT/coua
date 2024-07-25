@@ -25,15 +25,26 @@ mypy:
   script:
     - nix develop --command mypy coua
 
+test:
+  stage: test
+  script:
+    - nix develop --command pytest --junit-xml=junit.xml
+  artifacts:
+    paths:
+      [junit.xml]
+    reports:
+      junit: junit.xml
+
 coua-cert:
+  dependencies:
+    - test
   variables:
     COUA_STORE: "db"
-    COUA_JUNIT_XML: ""
     COUA_CARGO_REQUIREMENTS: ""
   stage: cert
   script: |
     nix build .#
-    ./result/bin/coua-conv-junit $COUA_JUNIT_XML doc/source/junit.ttl
+    ./result/bin/coua-conv-junit junit.xml doc/source/junit.ttl
     ./result/bin/coua-conv-cargo-requirements $COUA_CARGO_REQUIREMENTS doc/source/cargo-requirements.ttl
     ./result/bin/coua-check-do178c doc/source/*.ttl
     cd doc

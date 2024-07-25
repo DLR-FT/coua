@@ -1,5 +1,6 @@
 import sys
 
+from pathlib import Path
 from pyoxigraph import Store
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDFS
@@ -19,7 +20,7 @@ def convert_junit():
 
     graph = Graph()
     for f in junit:
-        load_junit_xml(graph, junit)
+        load_junit_xml(graph, Path(f))
 
     with open(out, "w") as out:
         graph.print(format="turtle", out=out)

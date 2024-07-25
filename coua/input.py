@@ -16,15 +16,10 @@ from . import mappings
 def load_junit_xml(graph: Graph, file: Path):
     """Loads a JUnit XML file into the store"""
 
-    ms = resources.files(mappings)
-    config = f"""
-        [Junit]
-        mappings: {ms}/junit.ttl 
-        file_path: {file}
-    """
-
-    graph = morph_kgc.materialize_set(config)
-    for triple in graph:
+    ms = resources.files(mappings).joinpath("junit.ttl")
+    config = f"[Junit]\nmappings: {ms}\nfile_path: {file}\n"
+    g = morph_kgc.materialize(config)
+    for triple in g:
         graph.add(triple)
 
 

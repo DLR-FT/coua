@@ -47,6 +47,12 @@ black.enabled = true
 mypy.enabled = true
 ruff.enabled = true
 
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "."
+
 [tool.mypy]
 disable_error_code = "import-untyped"
 
