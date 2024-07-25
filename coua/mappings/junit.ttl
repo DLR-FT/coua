@@ -70,4 +70,12 @@
 	]
 ] .
 
+<#TriplesMap> rml:predicateObjectMap [
+	rr:predicate coua:covers ;
+	rr:objectMap [
+		rml:reference "properties/property/@value" ;
+		rr:termType rml:Literal
+	]
+] .
+
 # TODO import system-out, system-err?
