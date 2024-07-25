@@ -34,3 +34,5 @@ out/
 venv/
 
 __pycache__/
+
+junit.xml
