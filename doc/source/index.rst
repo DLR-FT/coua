@@ -20,6 +20,19 @@ Indices and tables
 
 .. automodule:: coua
 
+Adding new import commands
+==========================
+
+#. Add new CLI command similar to `coua-conv-junit`.
+
+   * Add new entrypoint function to `coua/cli.py`.
+
+   * Add function name to list in `pyproject.toml`.
+
+#. Add mapping file to `coua/mappings/`.
+
+#. Add name of generated TTL file in `doc/source/conf.py`.
+
 Requirements
 ============
 .. coua:requirements_list::

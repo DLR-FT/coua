@@ -38,7 +38,7 @@ html_static_path = ["_static"]
 
 sparql_load = [
     # ("cargo-requirements.ttl", "text/turtle"),
-    # ("junit.ttl", "text/turtle"),
+    ("junit.ttl", "text/turtle"),
     ("manifest.ttl", "text/turtle"),
     ("requirements.ttl", "text/turtle"),
     ("use-cases.ttl", "text/turtle"),

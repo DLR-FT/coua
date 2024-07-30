@@ -15,6 +15,14 @@ logger = logging.getLogger(__name__)
 
 
 def convert_junit():
+    """Transforms a JUnit test output file (junit.xml) into Turtle triples.
+
+    Gets path to the input XML file (.xml) and output turtle file (.ttl) from
+    the command line. Creates config for morph_kgc with path to the RML
+    mapping file and path to the XML file to transform. The resulting graph is
+    then printed to the output turtle file.
+    """
+
     junit = sys.argv[1:-1]
     out = sys.argv[-1]
 

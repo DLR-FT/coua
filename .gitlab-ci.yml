@@ -45,12 +45,11 @@ coua-cert:
     COUA_STORE: "db"
     COUA_CARGO_REQUIREMENTS: ""
   stage: cert
-  script: |
-    nix build .#
-    ./result/bin/coua-conv-junit junit.xml doc/source/junit.ttl
-    ./result/bin/coua-check-do178c doc/source/*.ttl
-    cd doc
-    nix develop --command make html
+  script:
+    - nix build .#
+    - ./result/bin/coua-conv-junit junit.xml doc/source/junit.ttl
+    - ./result/bin/coua-check-do178c doc/source/*.ttl
+    - cd doc && nix develop --command make html
   artifacts:
     paths:
       [doc/build/html]

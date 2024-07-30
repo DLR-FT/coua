@@ -10,7 +10,7 @@ from pathlib import Path
 if TYPE_CHECKING:
     from rdflib.graph import Graph
 
-from . import mappings
+from coua import mappings
 
 
 def load_junit_xml(graph: Graph, file: Path):
