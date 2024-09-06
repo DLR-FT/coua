@@ -2,12 +2,13 @@ PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?Requirement ?Description
+SELECT ?Requirement ?Description ?Rationale
 WHERE
 {
   ?reqclass rdfs:subClassOf do178c:Requirement .
   ?req a ?reqclass .
   ?req coua:description ?Description .
   ?req coua:id ?Requirement .
+  OPTIONAL { ?req coua:rationale ?Rationale }
 }
 ORDER BY ?Requirement

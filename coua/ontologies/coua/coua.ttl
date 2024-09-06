@@ -192,3 +192,9 @@ coua:failure a owl:DatatypeProperty ;
 	rdfs:label "Failure reason" ;
 	rdfs:range rdfs:Literal ;
 	rdfs:domain coua:TestCase .
+
+coua:rationale a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Rationale" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain coua:Requirement .

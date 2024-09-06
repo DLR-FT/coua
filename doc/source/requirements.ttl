@@ -7,7 +7,9 @@ req:Req01 a coua:Requirement ;
     coua:description "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."@en ;
     coua:owner "DLR" ;
     coua:level "system" ;
-    coua:useCase uc:UC04 .
+    coua:useCase uc:UC04 ;
+    coua:rationale "In a typical Git-based workflow, CI provides automated checks of the software development process and software and tests. The results of these checks are provided in various machine-readable formats."@en .
+
 req:Req02 a coua:Requirement ;
     coua:id "Req02" ;
     coua:description "The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools."@en ;
