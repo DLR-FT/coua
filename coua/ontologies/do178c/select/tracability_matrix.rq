@@ -1,0 +1,19 @@
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Requirement ?TestCase
+WHERE
+{
+  ?reqclass rdfs:subClassOf do178c:Requirement .
+  ?tcclass rdfs:subClassOf do178c:TestCase .
+  ?tcp rdfs:subPropertyOf do178c:covers .
+
+  ?req a ?reqclass .
+  ?tc a ?tcclass .
+
+  ?tc ?tcp ?req .
+  ?req coua:id ?Requirement .
+  ?tc coua:name ?TestCase .
+}
+ORDER BY ?Requirement

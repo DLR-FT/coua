@@ -210,11 +210,11 @@
         "pyproject-nix": "pyproject-nix_2"
       },
       "locked": {
-        "lastModified": 1725613110,
-        "narHash": "sha256-K0t9cYfHtZLnlnLK2DjccIN/w90us/Lp5eMOvLqouiU=",
+        "lastModified": 1725896812,
+        "narHash": "sha256-XlF2Vq7YEnkax9BlvXyqUMLlcnsOHAre36QSWrmtEQM=",
         "ref": "refs/heads/main",
-        "rev": "9e96b98b560a7d614c0a77cc3d0ee7d4653373b8",
-        "revCount": 19,
+        "rev": "3b7bb2e9649fd101776c9ad320346ca7c560a4ff",
+        "revCount": 21,
         "type": "git",
         "url": "https://gitlab.dlr.de/ft-ssy-avs/ap/sphinx-sparql.git?branch=main"
       },

@@ -29,14 +29,10 @@ m:Coua a coua:Product ;
 	coua:useCases (
 		uc:UC02 uc:UC03 uc:UC04 uc:UC05 uc:UC06 uc:UC07 uc:UC08 uc:UC09 uc:UC10 ) .
 
-m:Test1 rdfs:subClassOf coua:TestCase ;
+m:Test1 a coua:TestCase ;
 	coua:covers req:Req01 .
 
-coua:Requirement rdfs:subClassOf do178c:Requirement .
-coua:TestCase rdfs:subClassOf do178c:TestCase .
-
-coua:covers rdfs:subPropertyOf do178c:covers .
-coua:requires rdfs:subPropertyOf do178c:requires .
+m:Test1 coua:name "Test 1" .
 
 m:TestCases rdfs:subClassOf do178c:TraceData ;
 	coua:traces ( m:Test1 ) .

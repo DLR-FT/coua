@@ -20,7 +20,6 @@ author = "Tim Schubert"
 
 extensions = [
     "coua",
-    "sphinx_sparql",
     "sphinx.ext.autodoc",
 ]
 
@@ -36,7 +35,7 @@ html_static_path = ["_static"]
 
 # -- Options for SPARQL extension --------------------------------------------
 
-sparql_load = [
+coua_load = [
     # ("cargo-requirements.ttl", "text/turtle"),
     ("junit.ttl", "text/turtle"),
     ("manifest.ttl", "text/turtle"),

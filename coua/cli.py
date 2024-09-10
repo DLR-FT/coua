@@ -6,7 +6,7 @@ from rdflib import Graph, URIRef
 from rdflib.namespace import RDFS
 
 from coua.input import load_junit_xml, load_test_trace
-from coua.ontologies import DO178C
+from coua.ontologies import DO178C, load_ontologies
 from coua.exceptions import CouaException
 
 import logging
@@ -50,6 +50,8 @@ def convert_cargo_requirements():
 def run_check_do178c():
     resources = sys.argv[1:]
     store = Store()
+
+    load_ontologies(store)
 
     for f in resources:
         store.bulk_load(f, "text/turtle")

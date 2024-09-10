@@ -1,4 +1,5 @@
 @prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -198,3 +199,8 @@ coua:rationale a owl:DatatypeProperty ;
 	rdfs:label "Rationale" ;
 	rdfs:range rdfs:Literal ;
 	rdfs:domain coua:Requirement .
+
+coua:Requirement rdfs:subClassOf do178c:Requirement .
+coua:TestCase rdfs:subClassOf do178c:TestCase .
+coua:covers rdfs:subPropertyOf do178c:covers .
+coua:requires rdfs:subPropertyOf do178c:requires .
