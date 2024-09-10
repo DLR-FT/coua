@@ -2,6 +2,7 @@ stages:
   - check
   - test
   - cert
+  - deploy
 
 default:
   tags: [nix]
@@ -50,3 +51,13 @@ coua-cert:
   artifacts:
     paths:
       [doc/build/html]
+
+pages:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  needs: [coua-cert]
+  script:
+    - mv doc/build/html public
+  artifacts:
+    paths: [public]
