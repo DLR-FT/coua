@@ -5,10 +5,6 @@
 @prefix ql: <http://semweb.mmlab.be/ns/ql#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix junit: <https://#> .
-@base <https://example.com/schema#> .
-
 
 <#TriplesMap> a rr:TriplesMap ;
 	rml:logicalSource [
@@ -30,17 +26,17 @@
 ] .
 
 <#TriplesMap> rr:predicateObjectMap [
-	rr:predicate coua:classname ;
+	rr:predicate coua:name ;
 	rr:objectMap [
-		rml:reference "classname" ;
+		rml:reference "@name" ;
 		rr:termType rml:Literal
 	]
 ] .
 
 <#TriplesMap> rr:predicateObjectMap [
-	rr:predicate coua:timestamp ;
+	rr:predicate coua:classname ;
 	rr:objectMap [
-		rml:reference "timestamp" ;
+		rml:reference "@classname" ;
 		rr:termType rml:Literal
 	]
 ] .
@@ -48,7 +44,7 @@
 <#TriplesMap> rr:predicateObjectMap [
 	rr:predicate coua:time ;
 	rr:objectMap [
-		rml:reference "time" ;
+		rml:reference "@time" ;
 		rr:termType rml:Literal
 	]
 ] .
@@ -73,8 +69,7 @@
 <#TriplesMap> rml:predicateObjectMap [
 	rr:predicate coua:covers ;
 	rr:objectMap [
-		rml:reference "properties/property/@value" ;
-		rr:termType rml:Literal
+		rr:template "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/requirements#{properties/property/@value}"
 	]
 ] .
 

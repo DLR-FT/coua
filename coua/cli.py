@@ -1,37 +1,16 @@
 import sys
 
-from pathlib import Path
 from pyoxigraph import Store
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDFS
 
-from coua.input import load_junit_xml, load_test_trace
+from coua.input import load_test_trace
 from coua.ontologies import DO178C, load_ontologies
 from coua.exceptions import CouaException
 
 import logging
 
 logger = logging.getLogger(__name__)
-
-
-def convert_junit():
-    """Transforms a JUnit test output file (junit.xml) into Turtle triples.
-
-    Gets path to the input XML file (.xml) and output turtle file (.ttl) from
-    the command line. Creates config for morph_kgc with path to the RML
-    mapping file and path to the XML file to transform. The resulting graph is
-    then printed to the output turtle file.
-    """
-
-    junit = sys.argv[1:-1]
-    out = sys.argv[-1]
-
-    graph = Graph()
-    for f in junit:
-        load_junit_xml(graph, Path(f))
-
-    with open(out, "w") as out:
-        graph.print(format="turtle", out=out)
 
 
 def convert_cargo_requirements():

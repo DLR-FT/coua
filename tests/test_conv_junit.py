@@ -1,18 +1,31 @@
-from coua.input import load_junit_xml
+import morph_kgc
+
+from pathlib import Path
 from importlib import resources
-from rdflib import Graph, URIRef, Literal
+from rdflib import Graph, URIRef
 from . import res
 
 
+def load_junit_xml(graph: Graph, file: Path):
+    """Loads a JUnit XML file into the store"""
+
+    ms = "mappings/junit.ttl"
+    config = f"[Junit]\nmappings: {ms}\nfile_path: {file}\n"
+    g = morph_kgc.materialize(config)
+    for triple in g:
+        graph.add(triple)
+
+
 class TestConvJunit:
+
     def test_all_subjects_recognized(self, record_property):
         record_property("requirement", "Req21")
 
         xml = resources.files(res).joinpath("valid_junit.xml")
         graph = Graph()
         load_junit_xml(graph, xml)
-
         subjects = list(graph.subjects())
+
         for i in range(1, 10):
             assert URIRef(f"https://llg.cubic.org/docs/junit#testCase{i}") in subjects
 
@@ -25,4 +38,9 @@ class TestConvJunit:
 
         objects = list(graph.objects())
 
-        assert Literal("Req21") in objects
+        assert (
+            URIRef(
+                "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/requirements#Req21"
+            )
+            in objects
+        )

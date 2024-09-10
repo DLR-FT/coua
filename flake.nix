@@ -61,6 +61,7 @@
               attrs = project.renderers.buildPythonPackage { inherit python; };
             in
             python.pkgs.buildPythonPackage attrs;
+
           checks = import ./nix/checks.nix (inputs // { inherit pkgs treefmtEval; });
           devShells.default =
             let
@@ -72,10 +73,12 @@
                 pkgs.nodePackages.prettier
                 pkgs.nixpkgs-fmt
                 pkgs.cocogitto
+                pkgs.python3
                 packages.default # for testing itself
                 packages.default.passthru.optional-dependencies.test
                 pythonEnv
                 pkgs.ruff-lsp
+                python.pkgs.pythonPackages.morph-kgc
                 python.pkgs.pythonPackages.pylsp-rope
                 python.pkgs.pythonPackages.python-lsp-ruff
                 python.pkgs.pythonPackages.python-lsp-server

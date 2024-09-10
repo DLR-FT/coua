@@ -37,7 +37,7 @@ html_static_path = ["_static"]
 
 coua_load = [
     # ("cargo-requirements.ttl", "text/turtle"),
-    ("junit.ttl", "text/turtle"),
+    ("imported.nt", "application/n-triples"),
     ("manifest.ttl", "text/turtle"),
     ("requirements.ttl", "text/turtle"),
     ("use-cases.ttl", "text/turtle"),

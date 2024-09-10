@@ -60,7 +60,6 @@ markers = [
 disable_error_code = "import-untyped"
 
 [project.scripts]
-coua-conv-junit = "coua:convert_junit"
 coua-conv-cargo-requirements = "coua:convert_cargo_requirements"
 coua-gen-do178c = "coua:gen_do178c_bindings"
 coua-check-do178c = "coua:run_check_do178c"

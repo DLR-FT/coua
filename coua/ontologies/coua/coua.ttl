@@ -166,7 +166,7 @@ coua:extension a owl:DatatypeProperty ;
 
 coua:project a owl:DatatypeProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
-	rdfs:label "classname" ;
+	rdfs:label "Project" ;
 	rdfs:range rdf:Literal ;
 	rdfs:domain coua:TestCase .
 

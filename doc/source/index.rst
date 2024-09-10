@@ -29,7 +29,7 @@ Adding new import commands
 
    * Add function name to list in `pyproject.toml`.
 
-#. Add mapping file to `coua/mappings/`.
+#. Add mapping file to `mappings/`.
 
 #. Add name of generated TTL file in `doc/source/conf.py`.
 
