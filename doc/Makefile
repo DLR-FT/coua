@@ -17,4 +17,7 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
+	cd .. && pytest --junit-xml=junit.xml --cov --cov-report term --cov-report xml:coverage.xml
+	coua-conv-junit ../junit.xml source/junit.ttl
+	coua-check-do178c source/*.ttl
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

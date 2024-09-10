@@ -72,6 +72,7 @@
                 pkgs.nodePackages.prettier
                 pkgs.nixpkgs-fmt
                 pkgs.cocogitto
+                packages.default # for testing itself
                 packages.default.passthru.optional-dependencies.test
                 pythonEnv
                 pkgs.ruff-lsp

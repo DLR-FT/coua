@@ -37,3 +37,6 @@ __pycache__/
 
 junit.xml
 doc/source/junit.ttl
+
+.coverage
+coverage.xml

@@ -29,6 +29,11 @@ if "%1" == "" goto help
 goto end
 
 :help
+CD ..
+pytest --junit-xml=junit.xml --cov --cov-report term --cov-report xml:coverage.xml
+coua-conv-junit junit.xml doc/source/junit.ttl
+coua-check-do178c doc/source/%%.ttl
+CD doc
 %SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 
 :end
