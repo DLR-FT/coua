@@ -4,73 +4,722 @@
 @prefix rml: <http://w3id.org/rml/> .
 @prefix ql: <http://semweb.mmlab.be/ns/ql#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix junit: <https://llg.cubic.org/docs/junit#> .
 
-<#TriplesMap> a rr:TriplesMap ;
+<#TestsuitesMap> a rr:TriplesMap ;
 	rml:logicalSource [
-		# May be overridden using file_path config option of morph-kgc
 		rml:source "junit.xml" ;
-		rml:refereceFormulation ql:XPath ;
-		rml:iterator "/testsuites/descendant::testsuite/testcase"
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuites[@name]" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuites/{@name}" ;
+		rml:class junit:testsuites ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:name;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:errors;
+		rr:objectMap [
+			rml:reference "@errors" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:failures;
+		rr:objectMap [
+			rml:reference "@failures" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:tests;
+		rr:objectMap [
+			rml:reference "@tests" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:time;
+		rr:objectMap [
+			rml:reference "@time" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasTestsuite;
+		rr:objectMap [
+			rr:parentTriplesMap <#TestsuiteMap> ;
+			rr:joinCondition [
+				rr:child "testsuite" ;
+				rr:parent "." ;
+			];
+		] ;
 	] .
 
-<#TriplesMap> rr:subjectMap [
-	rr:template "https://llg.cubic.org/docs/junit#{@name}"
-] .
+<#TestsuiteDisabledMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@disabled]" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:disabled ;
+		rr:objectMap [
+			rml:reference "@disabled" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
 
-<#TriplesMap> rr:predicateObjectMap [
-	rr:predicate rdf:type ;
-	rr:objectMap [
-		rr:constant coua:TestCase
-	]
-] .
+<#TestsuiteMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:name;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:time;
+		rr:objectMap [
+			rml:reference "@time" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
 
-<#TriplesMap> rr:predicateObjectMap [
-	rr:predicate coua:name ;
-	rr:objectMap [
-		rml:reference "@name" ;
-		rr:termType rml:Literal
-	]
-] .
+<#TestsuiteExtMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@name and @hostname]" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:tests;
+		rr:objectMap [
+			rml:reference "@tests" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:errors;
+		rr:objectMap [
+			rml:reference "@errors" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:failures ;
+		rr:objectMap [
+			rml:reference "@failures" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hostname ;
+		rr:objectMap [
+			rml:reference "@hostname" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:timestamp ;
+		rr:objectMap [
+			rml:reference "@timestamp" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasTestCase ;
+		rr:objectMap [
+			rr:parentTriplesMap <#TestcaseMap> ;
+			rr:joinCondition [
+				rr:child "testcase" ;
+				rr:parent "." ;
+			] ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasProperty ;
+		rr:objectMap [
+			rr:parentTriplesMap <#TestsuitePropertyMap> ;
+			rr:joinCondition [
+				rr:child "properties/property" ;
+				rr:parent "." ;
+			] ;
+		] ;
+	] .
 
-<#TriplesMap> rr:predicateObjectMap [
-	rr:predicate coua:classname ;
-	rr:objectMap [
-		rml:reference "@classname" ;
-		rr:termType rml:Literal
-	]
-] .
+# <#TestsuiteMap> a rr:TriplesMap ;
+# 	rml:logicalSource [
+# 		rml:source "junit.xml" ;
+# 		rml:referenceFormulation ql:XPath ;
+# 		rml:iterator "//testsuite[system-out]" ;
+# 	] ;
+# 	rr:subjectMap [
+# 		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+# 		rml:class junit:testsuite ;
+# 	] ;
+# 	rr:predicateObjectMap [
+# 		rr:predicate junit:system-out ;
+# 		rr:objectMap [
+# 			rr:reference "system-out" ;
+# 			rr:termType rml:Literal ;
+# 		] ;
+# 	] ;
+# 	rr:predicateObjectMap [
+# 		rr:predicate junit:system-err ;
+# 		rr:objectMap [
+# 			rr:reference "system-err" ;
+# 			rr:termType rml:Literal ;
+# 		] ;
+# 	] .
 
-<#TriplesMap> rr:predicateObjectMap [
-	rr:predicate coua:time ;
-	rr:objectMap [
-		rml:reference "@time" ;
-		rr:termType rml:Literal
-	]
-] .
+<#TestcasePackageMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@package]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+		rml:class junit:testcase ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:package ;
+		rr:objectMap [
+			rml:reference "@package" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
 
-<#TriplesMap> rml:predicateObjectMap [
-	rr:predicate coua:failureType ;
-	rr:objectMap [
-		rml:reference "failure/@type" ;
-		rr:termType rml:Literal
-	]
-] .
+<#TestcaseStatusMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@status]"
+	] ;
 
-# Text of the failure (e.g. output of cargo with panic at line ...)
-<#TriplesMap> rml:predicateObjectMap [
-	rr:predicate coua:testFailureDescription ;
-	rr:objectMap [
-		rml:reference "failure" ;
-		rr:termType rml:Literal
-	]
-] .
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+		rml:class junit:testcase ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:status ;
+		rr:objectMap [
+			rml:reference "@status" ;
+			rr:termType rml:Literal
+		]
+	] .
 
-<#TriplesMap> rml:predicateObjectMap [
-	rr:predicate coua:covers ;
-	rr:objectMap [
-		rr:template "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/requirements#{properties/property/@value}"
-	]
-] .
+<#TestcaseSkippedMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and skipped]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/skipped" ;
+		rml:class junit:skipped;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "skipped/@message" ;
+			rr:termType rml:Literal
+		]
+	] .
 
-# TODO import system-out, system-err?
+<#TestcaseSkippedTypeMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and skipped[@type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/skipped" ;
+		rml:class junit:skipped;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "skipped/@type" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseRerunFailureMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and rerunFailure]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/rerunFailure" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "rerunFailure@message" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseRerunFailureTypeMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and rerunFailure[@type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/rerunFailure" ;
+		rml:class junit:rerunFailure;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "rerunFailure@type" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseFlakyFailureMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and flakyFailure]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/flakyFailure" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "flakyFailure@message" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseFlakyFailureTypeMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and flakyFailure[@type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/flakyFailure" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "flakyFailure@type" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseFlakyErrorMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and flakyError]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/flakyError" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "flakyError@message" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseFlakyErrorTypeMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and flakyError[@type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/flakyError[@type]" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "flakyError@type" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseRerunErrorMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and rerunError]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/rerunError" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "rerunError@message" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseRerunErrorMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and rerunError[@type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/rerunError" ;
+		rml:class junit:rerunType;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "rerunError@type" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+		rml:class junit:testcase ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:name ;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:classname ;
+		rr:objectMap [
+			rml:reference "@classname" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:time ;
+		rr:objectMap [
+			rml:reference "@time" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasFailure;
+		rr:objectMap [
+			rr:parentTriplesMap <#FailureMap> ;
+			rr:joinCondition [
+				rr:child "failure" ;
+				rr:parent "." ;
+			];
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasProperty;
+		rr:objectMap [
+			rr:parentTriplesMap <#TestcasePropertyMap> ;
+			rr:joinCondition [
+				rr:child "hasProperty" ;
+				rr:parent "." ;
+			];
+		] ;
+	] .
+
+#<#TestcaseSystem-outMap> a rr:TriplesMap ;
+#	rml:logicalSource [
+#		rml:source "junit.xml" ;
+#		rml:referenceFormulation ql:XPath ;
+#		rml:iterator "//testcase[@name and system-out]"
+#	] ;
+#	rr:subjectMap [
+#		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+#		rml:class junit:testcase ;
+#	] ;
+#	rr:predicateObjectMap [
+#		rr:predicate junit:system-out ;
+#		rr:objectMap [
+#			rr:reference "system-out" ;
+#			rr:termType rml:Literal ;
+#		] ;
+#	] .
+#
+#<#TestcaseSystem-errMap> a rr:TriplesMap ;
+#	rml:logicalSource [
+#		rml:source "junit.xml" ;
+#		rml:referenceFormulation ql:XPath ;
+#		rml:iterator "//testcase[@name and system-err]"
+#	] ;
+#	rr:subjectMap [
+#		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+#		rml:class junit:testcase ;
+#	] ;
+#	rr:predicateObjectMap [
+#		rr:predicate junit:system-err ;
+#		rr:objectMap [
+#			rr:reference "system-err" ;
+#			rr:termType rml:Literal ;
+#		] ;
+#	] .
+
+<#TestcaseGroupMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and @group]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+		rml:class junit:testcase ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:group;
+		rr:objectMap [
+			rml:reference "@group" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuiteGroupMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@name and @group]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:group;
+		rr:objectMap [
+			rml:reference "@group" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuiteFileMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@name and @file]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:file;
+		rr:objectMap [
+			rml:reference "@file";
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuiteLogMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and @log]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:log;
+		rr:objectMap [
+			rml:reference "@log" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuiteUrlMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and @url]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:url;
+		rr:objectMap [
+			rml:reference "@url" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuiteVersionMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@name and @version]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}" ;
+		rml:class junit:testsuite ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:version;
+		rr:objectMap [
+			rml:reference "@version" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#TestsuitePropertyMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testsuite[@name and properties/property]" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testsuite/{@name}/properties/{properties/property/@name}" ;
+		rml:class junit:property ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:name ;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:value ;
+		rr:objectMap [
+			rml:reference "@value" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcasePropertyMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name]/properties/property" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/properties/{@name}" ;
+		rml:class junit:property ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:name ;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:value ;
+		rr:objectMap [
+			rml:reference "@value" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#TestcaseFailureMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and failure]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/failure" ;
+		rml:class junit:failure;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:hasFailure ;
+		rr:objectMap [
+			rr:parentTriplesMap <#FailureMap> ;
+			rr:joinCondition [
+				rr:child "failure" ;
+				rr:parent "." ;
+			];
+		] ;
+	] .
+
+<#FailureMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and failure[@message and @type]]"
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}/failure" ;
+		rml:class junit:failure;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:type ;
+		rr:objectMap [
+			rml:reference "failure@type" ;
+			rr:termType rml:Literal
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:message ;
+		rr:objectMap [
+			rml:reference "failure@message" ;
+			rr:termType rml:Literal
+		]
+	] .
+
+<#CoversMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "junit.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//testcase[@name and properties/property[@name=\"requirement\"]]" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://llg.cubic.org/docs/junit#testcase/{@name}" ;
+		rml:class junit:testcase ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate junit:requirement ;
+		rr:objectMap [
+			rml:reference "properties/property@value" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .

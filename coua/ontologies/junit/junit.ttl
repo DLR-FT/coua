@@ -1,0 +1,244 @@
+@prefix junit: <https://llg.cubic.org/docs/junit#> .
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://llg.cubic.org/docs/junit#> a owl:Ontology ;
+	dc:title "JUnit schema" .
+
+junit:testcase a owl:Class ;
+	rdfs:comment "Testcase" ;
+	rdfs:label "Testcase" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:testsuites a owl:Class ;
+	rdfs:comment "Collection of testsuites" ;
+	rdfs:label "testsuites" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:errors a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "errors" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuites .
+
+junit:failures a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "failures" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuites .
+
+junit:tests a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "tests" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuites .
+
+junit:time a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "time" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase ;
+	rdfs:domain junit:testsuite ;
+	rdfs:domain junit:testsuites .
+
+junit:testsuite a owl:Class ;
+	rdfs:label "testsuite" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:disabled a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "disabled" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:name a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "name" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase ;
+	rdfs:domain junit:testsuites ;
+	rdfs:domain junit:property ;
+	rdfs:domain junit:testsuite .
+
+junit:tests a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "tests" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:hostname a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "hostname" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:timestamp a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "timestamp" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:hasTestCase a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "testcase" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:hasProperty a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "property" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:status a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "status" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase .
+
+junit:package a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "package" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase .
+
+junit:skipped a owl:Class ;
+	rdfs:comment "skipped" ;
+	rdfs:label "skipped" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:rerunFailure a owl:Class ;
+	rdfs:comment "rerunFailure" ;
+	rdfs:label "rerunFailure" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:rerunError a owl:Class ;
+	rdfs:comment "rerunError" ;
+	rdfs:label "rerunError" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:flakyFailure a owl:Class ;
+	rdfs:comment "flakyFailure" ;
+	rdfs:label "flakyFailure" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:flakyFailure a owl:Class ;
+	rdfs:comment "flakyFailure" ;
+	rdfs:label "flakyFailure" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:flakyError a owl:Class ;
+	rdfs:comment "flakyError" ;
+	rdfs:label "flakyError" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:message a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "message" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:failure ;
+	rdfs:domain junit:flakyFailure ;
+	rdfs:domain junit:flakyError ;
+	rdfs:domain junit:rerunFailure ;
+	rdfs:domain junit:rerunError ;
+	rdfs:domain junit:skipped .
+
+junit:type a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "type" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:failure ;
+	rdfs:domain junit:flakyFailure ;
+	rdfs:domain junit:flakyError ;
+	rdfs:domain junit:rerunFailure ;
+	rdfs:domain junit:rerunError ;
+	rdfs:domain junit:skipped .
+
+junit:classname a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "classname" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase .
+
+junit:hasFailure a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "failure" ;
+	rdfs:range junit:failure ;
+	rdfs:domain junit:testcase .
+
+junit:hasProperty a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "hasProperty" ;
+	rdfs:range junit:property ;
+	rdfs:domain junit:testcase .
+
+junit:group a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "group" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite ;
+	rdfs:domain junit:testcase .
+
+junit:file a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "file" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:log a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "log" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:url a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "url" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:version a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "version" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testsuite .
+
+junit:property a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "property" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase ;
+	rdfs:domain junit:testsuite .
+
+junit:value a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "property" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:property .
+
+junit:failure a owl:Class ;
+	rdfs:comment "failure" ;
+	rdfs:label "failure" ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> .
+
+junit:requirement a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://llg.cubic.org/docs/junit#> ;
+	rdfs:label "Traces" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain junit:testcase .
+
+# A test case covers a requirement
+# Another form of coverage would be structural source code coverage
+# Not to be confused with tracing!
+# Structural code coverage is provided by the cobertura output while the JUnit output is only used for mapping test cases to requirements
+# Tracing of source code is done for each source code location as a result of needy's output
+#         Coverage event
+#        /            \
+#   Requirement       (TestCase|Location)
+# Technically the range is "rdfs:Literal", so this maybe makes no sense?
+junit:testcase rdfs:subClassOf do178c:TestCase .
+junit:requirement rdfs:subPropertyOf do178c:covers ;
+	rdfs:subPropertyOf do178c:requirementId .

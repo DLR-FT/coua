@@ -1,0 +1,53 @@
+[
+  {
+    "file": "file:///home/urhengulas/Documents/github.com/ferrocene/cargo-needy/cargo-needy/tests/test-crate/src/main.rs",
+    "function_name": "test_main",
+    "module": "test_crate",
+    "requirement_id": "REQ_001",
+    "span": {
+      "start": {
+        "line": 10,
+        "character": 22
+      },
+      "end": {
+        "line": 10,
+        "character": 29
+      }
+    },
+    "version": "v1"
+  },
+  {
+    "file": "file:///home/urhengulas/Documents/github.com/ferrocene/cargo-needy/cargo-needy/tests/test-crate/tests/it_works.rs",
+    "function_name": "it_works",
+    "module": "it_works",
+    "requirement_id": "REQ_002",
+    "span": {
+      "start": {
+        "line": 0,
+        "character": 35
+      },
+      "end": {
+        "line": 0,
+        "character": 42
+      }
+    },
+    "version": "v1"
+  },
+  {
+    "file": "file:///home/urhengulas/Documents/github.com/ferrocene/cargo-needy/cargo-needy/tests/test-crate/tests/it_works.rs",
+    "function_name": "it_works",
+    "module": "it_works",
+    "requirement_id": "REQ_003",
+    "span": {
+      "start": {
+        "line": 0,
+        "character": 44
+      },
+      "end": {
+        "line": 0,
+        "character": 51
+      }
+    },
+    "version": "v1"
+  }
+]

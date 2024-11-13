@@ -1,0 +1,99 @@
+@prefix needy: <https://github.com/ferrocence/needy#> .
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+needy: a owl:Ontology ;
+	dc:title "Needy output schema" .
+
+needy:Event a owl:Class ;
+	rdfs:comment "Event emitted by needy" ;
+	rdfs:label "Event" ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> .
+
+needy:Location a owl:Class ;
+	rdfs:comment "Location inside a file" ;
+	rdfs:label "Location" ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> .
+
+needy:Span a owl:Class ;
+	rdfs:comment "Span inside a file" ;
+	rdfs:label "Span" ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> .
+
+needy:file a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "file" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Event .
+
+needy:function_name a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "function_name" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Event .
+
+needy:module a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "module" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Event .
+
+needy:requirement_id a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "requirement_id" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Event .
+
+needy:span a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "span" ;
+	rdfs:range needy:Span ;
+	rdfs:domain needy:Event .
+
+needy:location a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "location" ;
+	rdfs:range needy:Location ;
+	rdfs:domain needy:Span .
+
+needy:line a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "line" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Location .
+
+needy:character a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "character" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Location .
+
+needy:version a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "version" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain needy:Event .
+
+needy:start a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "start" ;
+	rdfs:range needy:Location  ;
+	rdfs:domain needy:Span .
+
+needy:end a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://github.com/ferrocene/needy#> ;
+	rdfs:label "end" ;
+	rdfs:range needy:Location  ;
+	rdfs:domain needy:Span .
+
+# Each event emitted by needy traces a location in the source code to a requirement
+#         Event
+#        /     \
+#   Location  Requirement
+needy:Event rdfs:subClassOf do178c:TraceData .
+needy:Location rdfs:subClassOf do178c:Location .
+needy:location rdfs:subPropertyOf do178c:traces .
+needy:requirement_id rdfs:subPropertyOf do178c:requirementId .

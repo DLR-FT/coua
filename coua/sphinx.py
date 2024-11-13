@@ -62,6 +62,13 @@ class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
     ontology = DO178C
     query_path_seqment = "tracability_matrix.rq"
     dimension_x = "Requirement"
+    dimension_y = "Location"
+
+
+class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
+    ontology = DO178C
+    query_path_seqment = "coverage_matrix.rq"
+    dimension_x = "Requirement"
     dimension_y = "TestCase"
 
 
@@ -74,6 +81,7 @@ class CouaDomain(Domain):
     directives = {
         "requirements_list": CouaDO178CRequirementsList,
         "tracability_matrix": CouaDO178CTracabilityMatrix,
+        "coverage_matrix": CouaDO178CCoverageMatrix,
     }
 
     @property

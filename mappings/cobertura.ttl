@@ -1,0 +1,439 @@
+# Based off https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd
+
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://w3id.org/rml/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+@prefix c: <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
+
+<#CoverageMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "/coverage"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#coverage/{@timestamp}" ;
+		rr::class c:coverage
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:timestamp ;
+		rr:objectMap [
+			rml:reference "@timestamp" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:version ;
+		rr:objectMap [
+			rml:reference "@version" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:lines_valid;
+		rr:objectMap [
+			rml:reference "@lines-valid" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:lines_covered;
+		rr:objectMap [
+			rml:reference "@lines-covered" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:line_rate;
+		rr:objectMap [
+			rml:reference "@line-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch_rate;
+		rr:objectMap [
+			rml:reference "@branch-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branches_covered;
+		rr:objectMap [
+			rml:reference "@branches-covered" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branches_valid;
+		rr:objectMap [
+			rml:reference "@branches-valid" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:complexity;
+		rr:objectMap [
+			rml:reference "@complexity" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasSource;
+		rr:objectMap [
+			rr:parentTriplesMap <#SourceMap> ;
+			rr:joinCondition [
+				rr:child "sources/source" ;
+				rr:parent "." ;
+			];
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasPackage;
+		rr:objectMap [
+			rr:parentTriplesMap <#PackageMap> ;
+			rr:joinCondition [
+				rr:child "packages/package" ;
+				rr:parent "." ;
+			];
+		] ;
+	] .
+
+<#SourceMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//sources/source"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#source/{.}" ;
+		rr::class c:source
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:path;
+		rr:objectMap [
+			rml:reference "." ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#PackageMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//packages/package"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#package/{@name}" ;
+		rr:class c:package ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:name;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate c:line_rate;
+		rr:objectMap [
+			rml:reference "@line-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch_rate;
+		rr:objectMap [
+			rml:reference "@branch-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:complexity;
+		rr:objectMap [
+			rml:reference "@complexity" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasClass ;
+		rr:objectMap [
+			rr:parentTriplesMap <#ClassMap> ;
+			rr:joinCondition [
+				rr:child "classes/class" ;
+				rr:parent "." ;
+			];
+		] ;
+	] .
+
+<#ClassMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//classes/class"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#class/{@name}" ;
+		rr:class c:class ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:name ;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:filename;
+		rr:objectMap [
+			rml:reference "@filename" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:complexity;
+		rr:objectMap [
+			rml:reference "@complexity" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:line_rate ;
+		rr:objectMap [
+			rml:reference "@line-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch_rate ;
+		rr:objectMap [
+			rml:reference "@branch-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasLine ;
+		rr:objectMap [
+			rr:parentTriplesMap <#LineMap> ;
+			rr:joinCondition [
+				rr:child "lines/line" ;
+				rr:parent "." ;
+			]
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasMethod ;
+		rr:objectMap [
+			rr:parentTriplesMap <#MethodMap> ;
+			rr:joinCondition [
+				rr:child "methods/method" ;
+				rr:parent "." ;
+			];
+		];
+	] .
+
+<#MethodMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//methods/method"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#method/{@name}" ;
+		rr:class c:method ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:name ;
+		rr:objectMap [
+			rml:reference "@name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:signature ;
+		rr:objectMap [
+			rml:reference "@signature" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:line_rate ;
+		rr:objectMap [
+			rml:reference "@line-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch_rate ;
+		rr:objectMap [
+			rml:reference "@branch-rate" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasLine;
+		rr:objectMap [
+			rr:parentTriplesMap <#LineMap> ;
+			rr:joinCondition [
+				rr:parent "lines/line" ;
+				rr:child "." ;
+			];
+		] ;
+	] .
+
+<#LineMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//lines/line"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:class c:line ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:number ;
+		rr:objectMap [
+			rml:reference "@number" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hits ;
+		rr:objectMap [
+			rml:reference "@hits" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasCondition;
+		rr:objectMap [
+			rr:parentTriplesMap <#ConditionMap> ;
+			rr:joinCondition [
+				rr:child "conditions/condition" ;
+				rr:parent "." ;
+			];
+		] ;
+	]
+.
+
+<#ConditionCoverageMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//lines/line[@condition-coverage]"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:class c:line ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:condition_coverage;
+		rr:objectMap [
+			rml:reference "@condition-coverage" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#BranchMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "//lines/line[@branch]"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:class c:line ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch;
+		rr:objectMap [
+			rml:reference "@branch" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#ConditionMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "coverage.xml" ;
+		rml:referenceFormulation ql:XPath;
+		rml:iterator "condition"
+	] ;
+
+	rr:subjectMap [
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#condition/{@number}" ;
+		rr:class c:condition ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:number ;
+		rr:objectMap [
+			rml:reference "@number" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hits ;
+		rr:objectMap [
+			rml:reference "@hits" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:branch ;
+		rr:objectMap [
+			rml:reference "@branch" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate c:hasCoverage ;
+		rr:objectMap [
+			rml:reference "@coverage" ;
+		] ;
+	]
+.

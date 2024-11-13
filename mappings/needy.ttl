@@ -1,0 +1,121 @@
+# RML mappings for cargo-needy events, converted into a JSON array
+
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://w3id.org/rml/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix needy: <https://github.com/ferrocence/needy#> .
+
+<#NeedyMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "needy.json" ;
+		rml:referenceFormulation ql:JSONPath ;
+		rml:iterator "$.*" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://github.com/ferrocene/needy#{module}::{function_name}/{requirement_id}" ;
+		rml:class needy:event ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:file ;
+		rr:objectMap [
+			rml:reference "file" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:function_name;
+		rr:objectMap [
+			rml:reference "function_name" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:module;
+		rr:objectMap [
+			rml:reference "module" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:requirement_id ;
+		rr:objectMap [
+			rml:reference "requirement_id" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:span;
+		rr:objectMap [
+			rr:parentTriplesMap <#SpanMap> ;
+			rr:joinCondition [
+				rr:child "span" ;
+				rr:parent "." ;
+			];
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:version ;
+		rr:objectMap [
+			rml:reference "version" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+
+<#SpanMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "needy.json" ;
+		rml:referenceFormulation ql:JSONPath ;
+		rml:iterator "*.span" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://github.com/ferrocene/needy#{file}:{span.start.line},{span.start.character}-{span.end.line},{span.end.character}" ;
+		rml:class needy:span ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:start ;
+		rr:objectMap [
+			rr:parentTriplesMap <#LocationMap> ;
+			rr:joinCondition [
+				rr:child "start" ;
+				rr:parent "." ;
+			];
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:end ;
+		rr:objectMap [
+			rr:parentTriplesMap <#LocationMap> ;
+			rr:joinCondition [
+				rr:child "end" ;
+				rr:parent "." ;
+			];
+		] ;
+	] .
+
+<#LocationMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		rml:source "needy.json" ;
+		rml:referenceFormulation ql:JSONPath ;
+		rml:iterator "*.span.start,end" ;
+	] ;
+	rr:subjectMap [
+		rr:template "https://github.com/ferrocene/needy#{file}:{line},{character}" ;
+		rml:class needy:location ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:line ;
+		rr:objectMap [
+			rml:reference "line" ;
+			rr:termType rml:Literal ;
+		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate needy:character ;
+		rr:objectMap [
+			rml:reference "character" ;
+			rr:termType rml:Literal ;
+		] ;
+	] .
+

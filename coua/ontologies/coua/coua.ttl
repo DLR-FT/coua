@@ -29,9 +29,7 @@ coua:covers a owl:ObjectProperty ;
 coua:name a owl:DatatypeProperty ;
 	rdfs:comment "Test case name" ;
 	rdfs:label "Name" ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
-	rdfs:domain coua:TestCase ;
-	rdfs:range rdfs:Literal .
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
 
 coua:requires a owl:ObjectProperty ;
 	rdfs:comment "The product references a requirement" ;
@@ -204,3 +202,4 @@ coua:Requirement rdfs:subClassOf do178c:Requirement .
 coua:TestCase rdfs:subClassOf do178c:TestCase .
 coua:covers rdfs:subPropertyOf do178c:covers .
 coua:requires rdfs:subPropertyOf do178c:requires .
+coua:requirementId rdfs:subPropertyOf do178c:requirementId .

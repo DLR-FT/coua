@@ -1,0 +1,184 @@
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix cobertura: <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
+
+cobertura: a owl:Ontology ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	dc:title "Cobertura output schema" .
+
+cobertura:coverage a owl:Class ;
+	rdfs:label "Coverage" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
+
+cobertura:condition a owl:Class ;
+	rdfs:label "condition" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/condition-04.dtd#> .
+
+cobertura:line a owl:Class ;
+	rdfs:label "line" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
+
+cobertura:method a owl:Class ;
+	rdfs:label "method" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
+
+
+cobertura:package a owl:Class ;
+	rdfs:label "package" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
+
+cobertura:source a owl:Class ;
+	rdfs:label "source" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
+
+cobertura:branch a owl:Class ;
+	rdfs:label "branch" ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
+
+c:branches_covered a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "branches_covered" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:branches_valid a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "branches_valid" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:branch_rate a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "branch_rate" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:branch_rate a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "branch_rate" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:complexity a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "complexity" ;
+	rdfs:domain c:coverage ;
+	rdfs:domain c:package ;
+	rdfs:domain c:class ;
+	rdfs:range rdfs:Literal .
+
+c:hasCoverage a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasCoverage" ;
+	rdfs:domain c:line ;
+	rdfs:range rdfs:Literal .
+
+c:filename a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "filename" ;
+	rdfs:domain c:class ;
+	rdfs:range rdfs:Literal .
+
+c:hasClass a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasClass" ;
+	rdfs:domain c:package ;
+	rdfs:range c:class .
+
+c:hasCondition a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasCondition" ;
+	rdfs:domain c:line ;
+	rdfs:range c:condition .
+
+c:hasLine a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasLine" ;
+	rdfs:domain c:class ;
+	rdfs:domain c:method ;
+	rdfs:range c:line .
+
+
+c:hasMethod a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasMethod" ;
+	rdfs:domain c:class ;
+	rdfs:range rdfs:method .
+
+c:hasSource a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasSource" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:source .
+
+c:hasPackage a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hasPackage" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Package .
+
+c:hits a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "hits" ;
+	rdfs:domain c:hits ;
+	rdfs:domain c:condition ;
+	rdfs:range rdfs:Literal .
+
+c:line_rate a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "line_rate" ;
+	rdfs:domain c:coverage ;
+	rdfs:domain c:package ;
+	rdfs:domain c:class ;
+	rdfs:domain c:method ;
+	rdfs:range rdfs:Literal .
+
+c:lines_covered a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "lines_covered" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:lines_valid a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "lines_valid" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .
+
+c:name a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "name" ;
+	rdfs:domain c:package ;
+	rdfs:domain c:class ;
+	rdfs:domain c:method ;
+	rdfs:range rdfs:Literal .
+
+c:number a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "number" ;
+	rdfs:domain c:line ;
+	rdfs:domain c:condition ;
+	rdfs:range rdfs:Literal .
+
+
+c:path a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "path" ;
+	rdfs:domain c:source ;
+	rdfs:range rdfs:Literal .
+
+
+c:signature a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "signature" ;
+	rdfs:domain c:method ;
+	rdfs:range rdfs:Literal .
+
+c:timestamp a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
+	rdfs:label "timestamp" ;
+	rdfs:domain c:coverage ;
+	rdfs:range rdfs:Literal .

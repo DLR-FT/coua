@@ -28,9 +28,6 @@ junit-release.xml
 
 out/
 
-# Output files of queries
-*.json
-
 venv/
 
 __pycache__/

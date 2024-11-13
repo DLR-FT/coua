@@ -8,7 +8,7 @@ WHERE
   ?reqclass rdfs:subClassOf do178c:Requirement .
   ?req a ?reqclass .
   ?req coua:description ?Description .
-  ?req coua:id ?Requirement .
+  ?req coua:requirementId ?Requirement .
   OPTIONAL { ?req coua:rationale ?Rationale }
 }
 ORDER BY ?Requirement
