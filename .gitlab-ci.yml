@@ -29,7 +29,7 @@ mypy:
 test:
   stage: test
   script:
-    - nix develop --command pytest --junit-xml=junit.xml --cov --cov-report term --cov-report xml:coverage.xml
+    - nix develop --command pytest --junit-xml=junit.xml --cov=coua --cov-report term --cov-report xml:coverage.xml
   artifacts:
     paths:
       [junit.xml]
