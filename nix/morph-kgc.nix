@@ -11,6 +11,7 @@
   pythonRelaxDepsHook,
   rdflib,
   ruamel-yaml,
+  sqlalchemy,
 }:
 buildPythonPackage rec {
   pname = "morph-kgc";
@@ -33,6 +34,7 @@ buildPythonPackage rec {
     pyoxigraph
     rdflib
     ruamel-yaml
+    sqlalchemy
   ];
   pythonRelaxDeps = [ "ruamel-yaml" ];
 }
