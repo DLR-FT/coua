@@ -1,0 +1,51 @@
+@prefix rml: <http://w3id.org/rml/> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix mantra: <https://github.com/mhatzl/mantra/0.2.14#> .
+
+<#RequirementsMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		a rml:LogicalSource ;
+		rr:sqlVersion rr:SQL2008 ;
+		rr:tableName "Requirements" ;
+	] ;
+	rml:subjectMap [
+		rr:template "https://github.com/mhatzl/mantra/0.2.14#requirement/{id}" ;
+		rr::class mantra:Requirement
+	] ;
+	rml:predicateObjectMap [
+		rr:predicate mantra:id ;
+		rr:objectMap [ rr:column "id" ; ]
+	] ;
+	rml:predicateObjectMap [
+		rr:predicate mantra:title ;
+		rr:objectMap [ rr:column "title" ; ]
+	] .
+
+<#TracesMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		a rml:LogicalSource ;
+		rr:sqlVersion rr:SQL2008 ;
+		rr:tableName "Traces" ;
+	] ;
+	rml:subjectMap [
+		rr:template "https://github.com/mhatzl/mantra/0.2.14#trace/{filepath}:{line}" ;
+		rr::class mantra:Trace
+	] ;
+	rml:predicateObjectMap [
+		rr:predicate mantra:requirement ;
+		rr:objectMap [
+            rr:parentTriplesMap <#RequirementsMap>;
+            rr:joinCondition [
+                rr:child "req_id";
+                rr:parent "id";
+            ];
+        ];
+	] ;
+	rml:predicateObjectMap [
+		rr:predicate mantra:filepath ;
+		rr:objectMap [ rr:column "filepath" ; ]
+	] ;
+	rml:predicateObjectMap [
+		rr:predicate mantra:line ;
+		rr:objectMap [ rr:column "line" ; ]
+	] .
