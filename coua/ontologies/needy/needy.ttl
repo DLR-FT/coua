@@ -95,5 +95,5 @@ needy:end a owl:DatatypeProperty ;
 #   Location  Requirement
 needy:Event rdfs:subClassOf do178c:TraceData .
 needy:Location rdfs:subClassOf do178c:Location .
-needy:location rdfs:subPropertyOf do178c:traces .
-needy:requirement_id rdfs:subPropertyOf do178c:requirementId .
+needy:requirement_id rdfs:subPropertyOf do178c:traces .
+needy:location rdfs:subPropertyOf do178c:location .

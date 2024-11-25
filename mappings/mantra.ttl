@@ -42,6 +42,27 @@
         ];
 	] ;
 	rml:predicateObjectMap [
+		rr:predicate mantra:location ;
+		rr:objectMap [
+            rr:parentTriplesMap <#LocationsMap>;
+            rr:joinCondition [
+                rr:child ".";
+                rr:parent ".";
+            ];
+        ];
+	] .
+
+<#LocationsMap> a rr:TriplesMap ;
+	rml:logicalSource [
+		a rml:LogicalSource ;
+		rr:sqlVersion rr:SQL2008 ;
+		rr:tableName "Traces" ;
+	] ;
+	rml:subjectMap [
+		rr:template "https://github.com/mhatzl/mantra/0.2.14#location/{filepath}:{line}" ;
+		rr::class mantra:Location
+	] ;
+	rml:predicateObjectMap [
 		rr:predicate mantra:filepath ;
 		rr:objectMap [ rr:column "filepath" ; ]
 	] ;

@@ -1,4 +1,3 @@
-
 import morph_kgc
 import os
 
@@ -14,7 +13,9 @@ def load_db(graph: Graph, file: Path):
     assert os.path.exists(file)
 
     ms = "mappings/mantra.ttl"
-    config = f"[Mantra]\nmappings: {ms}\ndb_url: sqlite:///{file}\nnumber_of_processes: 1\n"
+    config = (
+        f"[Mantra]\nmappings: {ms}\ndb_url: sqlite:///{file}\nnumber_of_processes: 1\n"
+    )
     g = morph_kgc.materialize(config)
     for triple in g:
         graph.add(triple)

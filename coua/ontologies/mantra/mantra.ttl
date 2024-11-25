@@ -1,0 +1,59 @@
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+@prefix mantra: <https://github.com/mhatzl/mantra/0.2.14#> .
+
+mantra: a owl:Ontology ;
+	dc:title "Mantra output schema" .
+
+mantra:Requirement a owl:Class ;
+	rdfs:label "Requirement" ;
+	rdfs:isDefinedBy mantra:requirement .
+
+mantra:id a owl:DatatypeProperty ;
+	rdfs:isDefinedBy mantra:id ;
+	rdfs:label "id" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain mantra:Requirement .
+
+mantra:title a owl:DatatypeProperty ;
+	rdfs:isDefinedBy mantra:title ;
+	rdfs:label "title" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain mantra:Requirement .
+
+mantra:Trace a owl:Class ;
+	rdfs:label "Trace" ;
+	rdfs:isDefinedBy mantra:Trace .
+
+mantra:filepath a owl:DatatypeProperty ;
+	rdfs:isDefinedBy mantra:filepath ;
+	rdfs:label "filepath" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain mantra:Trace .
+
+mantra:line a owl:DatatypeProperty ;
+	rdfs:isDefinedBy mantra:line ;
+	rdfs:label "line" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain mantra:Trace .
+
+mantra:requirement a owl:DatatypeProperty ;
+	rdfs:isDefinedBy mantra:requirement ;
+	rdfs:label "requirement" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain mantra:Trace .
+
+mantra:Location a owl:Class ;
+	rdfs:label "Location" ;
+	rdfs:isDefinedBy mantra:Location .
+
+mantra:Trace rdfs:subClassOf do178c:TraceData .
+mantra:Requirement rdfs:subClassOf do178c:Requirement .
+mantra:Location rdfs:subClassOf do178c:Location .
+mantra:requirement rdfs:subPropertyOf do178c:traces .
+mantra:location rdfs:subPropertyOf do178c:location .
+mantra:id rdfs:subPropertyOf do178c:requirementId .

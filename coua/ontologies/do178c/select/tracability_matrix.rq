@@ -5,18 +5,20 @@ SELECT ?Requirement ?Location
 WHERE
 {
   ?reqClass rdfs:subClassOf do178c:Requirement .
+  ?locationClass rdfs:subClassOf do178c:Location .
+  ?traceClass rdfs:subClassOf do178c:TraceData .
+
   ?reqIdProp rdfs:subPropertyOf do178c:requirementId .
+  ?traceProp rdfs:subPropertyOf do178c:traces .
+  ?locationProp rdfs:subPropertyOf do178c:location .
+
   ?req a ?reqClass ;
     ?reqIdProp ?Requirement .
 
-  ?locationClass rdfs:subClassOf do178c:Location .
   ?Location a ?locationClass .
 
-  ?traceClass rdfs:subClassOf do178c:TraceData .
-  ?traceProp rdfs:subPropertyOf do178c:traces .
-  ?traceReqIdProp rdfs:subPropertyOf do178c:requirementId .
   ?trace a ?traceClass ;
-    ?traceProp ?Location ;
-    ?traceReqIdProp ?Requirement .
+    ?traceProp ?Requirement ;
+    ?locationProp ?Location .
 }
 ORDER BY ?Requirement

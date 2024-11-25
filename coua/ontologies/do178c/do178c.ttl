@@ -42,8 +42,14 @@ do178c:requires a owl:ObjectProperty ;
 do178c:traces a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
 	rdfs:label "DO-178C Trace Data" ;
-	rdfs:domain do178c:Location ;
+	rdfs:domain do178c:TraceData ;
 	rdfs:range do178c:Requirement .
+
+do178c:location a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:label "DO-178C Trace Data source location" ;
+	rdfs:domain do178c:TraceData ;
+	rdfs:range do178c:Location .
 
 do178c:ObjectiveA-2-1 a do178c:Objective ;
 	do178c:outputs ( do178c:SoftwareRequirementsData do178c:TraceData ) .
