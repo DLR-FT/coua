@@ -14,22 +14,22 @@ default:
 check-formatting:
   stage: check
   script:
-    - make check-format
+    - nix develop --command make check-format
 
 commit-check:
   stage: check
   script:
-    - make commit-check
+    - nix develop --command make commit-check
 
 mypy:
   stage: check
   script:
-    - make mypy
+    - nix develop --command make mypy
 
 test:
   stage: test
   script:
-    - make test
+    - nix develop --command make test
   artifacts:
     paths:
       [junit.xml]
@@ -39,22 +39,28 @@ test:
         coverage_format: cobertura
         path: coverage.xml
 
-coua-cert:
+doc:
   dependencies:
     - test
   stage: cert
   script:
-    - make doc
-    - make cert-check
+    - nix develop --command make doc
   artifacts:
     paths:
       [doc/build/html, doc/source/imported.nt]
+
+cert:
+  dependencies:
+    - test
+  stage: cert
+  script:
+    - nix develop --command make cert
 
 pages:
   stage: deploy
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-  needs: [coua-cert]
+  needs: [doc]
   script:
     - mv doc/build/html public
   artifacts:
