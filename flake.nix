@@ -74,6 +74,7 @@
                 pkgs.nodePackages.prettier
                 pkgs.nixpkgs-fmt
                 pkgs.cocogitto
+                pkgs.jq
                 pkgs.python3
                 pkgs.oxigraph
                 packages.default # for testing itself

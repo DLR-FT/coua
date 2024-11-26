@@ -39,3 +39,5 @@ doc/source/junit.ttl
 coverage.xml
 
 doc/source/imported.nt
+
+traces.json

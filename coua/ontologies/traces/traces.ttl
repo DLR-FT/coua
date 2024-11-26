@@ -1,0 +1,44 @@
+@prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix traces: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces#> .
+
+traces: a owl:Ontology ;
+	dc:title "Traces extracted using coua trace" .
+
+traces:Event a owl:Class ;
+	rdfs:comment "Trace event emitted by coua trace" ;
+	rdfs:label "Event" .
+
+traces:Location a owl:Class ;
+	rdfs:comment "Trace event emitted by coua trace" ;
+	rdfs:label "Location" .
+
+traces:requirement_id a owl:DatatypeProperty ;
+	rdfs:label "requirement_id" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain traces:Event .
+
+traces:file a owl:DatatypeProperty ;
+	rdfs:label "file" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain traces:Location .
+
+traces:line a owl:DatatypeProperty ;
+	rdfs:label "line" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain traces:Location .
+
+# Each event emitted by needy traces a location in the source code to a requirement
+#         Event
+#        /     \
+#   Location  Requirement
+
+traces:Event rdfs:subClassOf do178c:TraceData .
+
+traces:Location rdfs:subClassOf do178c:Location .
+traces:location rdfs:subPropertyOf do178c:location .
+
+traces:requirement_id rdfs:subPropertyOf do178c:traces .

@@ -1,13 +1,16 @@
+import json
+import logging
 import sys
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from pyoxigraph import Store
 from rdflib.namespace import RDFS
+from pathlib import Path
+
+import coua.traces
 
 from coua.ontologies import DO178C, load_ontologies
 from coua.exceptions import CouaException
-
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -15,16 +18,25 @@ logger = logging.getLogger(__name__)
 def run():
     parser = ArgumentParser()
     subcmds = parser.add_subparsers(help="subcommand help")
+
     check = subcmds.add_parser("check", help="perform checks")
     check.add_argument("--mode", choices=["do178c"], default="do178c")
     check.add_argument("triples", help="N-Triples file")
     check.set_defaults(func=check_cmd)
-    parser.parse_args()
+
+    trace = subcmds.add_parser("trace", help="Get trace info")
+    trace.add_argument("file", nargs="*", help="files to process")
+    trace.set_defaults(func=get_traces)
+
     args = parser.parse_args()
-    args.func(args)
+    if "func" in args:
+        args.func(args)
+    else:
+        parser.print_help()
+        sys.exit(1)
 
 
-def check_cmd(args):
+def check_cmd(args: Namespace):
     mode = args.mode
     triples = args.triples
     if mode == "do178c":
@@ -61,3 +73,9 @@ def check_is_do178c(store):
         raise CouaException(
             "Bindings from input data to DO-178C ontology not provided in input data. May need to generate bindings using coua-gen-do178c."
         )
+
+
+def get_traces(args: Namespace):
+    for file in args.file:
+        for trace in coua.traces.get_traces(Path(file)):
+            print(json.dumps(trace.__dict__))
