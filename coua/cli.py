@@ -45,7 +45,11 @@ def run_check_do178c():
 
     fail = None
     for check, status in DO178C.check(store):
-        print(f"{check}: {status}")
+        if status:
+            status_out = "✓"
+        else:
+            status_out = "x"
+        print(f"{check}: {status_out}")
         if not status:
             fail = status
 

@@ -1,8 +1,7 @@
 PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 
-ASK
-{
-	{
+ASK {
+	 FILTER NOT EXISTS {{
 		SELECT ?uc (COUNT(distinct ?req) AS ?covered)
 		WHERE
 		{
@@ -15,4 +14,4 @@ ASK
 		GROUP BY ?uc
 	}
 	FILTER (?covered = 0) .
-}
+  }}
