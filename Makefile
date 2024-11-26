@@ -1,4 +1,4 @@
-.PHONY: all check-formatting commit-check mypy check test doc clean cert
+.PHONY: all check-formatting commit-check mypy check test doc clean cert serve
 
 all: check test doc cert
 
@@ -40,3 +40,8 @@ check: check-format commit-check mypy
 clean:
 	rm junit.xml coverage.xml
 	$(MAKE) -C doc clean
+
+doc/build/html/coua_db: doc
+
+serve: doc/build/html/coua_db
+	oxigraph_server serve-read-only --location $<

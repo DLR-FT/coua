@@ -75,6 +75,7 @@
                 pkgs.nixpkgs-fmt
                 pkgs.cocogitto
                 pkgs.python3
+                pkgs.oxigraph
                 packages.default # for testing itself
                 packages.default.passthru.optional-dependencies.test
                 pythonEnv
