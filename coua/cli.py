@@ -1,10 +1,9 @@
 import sys
 
+from argparse import ArgumentParser
 from pyoxigraph import Store
-from rdflib import Graph, URIRef
 from rdflib.namespace import RDFS
 
-from coua.input import load_test_trace
 from coua.ontologies import DO178C, load_ontologies
 from coua.exceptions import CouaException
 
@@ -13,37 +12,34 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def convert_cargo_requirements():
-    traces = sys.argv[1:-1]
-    out = sys.argv[-1]
+def run():
+    parser = ArgumentParser()
+    subcmds = parser.add_subparsers(help="subcommand help")
+    check = subcmds.add_parser("check", help="perform checks")
+    check.add_argument("--mode", choices=["do178c"], default="do178c")
+    check.add_argument("triples", help="N-Triples file")
+    check.set_defaults(func=check_cmd)
+    parser.parse_args()
+    args = parser.parse_args()
+    args.func(args)
 
-    graph = Graph()
-    for trace in traces:
-        with open(trace, "r") as f:
-            load_test_trace(graph, f)
 
-    with open(out, "w") as out:
-        graph.print(format="turtle", out=out)
+def check_cmd(args):
+    mode = args.mode
+    triples = args.triples
+    if mode == "do178c":
+        res = run_check_do178c(triples)
+        if res > 0:
+            sys.exit("There were failed checks")
 
 
-def run_check_do178c():
-    resources = sys.argv[1:]
+def run_check_do178c(triples: str) -> int:
     store = Store()
-
     load_ontologies(store)
-
-    for f in resources:
-        store.bulk_load(f, "text/turtle")
-
+    store.bulk_load(triples, "application/n-triples")
     store.flush()
-
-    try:
-        check_is_do178c(store)
-    except CouaException as e:
-        logger.error(e)
-        sys.exit(1)
-
-    fail = None
+    check_is_do178c(store)
+    fail = 0
     for check, status in DO178C.check(store):
         if status:
             status_out = "✓"
@@ -51,9 +47,9 @@ def run_check_do178c():
             status_out = "x"
         print(f"{check}: {status_out}")
         if not status:
-            fail = status
+            fail += 1
 
-    sys.exit(fail)
+    return fail
 
 
 def check_is_do178c(store):
@@ -65,20 +61,3 @@ def check_is_do178c(store):
         raise CouaException(
             "Bindings from input data to DO-178C ontology not provided in input data. May need to generate bindings using coua-gen-do178c."
         )
-
-
-def gen_do178c_bindings():
-    """Run this once to create or update the bindings from your ontology to DO-178C."""
-
-    graph = Graph()
-
-    DO178C.apply(
-        graph,
-        requirement_class=URIRef(sys.argv[1]),
-        trace_class=URIRef(sys.argv[2]),
-        covers_property=URIRef(sys.argv[3]),
-        requires_property=URIRef(sys.argv[4]),
-    )
-
-    with open(sys.argv[5], "w") as out:
-        graph.print(format="turtle", out=out)

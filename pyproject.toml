@@ -7,7 +7,6 @@ name = "coua"
 description = "Certification Ontologies Using Automation"
 version = "0.0.1"
 dependencies = [
-    "morph-kgc",
     "pyoxigraph",
     "rdflib",
     "sphinx",
@@ -15,6 +14,7 @@ dependencies = [
 ]
 optional-dependencies.test = [
     "black",
+    "morph-kgc",
     "mypy",
     "types-docutils",
     "pytest",
@@ -60,6 +60,4 @@ markers = [
 disable_error_code = "import-untyped"
 
 [project.scripts]
-coua-conv-cargo-requirements = "coua:convert_cargo_requirements"
-coua-gen-do178c = "coua:gen_do178c_bindings"
-coua-check-do178c = "coua:run_check_do178c"
+coua = "coua:run"

@@ -7,6 +7,5 @@
       enable = true;
       package = pkgs.nixfmt-rfc-style;
     };
-    rustfmt.enable = true;
   };
 }

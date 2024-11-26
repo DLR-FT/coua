@@ -70,6 +70,7 @@
             in
             pkgs.mkShell {
               packages = [
+                pkgs.gnumake
                 pkgs.nodePackages.prettier
                 pkgs.nixpkgs-fmt
                 pkgs.cocogitto

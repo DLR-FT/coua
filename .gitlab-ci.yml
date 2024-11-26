@@ -14,22 +14,22 @@ default:
 check-formatting:
   stage: check
   script:
-    - nix fmt -- --fail-on-change --no-cache
+    - make check-format
 
 commit-check:
   stage: check
   script:
-    - nix develop --command cog check
+    - make commit-check
 
 mypy:
   stage: check
   script:
-    - nix develop --command mypy coua
+    - make mypy
 
 test:
   stage: test
   script:
-    - nix develop --command pytest --cov-branch --junit-xml=junit.xml --cov=coua --cov-report term --cov-report xml:coverage.xml
+    - make test
   artifacts:
     paths:
       [junit.xml]
@@ -42,15 +42,13 @@ test:
 coua-cert:
   dependencies:
     - test
-  variables:
-    COUA_STORE: "db"
-    COUA_CARGO_REQUIREMENTS: ""
   stage: cert
   script:
-    - cd doc && nix develop --command make html
+    - make doc
+    - make cert-check
   artifacts:
     paths:
-      [doc/build/html]
+      [doc/build/html, doc/source/imported.nt]
 
 pages:
   stage: deploy
