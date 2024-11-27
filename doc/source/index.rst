@@ -25,53 +25,58 @@ Usage
 
 Coua checks your data items against a certification standard.
 
-Currently, only DO-178C is supported and only partially. To be able to check
-your data items, Coua requires `subClass` and `subProperty` relations from the
-imported triple data to the certification ontology it is performing checks
-for.
+Before Coua can process the data-items, they first need to be be converted
+into N-Triples (`.nt`). There are many different tools which can do this using
+mapping specifications in RML format (RMLMapper, morph-kgc). Coua provides a
+number of these mappings from the data-item formats in the `mappings` directory
+of the source distribution.
 
-If your data items already adhere to one of the formats supported by Coua,
-these relations are already defined.
+Provided mappings for data-item are:
 
-Supported data-item formats are:
+* JUnit
+* Cobertura
+* Needy
+* Mantra
+* Coua trace format
+* Coua requirements and use-cases
 
-* JUnit.
-* Cobertura.
-* Needy.
-* Mantra.
-* Coua trace format.
-* Coua requirements and use-cases.
-
-Before Coua can process the data-item formats, they first need to be be
-converted into N-Triples (`.nt`). There are many different tools which can do
-this using mapping specifications in RML format (RMLMapper, morph-kgc). Coua
-provides a number of these mappings from the data-item formats into N-Triples.
+For morph-kgc, first specify your mappings in a file `mappings.ini` and then run
+it like so:
 
 .. code-block:: bash
 
    python -m morph_kgc mappings.ini
 
-`coua check` then runs the checks provided by an ontology against the data-item data in the N-Triples.
+The remainder of this section assumes you used morph-kgc to produce the file
+`ingested.nt` containing all N-Triples that contain the ingested data.
+
+Coua can run certification checks on this data.
 
 .. code-block:: bash
 
    coua check --mode do178c ingested.nt
 
-Coua contains a Sphinx extension that can be used to render information from the
-data-items into a human-readable documentation. The extension contains a set of
-pre-defined directives for common documentation for DO-178C. Custom queries can
-be defined and run using the `sphinx-sparql` extension or using the Python API
-of `coua`.
+For this to work, your data needs to contain additional N-Triples declaring
+which data is to be used as DO-178C data items. For the mapped data-items
+listed above, this information already is declared by Coua. To manually add the
+items, simply declare `rdfs:subClass` and `rdfs:subProperty` relations from your
+classes and properties to the DO-178C ontology of Coua. See `coua/ontologies/junit/junit.ttl`
+for an example.
 
-The extension takes some Sphinx configuration, specifying which triples to consider.
+Coua also contains a Sphinx extension that you can use to render information
+from the data-items into a human-readable documentation. The extension contains
+a set of pre-defined directives for common documentation required by DO-178C.
+You need to configure the extension so that it knows where to find the data to render.
+Here we use the same N-Triples from `ingested.nt` as before.
 
 .. code-block:: python
 
+   # doc/source/conf.py
    extensions = [ "coua" ]
    coua_load = [("imported.nt", "application/n-triples")]
 
 
-Directives are invoked inside an reStructuredText document like so
+You can use the directives inside a reStructuredText document like so
 
 .. code-block:: rst
 
