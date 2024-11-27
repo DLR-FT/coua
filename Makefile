@@ -28,9 +28,11 @@ traces.json: $(PYTHON_SRCS)
 # Data item ingestion from CI artifacts into n-triples.
 # Here morph-kgc is used, could also use RMLMapper or any other tool that produces N-Triples.
 # Outputs to doc/source/imported.nt
-doc/source/imported.nt: mappings.ini mappings/junit.ttl junit.xml mappings/cobertura.ttl coverage.xml traces.json
+doc/source/imported.nt: mappings.ini mappings/junit.ttl junit.xml mappings/cobertura.ttl coverage.xml traces.json spec.ttl
+	python -c "import pyoxigraph;  g = pyoxigraph.parse('spec.ttl', mime_type='text/turtle'); pyoxigraph.serialize(g, mime_type='application/n-triples', output='spec.nt')"
 	python -m morph_kgc $<
-	
+	cat spec.nt >> doc/source/imported.nt
+
 # Generates documentation from data items in doc/source/imported.nt
 doc/build/html/index.html: doc/source/imported.nt
 	$(MAKE) -C doc clean

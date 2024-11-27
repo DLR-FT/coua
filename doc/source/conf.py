@@ -36,9 +36,5 @@ html_static_path = ["_static"]
 # -- Options for SPARQL extension --------------------------------------------
 
 coua_load = [
-    # ("cargo-requirements.ttl", "text/turtle"),
     ("imported.nt", "application/n-triples"),
-    ("manifest.ttl", "text/turtle"),
-    ("requirements.ttl", "text/turtle"),
-    ("use-cases.ttl", "text/turtle"),
 ]
