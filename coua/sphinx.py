@@ -72,6 +72,13 @@ class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
     dimension_y = "TestCase"
 
 
+class CouaUseCaseCoverageMatrix(CouaCrosstabDirective):
+    ontology = DO178C()
+    query_path_seqment = "use_case_coverage.rq"
+    dimension_x = "Req"
+    dimension_y = "UC"
+
+
 class CouaDomain(Domain):
     """Coua domain"""
 
@@ -82,6 +89,7 @@ class CouaDomain(Domain):
         "requirements_list": CouaDO178CRequirementsList,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
         "requirements_test_coverage_matrix": CouaDO178CCoverageMatrix,
+        "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
     }
 
     @property

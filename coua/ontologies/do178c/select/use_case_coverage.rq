@@ -1,12 +1,12 @@
 PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 
-SELECT ?uc ((COUNT(distinct ?req) > 0) AS ?covered)
+SELECT ?UC ?Req
 WHERE
 {
-	?req coua:useCase ?uc ;
+	?r coua:useCase ?u ;
 		a coua:Requirement ;
-		coua:description ?desc .
-	?uc a coua:UseCase ;
-		coua:story ?story .
+		coua:requirementId ?Req .
+	?u a coua:UseCase ;
+		coua:ucId ?UC .
 }
-GROUP BY ?uc
+ORDER BY ?UC

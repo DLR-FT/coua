@@ -102,6 +102,13 @@ coua:title a owl:DatatypeProperty ;
 	rdfs:range rdfs:Literal ;
 	rdfs:subPropertyOf dc:title .
 
+coua:ucId a owl:DatatypeProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Use-Case ID" ;
+	rdfs:domain coua:UseCase ;
+	rdfs:range rdfs:Literal ;
+	rdfs:subPropertyOf dc:identifier .
+
 coua:actor a owl:DatatypeProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
 	rdfs:label "Actor" ;

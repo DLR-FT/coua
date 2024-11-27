@@ -98,3 +98,7 @@ Source Code Tracability Matrix
 Requirements Test Coverage Matrix
 ---------------------------------
 .. coua:requirements_test_coverage_matrix::
+
+Use-Cases Coverage Matrix
+-------------------------
+.. coua:use_cases_coverage_matrix::

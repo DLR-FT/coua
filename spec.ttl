@@ -333,6 +333,7 @@ req:Req51 a coua:Requirement ;
 
 
 uc:UC05 a coua:UseCase ;
+	coua:ucId "UC05" ;
 	coua:title "Shared Reality"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART3" ;
@@ -347,6 +348,7 @@ uc:UC05 a coua:UseCase ;
 	coua:extension "As the certification authority I want to inspect the identical report as the developer so that I am sure to certify the right revision of the product."@en .
 
 uc:UC01 a coua:UseCase ;
+	coua:ucId "UC01" ;
 	coua:title "Check Objectives"@en ;
 	coua:actor "Certification Authority" ;
 	coua:goal "DLR-SMART1" ;
@@ -361,6 +363,7 @@ uc:UC01 a coua:UseCase ;
 	coua:extension "As a vendor I want the report to clearly state if all objectives are met so that I can determine when the report is ready to be handed in to the CA."@en .
 
 uc:UC02 a coua:UseCase ;
+	coua:ucId "UC02" ;
 	coua:title "Continuous Testing"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART2" ;
@@ -375,6 +378,7 @@ uc:UC02 a coua:UseCase ;
 	coua:extension "As a reviewer I want to check the certification status before accepting changes to the software so that no regressions from the certification objectives are made when applying a change."@en .
 
 uc:UC06 a coua:UseCase ;
+	coua:ucId "UC06" ;
 	coua:title "Defining Ontologies"@en ;
 	coua:actor "Vendor" ;
 	coua:goal "DLR-SMART2" ;
@@ -389,6 +393,7 @@ uc:UC06 a coua:UseCase ;
 	coua:extension "As the certification authority I want to have a mechanised description of the objective and its inputs to have a common and definite language with the vendor."@en .
 
 uc:UC10 a coua:UseCase ;
+	coua:ucId "UC10" ;
 	coua:title "Incremental Certification"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART10" ;
@@ -403,6 +408,7 @@ uc:UC10 a coua:UseCase ;
 	coua:extension "As a developer, I want to remove the marker from the objective I am working on so that I am notified of regressions."@en .
 
 uc:UC09 a coua:UseCase ;
+	coua:ucId "UC10" ;
 	coua:title "Machine-Readable Certification Report"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART2" ;
@@ -417,6 +423,7 @@ uc:UC09 a coua:UseCase ;
 	coua:extension "As the vendor, I want to archive the report data to make historical data of my product searchable."@en .
 
 uc:UC04 a coua:UseCase ;
+	coua:ucId "UC04" ;
 	coua:title "Use COTS Tools"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART3" ;
@@ -431,6 +438,7 @@ uc:UC04 a coua:UseCase ;
 	coua:extension "As a developer, I want the certification framework to provide default definitions for some tools, so that I don't have to provide my own."@en .
 
 uc:UC07 a coua:UseCase ;
+	coua:ucId "UC07" ;
 	coua:title "Tracking Artifact Dependencies"@en ;
 	coua:actor "Vendor" ;
 	coua:goal "DLR-SMART2" ;
@@ -445,6 +453,7 @@ uc:UC07 a coua:UseCase ;
 	coua:extension "As the CA I want to inspect the report to verify that each objective has been completed."@en .
 
 uc:UC08 a coua:UseCase ;
+	coua:ucId "UC08" ;
 	coua:title "Tracing"@en ;
 	coua:actor "Software Developer" ;
 	coua:goal "DLR-SMART3" ;
@@ -459,6 +468,7 @@ uc:UC08 a coua:UseCase ;
 	coua:extension "As the certification authority I want to inspect the report to verify that sufficient coverage of requirements, source and object code exists."@en .
 
 uc:UC03 a coua:UseCase ;
+	coua:ucId "UC03" ;
 	coua:title "Retrieve Artifact"@en ;
 	coua:actor "System Integrator" ;
 	coua:goal "DLR-SMART2" ;
