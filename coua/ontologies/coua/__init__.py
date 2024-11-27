@@ -1,5 +1,8 @@
+from types import ModuleType
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
+
+from coua.ontologies import Ontology
 
 
 class COUA(DefinedNamespace):
@@ -33,3 +36,7 @@ class COUA(DefinedNamespace):
     time: URIRef
     failureType: URIRef
     failure: URIRef
+
+
+class CouaOntology(Ontology):
+    namespace = COUA

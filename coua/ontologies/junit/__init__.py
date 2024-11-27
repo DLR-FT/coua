@@ -1,5 +1,8 @@
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
+from types import ModuleType
+
+from coua.ontologies import Ontology
 
 
 class JUnit(DefinedNamespace):
@@ -38,3 +41,9 @@ class JUnit(DefinedNamespace):
     url: URIRef
     value: URIRef
     version: URIRef
+
+
+class JunitOntology(Ontology):
+    namespace = JUnit
+    questions = ModuleType("questions")
+    selections = ModuleType("selections")

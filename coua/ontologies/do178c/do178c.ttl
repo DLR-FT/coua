@@ -12,7 +12,7 @@ do178c:DO178C do178c:objectives (
 ) .
 
 do178c:objectives a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C objectives" ;
 	rdfs:range do178c:Objective ;
 	rdfs:domain do178c:DO178C .
@@ -22,7 +22,7 @@ do178c:Objective a owl:Class ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 
 do178c:outputs a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C outputs" ;
 	rdfs:domain do178c:Objective ;
 	rdfs:range do178c:Output .
@@ -34,19 +34,19 @@ do178c:SoftwareRequirementsData a do178c:Output .
 do178c:TraceData a do178c:Output .
 
 do178c:requires a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Software Requirements Data" ;
 	rdfs:range do178c:Requirement ;
 	rdfs:domain do178c:SoftwareRequirementsData .
 
 do178c:traces a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Trace Data" ;
 	rdfs:domain do178c:TraceData ;
 	rdfs:range do178c:Requirement .
 
 do178c:location a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Trace Data source location" ;
 	rdfs:domain do178c:TraceData ;
 	rdfs:range do178c:Location .
@@ -55,24 +55,24 @@ do178c:ObjectiveA-2-1 a do178c:Objective ;
 	do178c:outputs ( do178c:SoftwareRequirementsData do178c:TraceData ) .
 
 do178c:covers a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Coverage Data" ;
 	rdfs:domain do178c:TestCase ;
 	rdfs:range do178c:Requirement .
 
 do178c:TestCase a owl:Class ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:comment "DO-178C Software Test Case" .
 
 do178c:Requirement a owl:Class ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:comment "DO-178C Software Requirement" .
 
 do178c:Location a owl:Class ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:comment "DO-178C Source Code Location" .
 
 do178c:requirementId a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontolgies/do178c#> ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:range rdfs:Literal ;
 	rdfs:label "DO-178C ID" .

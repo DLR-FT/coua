@@ -4,13 +4,11 @@ import sys
 
 from argparse import ArgumentParser, Namespace
 from pyoxigraph import Store
-from rdflib.namespace import RDFS
 from pathlib import Path
 
 import coua.traces
 
-from coua.ontologies import DO178C, load_ontologies
-from coua.exceptions import CouaException
+from coua.ontologies import DO178C, load_ontologies, Ontology
 
 logger = logging.getLogger(__name__)
 
@@ -40,19 +38,18 @@ def check_cmd(args: Namespace):
     mode = args.mode
     triples = args.triples
     if mode == "do178c":
-        res = run_check_do178c(triples)
-        if res > 0:
-            sys.exit("There were failed checks")
+        ontology = DO178C()
+    if run_checks(ontology, triples) > 0:
+        sys.exit("There were failed checks")
 
 
-def run_check_do178c(triples: str) -> int:
+def run_checks(ontology: Ontology, triples: str) -> int:
     store = Store()
     load_ontologies(store)
     store.bulk_load(triples, "application/n-triples")
     store.flush()
-    check_is_do178c(store)
     fail = 0
-    for check, status in DO178C.check(store):
+    for check, status in ontology.check(store):
         if status:
             status_out = "✓"
         else:
@@ -62,17 +59,6 @@ def run_check_do178c(triples: str) -> int:
             fail += 1
 
     return fail
-
-
-def check_is_do178c(store):
-    rdfsub = RDFS.subClassOf
-    do178creq = DO178C.namespace.Requirement
-    query = f"ASK {{ ?r <{rdfsub}> <{do178creq}> }}"
-
-    if not store.query(query):
-        raise CouaException(
-            "Bindings from input data to DO-178C ontology not provided in input data. May need to generate bindings using coua-gen-do178c."
-        )
 
 
 def get_traces(args: Namespace):

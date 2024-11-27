@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Type, List, cast
+from typing import TYPE_CHECKING, List, cast
 
 import sphinx_sparql
 from coua.ontologies import load_ontologies
@@ -23,7 +23,7 @@ from coua.ontologies.ontology import Ontology
 class CouaTableDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
-    ontology: Type[Ontology]
+    ontology: Ontology
     query_path_seqment: str
 
     def run(self) -> List[Node]:
@@ -37,7 +37,7 @@ class CouaTableDirective(SphinxDirective):
 class CouaCrosstabDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
-    ontology: Type[Ontology]
+    ontology: Ontology
     query_path_seqment: str
     dimension_x: str
     dimension_y: str
@@ -54,19 +54,19 @@ class CouaCrosstabDirective(SphinxDirective):
 
 # TODO render as paragraphs instead
 class CouaDO178CRequirementsList(CouaTableDirective):
-    ontology = DO178C
+    ontology = DO178C()
     query_path_seqment = "requirements_list.rq"
 
 
 class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
-    ontology = DO178C
+    ontology = DO178C()
     query_path_seqment = "tracability_matrix.rq"
     dimension_x = "Requirement"
     dimension_y = "Location"
 
 
 class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
-    ontology = DO178C
+    ontology = DO178C()
     query_path_seqment = "coverage_matrix.rq"
     dimension_x = "Requirement"
     dimension_y = "TestCase"
@@ -80,8 +80,8 @@ class CouaDomain(Domain):
     data_version = 0
     directives = {
         "requirements_list": CouaDO178CRequirementsList,
-        "tracability_matrix": CouaDO178CTracabilityMatrix,
-        "coverage_matrix": CouaDO178CCoverageMatrix,
+        "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
+        "requirements_test_coverage_matrix": CouaDO178CCoverageMatrix,
     }
 
     @property

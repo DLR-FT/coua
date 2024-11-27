@@ -1,5 +1,8 @@
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
+from types import ModuleType
+
+from coua.ontologies import Ontology
 
 
 class Traces(DefinedNamespace):
@@ -11,3 +14,9 @@ class Traces(DefinedNamespace):
     file: URIRef
     line: URIRef
     requirement_id: URIRef
+
+
+class TracesOntology(Ontology):
+    namespace = Traces
+    questions = ModuleType("questions")
+    selections = ModuleType("selections")

@@ -1,12 +1,8 @@
 """
-Coua certification utility.
-
-Run coua-check-do178c to perform certification checks on the collected data
-using the queries defined for the DO178C ontology.
+Coua certification utility
 """
 
-# TODO hide behind feature
 from coua.sphinx import setup
-from coua.cli import *  # noqa: F403
+from coua.cli import run, get_traces
 
-__all__ = ["setup"]
+__all__ = ["setup", "run", "get_traces"]

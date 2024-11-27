@@ -1,8 +1,11 @@
+from importlib import resources
 from pyoxigraph import Store
 
-from coua.ontologies.do178c import DO178COntology as DO178C  # noqa: F401
-from coua.ontologies import coua, do178c, junit, mantra, needy, traces
-from importlib import resources
+__all__ = ["Ontology"]
+
+from .ontology import Ontology
+from . import coua, do178c, junit, mantra, needy, traces
+from .do178c import DO178COntology as DO178C  # noqa: F401
 
 
 def load_ontologies(store: Store):
