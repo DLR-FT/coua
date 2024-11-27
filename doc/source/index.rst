@@ -53,7 +53,7 @@ provides a number of these mappings from the data-item formats into N-Triples.
 
 `coua check` then runs the checks provided by an ontology against the data-item data in the N-Triples.
 
-.. code-block: bash
+.. code-block:: bash
 
    coua check --mode do178c ingested.nt
 
@@ -67,6 +67,7 @@ The extension takes some Sphinx configuration, specifying which triples to consi
 
 .. code-block:: python
 
+   extensions = [ "coua" ]
    coua_load = [("imported.nt", "application/n-triples")]
 
 
