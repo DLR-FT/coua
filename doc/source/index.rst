@@ -25,11 +25,16 @@ Usage
 
 Coua checks your data items against a certification standard.
 
-Before Coua can process the data-items, they first need to be be converted
+.. code-block:: shell
+
+   coua check
+
+
+Before Coua can check the data-items, they first need to be be converted
 into N-Triples (`.nt`). There are many different tools which can do this using
 mapping specifications in RML format (RMLMapper, morph-kgc). Coua provides a
 number of these mappings from the data-item formats in the `mappings` directory
-of the source distribution.
+of the source distribution and can use morph-kgc to ingest these files.
 
 Provided mappings for data-item are:
 
@@ -40,22 +45,6 @@ Provided mappings for data-item are:
 * Coua trace format
 * Coua requirements and use-cases
 
-For morph-kgc, first specify your mappings in a file `mappings.ini` and then run
-it like so:
-
-.. code-block:: bash
-
-   python -m morph_kgc mappings.ini
-
-The remainder of this section assumes you used morph-kgc to produce the file
-`ingested.nt` containing all N-Triples that contain the ingested data.
-
-Coua can run certification checks on this data.
-
-.. code-block:: bash
-
-   coua check --mode do178c ingested.nt
-
 For this to work, your data needs to contain additional N-Triples declaring
 which data is to be used as DO-178C data items. For the mapped data-items
 listed above, this information already is declared by Coua. To manually add the
@@ -63,17 +52,42 @@ items, simply declare `rdfs:subClass` and `rdfs:subProperty` relations from your
 classes and properties to the DO-178C ontology of Coua. See `coua/ontologies/junit/junit.ttl`
 for an example.
 
+To configure coua to check your artifacts, create a configuration file
+containing the configuration for morph-kgc.
+
+.. code-block:: toml
+
+   # coua.toml
+   
+   mode = "do178c"
+
+   [artifacts.Junit.morph]
+   file_path = "junit.xml"
+   mappings = "mappings/junit.ttl"
+
+   [artifacts.Cobertura.morph]
+   file_path = "coverage.xml"
+   mappings = "mappings/cobertura.ttl"
+
+   [artifacts.Traces.morph]
+   file_path = "traces.json"
+   mappings = "mappings/traces.ttl"
+
+
+By default, `coua check` produces an output file `coua.nt` containing all the
+triples used during checking.
+
 Coua also contains a Sphinx extension that you can use to render information
 from the data-items into a human-readable documentation. The extension contains
 a set of pre-defined directives for common documentation required by DO-178C.
 You need to configure the extension so that it knows where to find the data to render.
-Here we use the same N-Triples from `ingested.nt` as before.
+Here we use the same N-Triples from `coua.nt` as before.
 
 .. code-block:: python
 
    # doc/source/conf.py
    extensions = [ "coua" ]
-   coua_load = [("imported.nt", "application/n-triples")]
+   coua_load = [("coua.nt", "application/n-triples")]
 
 
 You can use the directives inside a reStructuredText document like so

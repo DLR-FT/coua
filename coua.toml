@@ -1,0 +1,13 @@
+mode = "do178c"
+
+[artifacts.Junit.morph]
+file_path = "junit.xml"
+mappings = "mappings/junit.ttl"
+
+[artifacts.Cobertura.morph]
+file_path = "coverage.xml"
+mappings = "mappings/cobertura.ttl"
+
+[artifacts.Traces.morph]
+file_path = "traces.json"
+mappings = "mappings/traces.ttl"

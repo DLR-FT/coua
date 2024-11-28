@@ -7,6 +7,7 @@ name = "coua"
 description = "Certification Ontologies Using Automation"
 version = "0.0.1"
 dependencies = [
+    "morph-kgc",
     "pyoxigraph",
     "rdflib",
     "sphinx",
@@ -14,7 +15,6 @@ dependencies = [
 ]
 optional-dependencies.test = [
     "black",
-    "morph-kgc",
     "mypy",
     "types-docutils",
     "pytest",
