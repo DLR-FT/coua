@@ -25,7 +25,7 @@ junit.xml: test
 traces.json: $(PYTHON_SRCS)
 	coua trace $(PYTHON_SRCS) | jq -s '.' > traces.json
 
-doc/source/imported.nt: mappings/junit.ttl junit.xml mappings/cobertura.ttl coverage.xml traces.json spec.ttl
+doc/source/imported.nt: coua/mappings/junit.ttl junit.xml coua/mappings/cobertura.ttl coverage.xml traces.json spec.ttl
 	python -c "import pyoxigraph;  g = pyoxigraph.parse('spec.ttl', mime_type='text/turtle'); pyoxigraph.serialize(g, mime_type='application/n-triples', output='spec.nt')"
 	coua check --output doc/source/imported.nt --extra-triples spec.nt
 

@@ -1,15 +1,16 @@
 import json
 import logging
 import sys
+import os
 
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
+from os import listdir
 
-from .traces import get_traces
-from .config import parse_config
+from .config import parse_config, init_config
 from .checks import run_checks
-
-from coua.ontologies import DO178C
+from .ontologies import DO178C
+from .traces import get_traces
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,12 @@ def run():
     trace.add_argument("source_files", nargs="*", help="files to process")
     trace.set_defaults(func=traces_cmd)
 
+    init = subcmds.add_parser("init", help="Init project")
+    init.add_argument(
+        "--mode", default="do178c", help="Chooses the check mode for the project"
+    )
+    init.set_defaults(func=init_cmd)
+
     args = parser.parse_args()
     if "func" in args:
         args.func(args)
@@ -73,3 +80,11 @@ def traces_cmd(args: Namespace):
     for file in args.source_files:
         for trace in get_traces(Path(file)):
             print(json.dumps(trace.__dict__))
+
+
+def init_cmd(args: Namespace):
+    if os.path.exists("coua.toml"):
+        sys.exit("coua.toml already exists")
+    files = listdir(".")
+    with open("coua.toml", "w") as config:
+        init_config(config, files, args.mode)

@@ -55,6 +55,7 @@ pythonpath = "."
 markers = [
     "covreq",
 ]
+junit_family = "legacy"
 
 [tool.mypy]
 disable_error_code = "import-untyped"
