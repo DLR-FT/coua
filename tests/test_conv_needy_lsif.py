@@ -1,5 +1,6 @@
 import morph_kgc
 
+from coua import mappings
 from pathlib import Path
 from importlib import resources
 from rdflib import Graph, URIRef
@@ -9,7 +10,7 @@ from . import res
 def load_needy_json(graph: Graph, file: Path):
     """Loads a needy JSON stream into the store"""
 
-    ms = "mappings/needy.ttl"
+    ms = resources.files(mappings).joinpath("needy.ttl")
     config = f"[Needy]\nmappings: {ms}\nfile_path: {file}\nnumber_of_processes: 1\n"
     g = morph_kgc.materialize(config)
     for triple in g:

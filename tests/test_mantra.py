@@ -1,6 +1,7 @@
 import morph_kgc
 import os
 
+from coua import mappings
 from pathlib import Path
 from importlib import resources
 from rdflib import Graph
@@ -12,7 +13,7 @@ def load_db(graph: Graph, file: Path):
 
     assert os.path.exists(file)
 
-    ms = "mappings/mantra.ttl"
+    ms = resources.files(mappings).joinpath("mantra.ttl")
     config = (
         f"[Mantra]\nmappings: {ms}\ndb_url: sqlite:///{file}\nnumber_of_processes: 1\n"
     )

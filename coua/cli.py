@@ -1,18 +1,15 @@
 import json
 import logging
-import morph_kgc
 import sys
-import tomllib
-import importlib
 
 from argparse import ArgumentParser, Namespace
-from pyoxigraph import Store
 from pathlib import Path
 
-import coua.traces
+from .traces import get_traces
+from .config import parse_config
+from .checks import run_checks
 
-from coua.ontologies import DO178C, load_ontologies, Ontology
-from coua import mappings
+from coua.ontologies import DO178C
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +44,7 @@ def run():
 
     trace = subcmds.add_parser("trace", help="Get trace info from source code")
     trace.add_argument("source_files", nargs="*", help="files to process")
-    trace.set_defaults(func=get_traces)
+    trace.set_defaults(func=traces_cmd)
 
     args = parser.parse_args()
     if "func" in args:
@@ -62,65 +59,18 @@ def check_cmd(args: Namespace):
     mode = config["mode"]
     if mode == "do178c":
         ontology = DO178C()
-    if run_checks(config["artifacts"], args.output, ontology, args.extra_triples) > 0:
-        sys.exit("There were failed checks")
-
-
-def run_checks(artifacts: dict, output: str, ontology: Ontology, extra_triples: list[str]) -> int:
-    store = parse_artifacts(artifacts, output)
-    load_ontologies(store)
-    for triple in extra_triples:
-        store.bulk_load(triple, "application/n-triples")
-    store.flush()
-    fail = 0
-    for check, status in ontology.check(store):
+    results = run_checks(config["artifacts"], args.output, ontology, args.extra_triples)
+    for check, status in results.items():
         if status:
             status_out = "✓"
         else:
             status_out = "x"
-        logging.info(f"{check}: {status_out}")
-        if not status:
-            fail += 1
-
-    store.dump(output, "application/n-triples")
-
-    return fail
+        logger.info(f"{check}: {status_out}")
+    if any(not x for x in results.values()):
+        sys.exit("There were failed checks")
 
 
-def get_traces(args: Namespace):
+def traces_cmd(args: Namespace):
     for file in args.source_files:
-        for trace in coua.traces.get_traces(Path(file)):
+        for trace in get_traces(Path(file)):
             print(json.dumps(trace.__dict__))
-
-
-def parse_artifacts(artifacts: dict, output: str) -> Store:
-    config = ""
-    for name, artifact in artifacts.items():
-        settings = artifact["morph"]
-        if "file_path" in settings and "mappings" not in settings:
-            inferred = infer_mappings(settings["file_path"])
-            if inferred:
-                artifact["morph"]["mappings"] = inferred
-        config += f"\n[{name}]\n"
-        for key, value in artifact["morph"].items():
-            config += f"{key}: {value}\n"
-        logger.debug(config)
-        
-    g = morph_kgc.materialize_oxigraph(config)
-    logger.info(f"Output written to {output}")
-
-    return g
-
-
-def infer_mappings(file_path: str) -> str|None:
-    base = Path(file_path).stem
-    if base == "junit":
-        return importlib.resources.files(mappings).joinpath("junit.ttl")
-    else:
-        None
-
-
-def parse_config(path: str) -> dict:
-    p = Path(path)
-    with open(p, "rb") as config:
-        return tomllib.load(config)
