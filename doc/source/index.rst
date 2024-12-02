@@ -20,15 +20,19 @@ Indices and tables
 
 .. automodule:: coua
 
-Usage
------
-
 Coua checks your data items against a certification standard.
+
+Quick Start
+-----------
 
 .. code-block:: shell
 
+   coua init
    coua check
 
+
+Usage
+-----
 
 Before Coua can check the data-items, they first need to be be converted
 into N-Triples (`.nt`). There are many different tools which can do this using
@@ -54,6 +58,9 @@ for an example.
 
 To configure coua to check your artifacts, create a configuration file
 containing the configuration for morph-kgc.
+
+- `mode`: Standard to check the project against
+- `artifacts.*.morph`: Settings for morph-kgc, each section 
 
 .. code-block:: toml
 
