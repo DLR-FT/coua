@@ -26,7 +26,6 @@ def run():
         nargs="*",
         default=[],
     )
-    # TODO use own config file
     check.add_argument(
         "-c",
         "--config",
