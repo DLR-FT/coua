@@ -89,3 +89,6 @@ def init_cmd(args: Namespace):
     files = listdir(".")
     with open("coua.toml", "w") as config:
         init_config(config, files, args.mode)
+    if os.path.exists(".gitignore"):
+        with open(".gitignore", "a") as gitignore:
+            gitignore.write("coua.nt")
