@@ -26,6 +26,13 @@ coua:covers a owl:ObjectProperty ;
 	rdfs:domain coua:TestCase ;
 	rdfs:range coua:Requirement .
 
+coua:traces a owl:ObjectProperty ;
+	rdfs:comment "Requirement traces other requirement" ;
+	rdfs:label "Traces" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:Requirement ;
+	rdfs:range coua:Requirement .
+
 coua:name a owl:DatatypeProperty ;
 	rdfs:comment "Test case name" ;
 	rdfs:label "Name" ;
