@@ -91,4 +91,4 @@ def init_cmd(args: Namespace):
         init_config(config, files, args.mode)
     if os.path.exists(".gitignore"):
         with open(".gitignore", "a") as gitignore:
-            gitignore.write("coua.nt")
+            gitignore.write("\ncoua.nt\n")
