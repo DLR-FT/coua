@@ -65,7 +65,8 @@ def check_cmd(args: Namespace):
     mode = config["mode"]
     if mode == "do178c":
         ontology = DO178C()
-    results = run_checks(config["artifacts"], args.output, ontology, args.extra_triples)
+    artifacts = config.get("artifacts", dict())
+    results = run_checks(artifacts, args.output, ontology, args.extra_triples)
     for check, status in results.items():
         if status:
             status_out = "✓"

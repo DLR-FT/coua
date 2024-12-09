@@ -22,7 +22,11 @@ def parse_artifacts(artifacts: Dict[str, Any], output: str) -> Store:
         for key, value in artifact["morph"].items():
             config += f"{key}: {value}\n"
 
-    g = morph_kgc.materialize_oxigraph(config)
+    # morph_kgc will produce an error if the config is empty
+    if config != "":
+        g = morph_kgc.materialize_oxigraph(config)
+    else:
+        g = Store()
 
     return g
 
