@@ -92,6 +92,7 @@
       )
     // {
       overlays.default = final: prev: {
+        coua = self.packages.${prev.system}.default;
         python3 = prev.python3.override {
           packageOverrides = final: prev: {
             coua = prev.pythonPackages.callPackage ./default.nix { };
