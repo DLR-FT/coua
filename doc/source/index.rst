@@ -117,6 +117,11 @@ Requirements
 .. coua:requirements_list::
 
 
+Requirements (section format)
+-----------------------------
+.. coua:requirements_section::
+
+
 Source Code Tracability Matrix
 ------------------------------
 .. coua:source_code_tracability_matrix::

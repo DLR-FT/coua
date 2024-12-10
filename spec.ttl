@@ -329,6 +329,7 @@ req:Req51 a coua:Requirement ;
 	coua:description "Coua shall be able to access trace data from mantra.db."@en ;
 	coua:owner "DLR" ;
 	coua:level "high" ;
+	coua:traces req:Req01 ;
 	coua:useCase uc:UC08 .
 
 

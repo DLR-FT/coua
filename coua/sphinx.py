@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING, List, cast
 import sphinx_sparql
 from coua.ontologies import load_ontologies
 
-from pyoxigraph import Store
+from docutils import nodes
+from pyoxigraph import Store, QuerySolutions
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 from sphinx.util.docutils import SphinxDirective
@@ -52,7 +53,40 @@ class CouaCrosstabDirective(SphinxDirective):
         ]
 
 
-# TODO render as paragraphs instead
+class CouaDO178CRequirementsSection(SphinxDirective):
+    has_content = False
+    required_arguments = 0
+    ontology = DO178C()
+
+    def run(self) -> List[Node]:
+        domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
+        store: Store = domain.store
+        solutions = self.ontology.select(store, "requirements_list.rq")
+
+        return [self.render_requirements_paragraphs(solutions)]
+
+    def render_requirements_paragraphs(
+        self, solutions: QuerySolutions
+    ) -> nodes.section:
+        section = nodes.section(ids=["Requirements"])
+        section += [nodes.title(text="Requirements")]
+        for s in solutions:
+            reqid = s["Requirement"].value
+            req = nodes.section(ids=[reqid])
+            req += [nodes.title(text=reqid)]
+            for par in ["Description", "Rationale"]:
+                if s[par]:
+                    req += [nodes.paragraph(text=s[par].value)]
+            if s["Trace"]:
+                trace = s["Trace"].value
+                references = nodes.paragraph(text="References: ")
+                references += [nodes.reference(text=trace, refuri=f"#{trace}")]
+                req += [references]
+            section += [req]
+
+        return section
+
+
 class CouaDO178CRequirementsList(CouaTableDirective):
     ontology = DO178C()
     query_path_seqment = "requirements_list.rq"
@@ -87,6 +121,7 @@ class CouaDomain(Domain):
     data_version = 0
     directives = {
         "requirements_list": CouaDO178CRequirementsList,
+        "requirements_section": CouaDO178CRequirementsSection,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
         "requirements_test_coverage_matrix": CouaDO178CCoverageMatrix,
         "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
