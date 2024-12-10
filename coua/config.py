@@ -32,8 +32,9 @@ def parse_artifacts(artifacts: Dict[str, Any], output: str) -> Store:
 
 
 def infer_mappings(section: str) -> importlib.resources.abc.Traversable | None:
-    if section.lower() == "junit":
-        return importlib.resources.files(mappings).joinpath("junit.ttl")
+    mapping = section.lower()
+    if mapping in ["junit", "traces", "needy", "mantra", "cobertura"]:
+        return importlib.resources.files(mappings).joinpath(f"{mapping}.ttl")
     else:
         return None
 
