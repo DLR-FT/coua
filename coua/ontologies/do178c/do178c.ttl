@@ -68,6 +68,21 @@ do178c:Requirement a owl:Class ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:comment "DO-178C Software Requirement" .
 
+do178c:LowLevelRequirement a owl:Class ;
+	rdfs:subClassOf do178c:Requirement ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:comment "DO-178C Low Level Software Requirement" .
+
+do178c:HighLevelRequirement a owl:Class ;
+	rdfs:subClassOf do178c:Requirement ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:comment "DO-178C High Level Software Requirement" .
+
+do178c:SystemLevelRequirement a owl:Class ;
+	rdfs:subClassOf do178c:Requirement ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:comment "DO-178C System Level Software Requirement" .
+
 do178c:Location a owl:Class ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:comment "DO-178C Source Code Location" .

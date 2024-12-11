@@ -4,14 +4,14 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?Requirement ?TestCase
 WHERE
 {
-  ?reqClass rdfs:subClassOf do178c:Requirement .
-  ?reqIdProp rdfs:subPropertyOf do178c:requirementId .
+  ?reqClass rdfs:subClassOf+ do178c:Requirement .
+  ?reqIdProp rdfs:subPropertyOf+ do178c:requirementId .
 
   ?req a ?reqClass ;
     ?reqIdProp ?Requirement .
 
-  ?tcClass rdfs:subClassOf do178c:TestCase .
-  ?coversProp rdfs:subPropertyOf do178c:covers .
+  ?tcClass rdfs:subClassOf+ do178c:TestCase .
+  ?coversProp rdfs:subPropertyOf+ do178c:covers .
 
   ?TestCase a ?tcClass ;
     # We match up the the requirment IDs here

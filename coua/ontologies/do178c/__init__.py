@@ -15,10 +15,14 @@ class DO178C(DefinedNamespace):
     _NS = Namespace("https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#")
 
     Requirement: URIRef
+    LowLevelRequirement: URIRef
+    HighLevelRequirement: URIRef
+    SystemLevelRequirement: URIRef
     requires: URIRef
     TraceData: URIRef
     TestCase: URIRef
     covers: URIRef
+    traces: URIRef
 
 
 class DO178COntology(Ontology):

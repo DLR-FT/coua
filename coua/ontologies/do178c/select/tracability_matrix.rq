@@ -4,13 +4,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?Requirement ?Location
 WHERE
 {
-  ?reqClass rdfs:subClassOf do178c:Requirement .
-  ?locationClass rdfs:subClassOf do178c:Location .
-  ?traceClass rdfs:subClassOf do178c:TraceData .
+  ?reqClass rdfs:subClassOf+ do178c:Requirement .
+  ?locationClass rdfs:subClassOf+ do178c:Location .
+  ?traceClass rdfs:subClassOf+ do178c:TraceData .
 
-  ?reqIdProp rdfs:subPropertyOf do178c:requirementId .
-  ?traceProp rdfs:subPropertyOf do178c:traces .
-  ?locationProp rdfs:subPropertyOf do178c:location .
+  ?reqIdProp rdfs:subPropertyOf+ do178c:requirementId .
+  ?traceProp rdfs:subPropertyOf+ do178c:traces .
+  ?locationProp rdfs:subPropertyOf+ do178c:location .
 
   ?req a ?reqClass ;
     ?reqIdProp ?Requirement .

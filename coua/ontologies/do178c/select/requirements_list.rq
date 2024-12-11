@@ -5,7 +5,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?Requirement ?Description ?Rationale ?Trace
 WHERE
 {
-  ?reqclass rdfs:subClassOf do178c:Requirement .
+  ?reqclass rdfs:subClassOf+ do178c:Requirement .
   ?req a ?reqclass .
   ?req coua:description ?Description .
   ?req coua:requirementId ?Requirement .

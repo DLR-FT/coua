@@ -28,16 +28,16 @@ m:Coua a coua:Product ;
 	coua:useCases (
 		uc:UC02 uc:UC03 uc:UC04 uc:UC05 uc:UC06 uc:UC07 uc:UC08 uc:UC09 uc:UC10 ) .
 
-req:Req01 a coua:Requirement ;
+req:Req01 a coua:HighLevelRequirement ;
 	coua:requirementId "Req01" ;
 	coua:description "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."@en ;
 	coua:owner "DLR" ;
 	coua:level "system" ;
 	coua:useCase uc:UC04 ;
 	coua:rationale "In a typical Git-based workflow, CI provides automated checks of the software development process and software and tests. The results of these checks are provided in various machine-readable formats."@en .
-
-req:Req02 a coua:Requirement ;
+req:Req02 a coua:LowLevelRequirement ;
 	coua:requirementId "Req02" ;
+	coua:traces req:Req01 ;
 	coua:description "The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools."@en ;
 	coua:owner "DLR" ;
 	coua:level "functional" ;
@@ -324,7 +324,7 @@ req:Req50 a coua:Requirement ;
 	coua:owner "DLR" ;
 	coua:level "system" ;
 	coua:useCase uc:UC01 .
-req:Req51 a coua:Requirement ;
+req:Req51 a coua:LowLevelRequirement ;
 	coua:requirementId "Req51" ;
 	coua:description "Coua shall be able to access trace data from mantra.db."@en ;
 	coua:owner "DLR" ;

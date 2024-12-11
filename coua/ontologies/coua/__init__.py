@@ -13,8 +13,12 @@ class COUA(DefinedNamespace):
     covers: URIRef
     name: URIRef
     requires: URIRef
+    traces: URIRef
     useCases: URIRef
     Requirement: URIRef
+    LowLevelRequirement: URIRef
+    HighLevelRequirement: URIRef
+    SystemLevelRequirement: URIRef
     UseCase: URIRef
     description: URIRef
     owner: URIRef

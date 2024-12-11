@@ -60,7 +60,28 @@ coua:useCases a owl:ObjectProperty ;
 coua:Requirement a owl:Class ;
 	rdfs:comment "A requirement for a software" ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
-	rdfs:label "Requirement" ;
+	rdfs:label "Low Level Requirement" ;
+	rdfs:subClassOf rdfs:Resource .
+
+coua:LowLevelRequirement a owl:Class ;
+	rdfs:subClassOf coua:Requirement ;
+	rdfs:comment "A low-level requirement for a software" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "Low Level Requirement" ;
+	rdfs:subClassOf rdfs:Resource .
+
+coua:HighLevelRequirement a owl:Class ;
+	rdfs:subClassOf coua:Requirement ;
+	rdfs:comment "A high-level requirement for a software" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "High Level Requirement" ;
+	rdfs:subClassOf rdfs:Resource .
+
+coua:SystemLevelRequirement a owl:Class ;
+	rdfs:subClassOf coua:Requirement ;
+	rdfs:comment "A system-level requirement for a software" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:label "System Level Requirement" ;
 	rdfs:subClassOf rdfs:Resource .
 
 coua:UseCase a owl:Class ;
@@ -213,7 +234,11 @@ coua:rationale a owl:DatatypeProperty ;
 	rdfs:domain coua:Requirement .
 
 coua:Requirement rdfs:subClassOf do178c:Requirement .
+coua:LowLevelRequirement rdfs:subClassOf do178c:LowLevelRequirement .
+coua:HighLevelRequirement rdfs:subClassOf do178c:HighLevelRequirement .
+coua:SystemLevelRequirement rdfs:subClassOf do178c:SystemLevelRequirement .
 coua:TestCase rdfs:subClassOf do178c:TestCase .
 coua:covers rdfs:subPropertyOf do178c:covers .
+coua:traces rdfs:subPropertyOf do178c:traces .
 coua:requires rdfs:subPropertyOf do178c:requires .
 coua:requirementId rdfs:subPropertyOf do178c:requirementId .

@@ -1,0 +1,20 @@
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Low-level requirements are traceable to high-level requirements.
+ASK {
+	FILTER NOT EXISTS {
+		SELECT ?ReqLow ?ReqHigh
+		WHERE
+		{
+			?reqLowClass rdfs:subClassOf+ do178c:LowLevelRequirement .
+			?ReqLow a ?reqLowClass .
+			FILTER NOT EXISTS {
+				?reqHighClass rdfs:subClassOf+ do178c:HighLevelRequirement .
+				?ReqHigh a ?reqHighClass .
+				?tracesProp rdfs:subPropertyOf+ do178c:traces .
+				?ReqLow ?tracesProp ?ReqHigh .
+			}
+		}
+	}
+}
