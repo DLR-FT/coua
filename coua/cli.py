@@ -7,9 +7,9 @@ from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from os import listdir
 
-from .config import parse_config, init_config
-from .checks import run_checks
-from .ontologies import DO178C
+from .config import parse_config, parse_artifacts, init_config
+from .checks import run_checks, CheckResults
+from .ontologies import DO178C, Coua, load_ontologies
 from .traces import get_traces
 
 logger = logging.getLogger(__name__)
@@ -62,19 +62,38 @@ def run():
 
 def check_cmd(args: Namespace):
     config = parse_config(args.config)
-    mode = config["mode"]
-    if mode == "do178c":
-        ontology = DO178C()
     artifacts = config.get("artifacts", dict())
-    results = run_checks(artifacts, args.output, ontology, args.extra_triples)
-    for check, status in results.items():
-        if status:
-            status_out = "✓"
-        else:
-            status_out = "x"
-        logger.info(f"{check}: {status_out}")
+    store = parse_artifacts(artifacts)
+    load_ontologies(store)
+
+    for triple in args.extra_triples:
+        store.bulk_load(triple, "application/n-triples")
+
+    store.flush()
+
+    results = CheckResults()
+    for check in config["checks"]:
+        match check:
+            case "do178c":
+                check_results = run_checks(store, DO178C())
+            case "coua":
+                check_results = run_checks(store, Coua())
+            case _:
+                sys.exit(f"Unknown ontology {check}")
+
+        for check, status in check_results.items():
+            if status:
+                status_out = "✓"
+            else:
+                status_out = "x"
+            logger.info(f"{check}: {status_out}")
+
+        results = CheckResults({**results, **check_results})
+
     if any(not x for x in results.values()):
         sys.exit("There were failed checks")
+
+    store.dump(args.output, "application/n-triples")
 
 
 def traces_cmd(args: Namespace):

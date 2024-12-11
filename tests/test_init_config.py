@@ -1,4 +1,5 @@
 import io
+import tomllib
 
 from coua.config import init_config
 
@@ -12,6 +13,8 @@ class TestInitConfig:
 
     def test_init_config_mode_set(self):
         file = io.StringIO("")
-        init_config(file, [], "do178c")
+        init_config(file, [], ["do178c"])
         file.flush()
-        assert 'mode = "do178c"' in file.getvalue()
+        cfg = tomllib.loads(file.getvalue())
+        assert "checks" in cfg
+        assert "do178c" in cfg["checks"]

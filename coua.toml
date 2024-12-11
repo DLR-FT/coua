@@ -1,4 +1,4 @@
-mode = "do178c"
+checks = ["do178c", "coua"]
 
 [artifacts.Junit.morph]
 file_path = "junit.xml"

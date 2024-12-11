@@ -5,6 +5,7 @@ __all__ = ["Ontology"]
 
 from .ontology import Ontology
 from . import coua, do178c, junit, mantra, needy, traces
+from .coua import CouaOntology as Coua  # noqa: F401
 from .do178c import DO178COntology as DO178C  # noqa: F401
 
 

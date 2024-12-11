@@ -1,8 +1,9 @@
-from types import ModuleType
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
+
+from . import ask as questions
 
 
 class COUA(DefinedNamespace):
@@ -44,3 +45,4 @@ class COUA(DefinedNamespace):
 
 class CouaOntology(Ontology):
     namespace = COUA
+    questions = questions

@@ -10,7 +10,7 @@ from io import IOBase
 from typing import List, Dict, Any
 
 
-def parse_artifacts(artifacts: Dict[str, Any], output: str) -> Store:
+def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
     config = ""
     for section, artifact in artifacts.items():
         settings = artifact["morph"]
@@ -45,8 +45,11 @@ def parse_config(path: str) -> dict:
         return tomllib.load(config)
 
 
-def init_config(config: IOBase, files: List[str], mode: str):
-    config.write(f'mode = "{mode}"\n')
+def init_config(config: IOBase, files: List[str], checks: List[str]):
+    config.write("checks = [")
+    for check in checks:
+        config.write(f'"{check}", ')
+    config.write("]\n")
     inferred = [("JUnit", "junit.xml")]
     for section, file in inferred:
         if file in files:
