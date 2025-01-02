@@ -3,38 +3,38 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix cobertura: <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
+@prefix c: <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
 
-cobertura: a owl:Ontology ;
+c: a owl:Ontology ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> ;
 	dc:title "Cobertura output schema" .
 
-cobertura:coverage a owl:Class ;
+c:coverage a owl:Class ;
 	rdfs:label "Coverage" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#> .
 
-cobertura:condition a owl:Class ;
+c:condition a owl:Class ;
 	rdfs:label "condition" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/condition-04.dtd#> .
 
-cobertura:line a owl:Class ;
+c:line a owl:Class ;
 	rdfs:label "line" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
 
-cobertura:method a owl:Class ;
+c:method a owl:Class ;
 	rdfs:label "method" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
 
 
-cobertura:package a owl:Class ;
+c:package a owl:Class ;
 	rdfs:label "package" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
 
-cobertura:source a owl:Class ;
+c:source a owl:Class ;
 	rdfs:label "source" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
 
-cobertura:branch a owl:Class ;
+c:branch a owl:Class ;
 	rdfs:label "branch" ;
 	rdfs:isDefinedBy <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/line-04.dtd#> .
 
@@ -182,3 +182,5 @@ c:timestamp a owl:DatatypeProperty ;
 	rdfs:label "timestamp" ;
 	rdfs:domain c:coverage ;
 	rdfs:range rdfs:Literal .
+
+# c:line rdfs:subClassOf do178c:Location .

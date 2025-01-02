@@ -10,7 +10,7 @@ from os import listdir
 from .config import parse_config, parse_artifacts, init_config
 from .checks import run_checks, CheckResults
 from .ontologies import DO178C, Coua, load_ontologies
-from .traces import get_traces
+from .traces import get_traces, get_locations
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,12 @@ def run():
     trace = subcmds.add_parser("trace", help="Get trace info from source code")
     trace.add_argument("source_files", nargs="*", help="files to process")
     trace.set_defaults(func=traces_cmd)
+
+    index = subcmds.add_parser(
+        "index", help="Get source code locations from source code files"
+    )
+    index.add_argument("source_files", nargs="*", help="files to process")
+    index.set_defaults(func=index_cmd)
 
     init = subcmds.add_parser("init", help="Init project")
     init.add_argument(
@@ -90,10 +96,10 @@ def check_cmd(args: Namespace):
 
         results = CheckResults({**results, **check_results})
 
+    store.dump(args.output, "application/n-triples")
+
     if any(not x for x in results.values()):
         sys.exit("There were failed checks")
-
-    store.dump(args.output, "application/n-triples")
 
 
 def traces_cmd(args: Namespace):
@@ -111,3 +117,9 @@ def init_cmd(args: Namespace):
     if os.path.exists(".gitignore"):
         with open(".gitignore", "a") as gitignore:
             gitignore.write("\ncoua.nt\n")
+
+
+def index_cmd(args: Namespace):
+    for file in args.source_files:
+        for location in get_locations(Path(file)):
+            print(json.dumps(location.__dict__))

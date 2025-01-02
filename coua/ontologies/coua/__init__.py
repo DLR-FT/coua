@@ -23,7 +23,6 @@ class COUA(DefinedNamespace):
     UseCase: URIRef
     description: URIRef
     owner: URIRef
-    level: URIRef
     useCase: URIRef
     title: URIRef
     actor: URIRef

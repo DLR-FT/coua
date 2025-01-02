@@ -325,7 +325,7 @@
 	] ;
 
 	rr:subjectMap [
-		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{../../@filename}:{@number}" ;
 		rr:class c:line ;
 	] ;
 
@@ -365,7 +365,7 @@
 	] ;
 
 	rr:subjectMap [
-		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{../../@filename}:{@number}" ;
 		rr:class c:line ;
 	] ;
 
@@ -385,7 +385,7 @@
 	] ;
 
 	rr:subjectMap [
-		rr:template "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line/{@number}" ;
+		rr:template "https://{../../../../../sources/source}/{../../@filename}:{@number}" ;
 		rr:class c:line ;
 	] ;
 

@@ -28,7 +28,7 @@
 			rr:parentTriplesMap <#LocationMap> ;
 			rr:joinCondition [
 				rr:child "." ;
-				rr:parent "." ;
+				rr:parent "location" ;
 			];
 		] ;
 	] .
@@ -37,7 +37,7 @@
 	rml:logicalSource [
 		rml:source "traces.json" ;
 		rml:referenceFormulation ql:JSONPath ;
-		rml:iterator "$.*" ;
+		rml:iterator "$.*.location" ;
 	] ;
 	rr:subjectMap [
 		rr:template "https://example.com/#/{file}/{line}" ;
