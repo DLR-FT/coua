@@ -1,6 +1,6 @@
 {
   buildPythonPackage,
-  hatchling,
+  flit-core,
   morph-kgc,
   pyoxigraph,
   sphinx,
@@ -10,9 +10,8 @@
 buildPythonPackage {
   pname = "sphinx-sparql";
   pyproject = true;
-  version = "0.1";
   src = ./.;
-  build-system = [ hatchling ];
+  build-system = [ flit-core ];
   dependencies = [
     sphinx
     pyoxigraph
