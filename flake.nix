@@ -76,11 +76,13 @@
                 pkgs.cocogitto
                 pkgs.jq
                 pkgs.python3
+                pkgs.pylint
                 pkgs.oxigraph
                 packages.default # for testing itself
                 packages.default.passthru.optional-dependencies.test
                 pythonEnv
                 pkgs.ruff-lsp
+                pkgs.ruff
                 python.pkgs.pythonPackages.morph-kgc
                 python.pkgs.pythonPackages.pylsp-rope
                 python.pkgs.pythonPackages.python-lsp-ruff

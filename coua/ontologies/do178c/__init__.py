@@ -9,8 +9,10 @@ import coua.ontologies.do178c.ask as questions
 import coua.ontologies.do178c.select as selections
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
+@trace_requirements("Req68")
 class DO178C(DefinedNamespace):
     _NS = Namespace("https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#")
 
@@ -25,6 +27,7 @@ class DO178C(DefinedNamespace):
     traces: URIRef
 
 
+@trace_requirements("Req68")
 class DO178COntology(Ontology):
     namespace = DO178C
     questions = questions
@@ -36,6 +39,7 @@ class DO178COntology(Ontology):
         return super().check(graph)
 
 
+@trace_requirements("Req67")
 def check_is_do178c(graph: Graph):
     rdfsub = RDFS.subClassOf
     do178creq = DO178COntology.namespace.Requirement
@@ -43,5 +47,5 @@ def check_is_do178c(graph: Graph):
 
     if not graph.query(query):
         raise CouaException(
-            "Bindings from input data to DO-178C ontology not provided in input data. May need to generate bindings using coua-gen-do178c."
+            "Bindings from input data to DO-178C ontology not provided in input data."
         )

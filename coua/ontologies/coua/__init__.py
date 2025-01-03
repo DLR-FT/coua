@@ -2,10 +2,12 @@ from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 from . import ask as questions
 
 
+@trace_requirements("Req26")
 class COUA(DefinedNamespace):
     _NS = Namespace("https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#")
 
@@ -42,6 +44,7 @@ class COUA(DefinedNamespace):
     failure: URIRef
 
 
+@trace_requirements("Req26")
 class CouaOntology(Ontology):
     namespace = COUA
     questions = questions

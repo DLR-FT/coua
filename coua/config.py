@@ -5,11 +5,13 @@ import importlib
 from pyoxigraph import Store
 from pathlib import Path
 
+from .traces import trace_requirements
 from coua import mappings
 from io import IOBase
 from typing import List, Dict, Any
 
 
+@trace_requirements("Req58")
 def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
     config = ""
     for section, artifact in artifacts.items():
@@ -31,6 +33,7 @@ def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
     return g
 
 
+@trace_requirements("Req58")
 def infer_mappings(section: str) -> importlib.resources.abc.Traversable | None:
     mapping = section.lower()
     if mapping in ["junit", "traces", "needy", "mantra", "cobertura"]:
@@ -39,12 +42,14 @@ def infer_mappings(section: str) -> importlib.resources.abc.Traversable | None:
         return None
 
 
+@trace_requirements("Req58", "Req57")
 def parse_config(path: str) -> dict:
     p = Path(path)
     with open(p, "rb") as config:
         return tomllib.load(config)
 
 
+@trace_requirements("Req58", "Req57", "Req55")
 def init_config(config: IOBase, files: List[str], checks: List[str]):
     config.write("checks = [")
     for check in checks:

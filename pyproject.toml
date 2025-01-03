@@ -46,6 +46,7 @@ Homepage = "https://dlr.de/ft/ssy"
 black.enabled = true
 mypy.enabled = true
 ruff.enabled = true
+pylint.enabled = true
 
 [tool.pytest.ini_options]
 addopts = [
@@ -59,6 +60,9 @@ junit_family = "legacy"
 
 [tool.mypy]
 disable_error_code = "import-untyped"
+
+[tool.pylint]
+recursive = "y"
 
 [project.scripts]
 coua = "coua:run"

@@ -8,5 +8,5 @@ file_path = "coverage.xml"
 mappings = "coua/mappings/cobertura.ttl"
 
 [artifacts.Traces.morph]
-file_path = "traces.json"
+file_path = "traces.xml"
 mappings = "coua/mappings/traces.ttl"

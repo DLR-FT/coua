@@ -4,8 +4,10 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from types import ModuleType
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
+@trace_requirements("Req71")
 class Needy(DefinedNamespace):
     _NS = Namespace("https://github.com/ferrocene/needy#")
 
@@ -25,6 +27,7 @@ class Needy(DefinedNamespace):
     version: URIRef
 
 
+@trace_requirements("Req71")
 class NeedyOntology(Ontology):
     namespace = Needy
     questions = ModuleType("questions")

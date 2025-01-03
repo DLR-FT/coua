@@ -7,53 +7,54 @@
 
 <#TracesMap> a rr:TriplesMap ;
 	rml:logicalSource [
-		rml:source "traces.json" ;
-		rml:referenceFormulation ql:JSONPath ;
-		rml:iterator "$.*" ;
+		rml:source "traces.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//trace[@requirement_id]" ;
 	] ;
 	rr:subjectMap [
-		rr:template "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces#/{file}/{line}/{requirement_id}" ;
+		rr:template "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces#event/{location/@file}/{location/@line}" ;
 		rml:class traces:Event ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate traces:location ;
+		rr:objectMap [
+			rr:parentTriplesMap <#LocationMap> ;
+			rr:joinCondition [
+				rr:child "location" ;
+				rr:parent "." ;
+			];
+		] ;
 	] ;
 	rr:predicateObjectMap [
 		rr:predicate traces:requirement_id;
 		rr:objectMap [
-			rml:reference "requirement_id" ;
+			rml:reference "@requirement_id" ;
 			rr:termType rml:Literal ;
-		] ;
-	] ;
-	rr:predicateObjectMap [
-		rr:predicate traces:location;
-		rr:objectMap [
-			rr:parentTriplesMap <#LocationMap> ;
-			rr:joinCondition [
-				rr:child "." ;
-				rr:parent "location" ;
-			];
 		] ;
 	] .
 
 <#LocationMap> a rr:TriplesMap ;
 	rml:logicalSource [
-		rml:source "traces.json" ;
-		rml:referenceFormulation ql:JSONPath ;
-		rml:iterator "$.*.location" ;
+		rml:source "traces.xml" ;
+		rml:referenceFormulation ql:XPath ;
+		rml:iterator "//location" ;
 	] ;
 	rr:subjectMap [
-		rr:template "https://example.com/#/{file}/{line}" ;
+		rr:template "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces#location/{@file}/{@line}" ;
 		rml:class traces:Location ;
 	] ;
 	rr:predicateObjectMap [
 		rr:predicate traces:file ;
 		rr:objectMap [
-			rml:reference "file" ;
+			rml:reference "@file" ;
 			rr:termType rml:Literal ;
 		] ;
 	] ;
 	rr:predicateObjectMap [
 		rr:predicate traces:line;
 		rr:objectMap [
-			rml:reference "line" ;
+			rml:reference "@line" ;
 			rr:termType rml:Literal ;
 		] ;
 	] .

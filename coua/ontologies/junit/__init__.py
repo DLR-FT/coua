@@ -3,8 +3,10 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from types import ModuleType
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
+@trace_requirements("Req69")
 class JUnit(DefinedNamespace):
     _NS = Namespace("https://llg.cubic.org/docs/junit#")
 
@@ -43,6 +45,7 @@ class JUnit(DefinedNamespace):
     version: URIRef
 
 
+@trace_requirements("Req69")
 class JunitOntology(Ontology):
     namespace = JUnit
     questions = ModuleType("questions")

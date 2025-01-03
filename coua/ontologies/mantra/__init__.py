@@ -3,11 +3,13 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from types import ModuleType
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
+@trace_requirements("Req70")
 class Mantra(DefinedNamespace):
     """
-    Requirements: Req51, ReqXX
+    Requirements: Req51
     """
 
     _NS = Namespace("https://github.com/mhatzl/mantra/0.2.14#")
@@ -23,6 +25,7 @@ class Mantra(DefinedNamespace):
     requirement: URIRef
 
 
+@trace_requirements("Req70")
 class MantraOntology(Ontology):
     namespace = Mantra
     questions = ModuleType("questions")

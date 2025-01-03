@@ -1,7 +1,12 @@
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
+from types import ModuleType
+
+from coua.traces import trace_requirements
+from coua.ontologies import Ontology
 
 
+@trace_requirements("Req73")
 class Cobertura(DefinedNamespace):
     _NS = Namespace(
         "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#"
@@ -34,3 +39,10 @@ class Cobertura(DefinedNamespace):
     path: URIRef
     signature: URIRef
     timestamp: URIRef
+
+
+@trace_requirements("Req67")
+class CoberturaOntology(Ontology):
+    namespace = Cobertura
+    questions = ModuleType("questions")
+    selections = ModuleType("selections")

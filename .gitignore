@@ -41,5 +41,6 @@ coverage.xml
 doc/source/imported.nt
 
 traces.json
+traces.xml
 spec.nt
 coua.nt

@@ -1,9 +1,10 @@
+"""Sphinx module for accessing Coua database"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, cast
 
 import sphinx_sparql
-from coua.ontologies import load_ontologies
 
 from docutils import nodes
 from pyoxigraph import Store, QuerySolutions
@@ -11,6 +12,9 @@ from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 from sphinx.util.docutils import SphinxDirective
 from os import path
+
+from .ontologies import load_ontologies
+from .traces import trace_requirements
 
 if TYPE_CHECKING:
     from docutils.nodes import Node
@@ -21,6 +25,7 @@ from coua.ontologies import DO178C
 from coua.ontologies.ontology import Ontology
 
 
+@trace_requirements("Req60")
 class CouaTableDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
@@ -35,6 +40,7 @@ class CouaTableDirective(SphinxDirective):
         return [sphinx_sparql.render_table(solutions)]
 
 
+@trace_requirements("Req61", "Req62")
 class CouaCrosstabDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
@@ -53,6 +59,7 @@ class CouaCrosstabDirective(SphinxDirective):
         ]
 
 
+@trace_requirements("Req60")
 class CouaDO178CRequirementsSection(SphinxDirective):
     has_content = False
     required_arguments = 0
@@ -87,11 +94,13 @@ class CouaDO178CRequirementsSection(SphinxDirective):
         return section
 
 
+@trace_requirements("Req60")
 class CouaDO178CRequirementsList(CouaTableDirective):
     ontology = DO178C()
     query_path_seqment = "requirements_list.rq"
 
 
+@trace_requirements("Req61")
 class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
     ontology = DO178C()
     query_path_seqment = "tracability_matrix.rq"
@@ -99,6 +108,7 @@ class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
     dimension_y = "Location"
 
 
+@trace_requirements("Req62")
 class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
     query_path_seqment = "coverage_matrix.rq"
@@ -106,6 +116,7 @@ class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
     dimension_y = "TestCase"
 
 
+@trace_requirements("Req66")
 class CouaUseCaseCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
     query_path_seqment = "use_case_coverage.rq"
@@ -113,6 +124,7 @@ class CouaUseCaseCoverageMatrix(CouaCrosstabDirective):
     dimension_y = "UC"
 
 
+@trace_requirements("Req64")
 class CouaDomain(Domain):
     """Coua domain"""
 
@@ -132,6 +144,7 @@ class CouaDomain(Domain):
         return Store.read_only(path.join(self.env.app.outdir, "coua_db"))
 
 
+@trace_requirements("Req65")
 def load_store(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
     sparql_store_path = path.join(app.outdir, "coua_db")
     store: Store = Store(path=sparql_store_path)
@@ -146,6 +159,7 @@ def load_store(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
     store.flush()
 
 
+@trace_requirements("Req64")
 def setup(app: Sphinx) -> ExtensionMetadata:
     app.add_domain(CouaDomain)
     app.add_config_value("coua_load", default=[], rebuild="html")

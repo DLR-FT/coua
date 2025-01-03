@@ -4,7 +4,10 @@ from rdflib import Graph
 from rdflib.namespace import DefinedNamespace
 from typing import Iterable, Tuple
 
+from ..traces import trace_requirements
 
+
+@trace_requirements("Req28")
 class Ontology:
     namespace: type[DefinedNamespace]
     questions: Package

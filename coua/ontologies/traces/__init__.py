@@ -3,8 +3,10 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from types import ModuleType
 
 from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
+@trace_requirements("Req72")
 class Traces(DefinedNamespace):
     _NS = Namespace("https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces#")
 
@@ -16,6 +18,7 @@ class Traces(DefinedNamespace):
     requirement_id: URIRef
 
 
+@trace_requirements("Req72")
 class TracesOntology(Ontology):
     namespace = Traces
     questions = ModuleType("questions")

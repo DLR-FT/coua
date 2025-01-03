@@ -1,24 +1,20 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT ?Requirement ?Location
-WHERE
-{
-  ?reqClass rdfs:subClassOf+ do178c:Requirement .
-  ?locationClass rdfs:subClassOf+ do178c:Location .
-  ?traceClass rdfs:subClassOf+ do178c:TraceData .
-
-  ?reqIdProp rdfs:subPropertyOf+ do178c:requirementId .
-  ?traceProp rdfs:subPropertyOf+ do178c:traces .
-  ?locationProp rdfs:subPropertyOf+ do178c:location .
-
-  ?req a ?reqClass ;
-    ?reqIdProp ?Requirement .
-
-  ?Location a ?locationClass .
-
-  ?trace a ?traceClass ;
-    ?traceProp ?Requirement ;
-    ?locationProp ?Location .
+SELECT DISTINCT ?Location ?Requirement
+WHERE {
+    ?LocationClass rdfs:subClassOf+ do178c:Location .
+    ?Location a ?LocationClass .
+    OPTIONAL {
+        ?locationProp rdfs:subPropertyOf+ do178c:location .
+        ?TraceClass rdfs:subClassOf+ do178c:TraceData .
+        ?rp2 rdfs:subPropertyOf+ do178c:requirementId .
+        ?Event a ?TraceClass ;
+            ?locationProp ?Location ;
+            ?rp2 ?Requirement .
+        ?rp1 rdfs:subPropertyOf+ do178c:requirementId .
+        ?ReqClass rdfs:subClassOf+ do178c:LowLevelRequirement .
+        ?Req a ?ReqClass ;
+            ?rp1 ?Requirement .
+    }
 }
-ORDER BY ?Requirement

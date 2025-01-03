@@ -1,9 +1,6 @@
-PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 # Source Code is traceable to low-level requirements.
-
-# DO-178C does not prescribe a way of doing this. # There are two common ways this
+#
+# DO-178C does not prescribe a way of doing this. There are two common ways this
 # is realized in practise:
 #
 # Annotate all source code constructs with the requirements that
@@ -11,7 +8,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 # data structure such as a linked list may be used in a variety of different
 # contexts to fulfill any number of requirements. This method has the advantage of
 # beeing easy to verify by hand, but is hard to maintain by hand.
-#
 #
 # The second method is to use source code coverage information and annotate test
 # cases with requirement IDs. This somewhat indirect approach traces requirements
@@ -37,29 +33,22 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 #
 # **Otherwise, this query will readily report that all source code can be traced
 # to requirements, even if it is not!**
-
-ASK {
-	FILTER NOT EXISTS {
-		SELECT ?ReqId ?SourceCode
-		WHERE
-		{
-			?LocationClass rdfs:subClassOf+ do178c:Location .
-			?SourceCode a ?LocationClass .
-			FILTER NOT EXISTS {
-				?TraceClass rdfs:subClassOf+ do178c:TraceData .
-				?Trace a ?TraceClass .
-
-				?ReqClass rdfs:subClassOf+ do178c:LowLevelRequirement .
-				?Req a ?ReqClass .
-				?reqIdProp rdfs:subPropertyOf+ do178c:requirementId .
-				?Req ?reqIdProp ?ReqId .
-
-				?tracesProp rdfs:subPropertyOf+ do178c:traces .
-				?Trace ?tracesProp ?ReqId .
-
-				?locationProp rdfs:subPropertyOf+ do178c:location .
-				?Trace ?locationProp ?SourceCode .
-			}
-		}
-	}
-}
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ASK { FILTER NOT EXISTS {
+    ?LocationClass rdfs:subClassOf+ do178c:Location .
+    ?Location a ?LocationClass .
+    MINUS {
+        ?locationProp rdfs:subPropertyOf+ do178c:location .
+        ?TraceClass rdfs:subClassOf+ do178c:TraceData .
+        ?rp2 rdfs:subPropertyOf+ do178c:requirementId .
+        ?Event a ?TraceClass ;
+            ?locationProp ?Location ;
+            ?rp2 ?Requirement .
+        ?rp1 rdfs:subPropertyOf+ do178c:requirementId .
+        ?ReqClass rdfs:subClassOf+ do178c:LowLevelRequirement .
+        ?Req a ?ReqClass ;
+            ?rp1 ?Requirement .
+    }
+}}

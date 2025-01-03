@@ -15,6 +15,9 @@ commit-check:
 mypy:
 	mypy coua
 
+pylint:
+	pylint .
+
 test:
 	pytest --cov-branch --junit-xml=junit.xml --cov=coua --cov-report term --cov-report xml:coverage.xml
 
@@ -22,10 +25,13 @@ coverage.xml: test
 
 junit.xml: test
 
-traces.json: $(PYTHON_SRCS)
-	coua trace $(PYTHON_SRCS) | jq -s '.' > traces.json
+traces.xml: $(PYTHON_SRCS)
+	coua trace
 
-doc/source/imported.nt: coua/mappings/junit.ttl junit.xml coua/mappings/cobertura.ttl coverage.xml traces.json spec.ttl
+spec.nt: spec.ttl
+	python -c "import pyoxigraph;  g = pyoxigraph.parse('spec.ttl', mime_type='text/turtle'); pyoxigraph.serialize(g, mime_type='application/n-triples', output='spec.nt')"
+	
+doc/source/imported.nt: coua/mappings/junit.ttl junit.xml coua/mappings/cobertura.ttl coverage.xml traces.xml spec.nt
 	python -c "import pyoxigraph;  g = pyoxigraph.parse('spec.ttl', mime_type='text/turtle'); pyoxigraph.serialize(g, mime_type='application/n-triples', output='spec.nt')"
 	coua check --output doc/source/imported.nt --extra-triples spec.nt
 
@@ -39,10 +45,10 @@ cert: doc/source/imported.nt
 
 doc: doc/build/html/index.html
 
-check: check-format commit-check mypy
+check: check-format commit-check mypy pylint
 
 clean:
-	rm -f junit.xml coverage.xml traces.json coua.nt spec.nt doc/source/imported.nt
+	rm -f junit.xml coverage.xml traces.xml coua.nt spec.nt doc/source/imported.nt
 	$(MAKE) -C doc clean
 
 doc/build/html/coua_db: doc
