@@ -1,7 +1,7 @@
 from pyoxigraph import Store
 
-from .ontologies import Ontology
-from .traces import trace_requirements
+from coua.ontologies import Ontology
+from coua.traces import trace_requirements
 
 
 @trace_requirements("Req50")

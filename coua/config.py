@@ -5,7 +5,7 @@ import importlib
 from pyoxigraph import Store
 from pathlib import Path
 
-from .traces import trace_requirements
+from coua.traces import trace_requirements
 from coua import mappings
 from io import IOBase
 from typing import List, Dict, Any

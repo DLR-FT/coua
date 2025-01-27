@@ -3,11 +3,11 @@ from pyoxigraph import Store
 
 __all__ = ["Ontology"]
 
-from .ontology import Ontology
-from . import cobertura, coua, do178c, junit, mantra, needy, traces
-from .coua import CouaOntology as Coua  # noqa: F401
-from .do178c import DO178COntology as DO178C  # noqa: F401
-from ..traces import trace_requirements
+from coua.ontologies.ontology import Ontology
+from coua.ontologies import cobertura, coua, do178c, junit, mantra, needy, traces
+from coua.ontologies.coua import CouaOntology as Coua  # noqa: F401
+from coua.ontologies.do178c import DO178COntology as DO178C  # noqa: F401
+from coua.traces import trace_requirements
 
 
 @trace_requirements(

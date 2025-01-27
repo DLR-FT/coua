@@ -7,10 +7,10 @@ from xml.etree import ElementTree as ET
 
 from os import listdir
 
-from .config import parse_config, parse_artifacts, init_config
-from .checks import run_checks, CheckResults
-from .ontologies import DO178C, Coua, load_ontologies
-from .traces import get_traces, trace_requirements
+from coua.config import parse_config, parse_artifacts, init_config
+from coua.checks import run_checks, CheckResults
+from coua.ontologies import DO178C, Coua, load_ontologies
+from coua.traces import get_traces, trace_requirements
 
 logger = logging.getLogger(__name__)
 

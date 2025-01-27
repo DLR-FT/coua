@@ -13,8 +13,8 @@ from sphinx.environment import BuildEnvironment
 from sphinx.util.docutils import SphinxDirective
 from os import path
 
-from .ontologies import load_ontologies
-from .traces import trace_requirements
+from coua.ontologies import load_ontologies
+from coua.traces import trace_requirements
 
 if TYPE_CHECKING:
     from docutils.nodes import Node

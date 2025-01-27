@@ -4,7 +4,7 @@ import os
 
 from typing import cast
 from importlib.abc import PathEntryFinder, Loader
-from  typing import Iterable
+from typing import Iterable
 from pathlib import Path
 from dataclasses import dataclass
 

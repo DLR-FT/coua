@@ -1,7 +1,11 @@
-from rdflib import URIRef
-from rdflib.namespace import DefinedNamespace, Namespace
+"""
+Ontology for cargo-needy output
+"""
 
 from types import ModuleType
+
+from rdflib import URIRef
+from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
 from coua.traces import trace_requirements
@@ -9,6 +13,10 @@ from coua.traces import trace_requirements
 
 @trace_requirements("Req71")
 class Needy(DefinedNamespace):
+    """
+    RDFlib class for ontology namespace
+    """
+
     _NS = Namespace("https://github.com/ferrocene/needy#")
 
     Span: URIRef
@@ -29,6 +37,10 @@ class Needy(DefinedNamespace):
 
 @trace_requirements("Req71")
 class NeedyOntology(Ontology):
+    """
+    RDFlib class for ontology
+    """
+
     namespace = Needy
     questions = ModuleType("questions")
     selections = ModuleType("selections")

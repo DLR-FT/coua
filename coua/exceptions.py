@@ -1,4 +1,4 @@
-from .traces import trace_requirements
+from coua.traces import trace_requirements
 
 
 @trace_requirements("Req67")
