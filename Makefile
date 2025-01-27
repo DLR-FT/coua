@@ -1,4 +1,4 @@
-.PHONY: all check-formatting commit-check mypy check test doc clean cert serve
+.PHONY: all check-formatting commit-check mypy check test clean cert serve
 
 SOURCEDIRS := "coua"
 PYTHON_SRCS := $(shell find $(SOURCEDIRS) -name '*.py')
@@ -9,7 +9,7 @@ SRCS := $(PYTHON_SRCS)
 SRCS += $(RDF_SRCS)
 SRCS += $(QUERIES)
 
-all: check test doc cert
+all: check test cert
 
 check-format:
 	nix fmt -- --fail-on-change --no-cache

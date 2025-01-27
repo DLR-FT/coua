@@ -45,7 +45,7 @@ doc:
     - test
   stage: cert
   script:
-    - nix develop --command make doc
+    - nix develop --command make cert
   artifacts:
     paths:
       [doc/build/html, doc/source/imported.nt]
