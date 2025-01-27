@@ -8,7 +8,7 @@
   rdflib,
 }:
 buildPythonPackage {
-  pname = "sphinx-sparql";
+  pname = "coua";
   pyproject = true;
   src = ./.;
   build-system = [ flit-core ];
