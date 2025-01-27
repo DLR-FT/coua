@@ -36,6 +36,11 @@ traces:location a owl:DatatypeProperty ;
 	rdfs:range traces:Location ;
 	rdfs:domain traces:Event .
 
+traces:displayName a owl:DatatypeProperty ;
+	rdfs:label "display name" ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain traces:Location .
+
 # Each event emitted by needy traces a location in the source code to a requirement
 #         Event
 #        /     \
@@ -48,3 +53,4 @@ traces:location rdfs:subPropertyOf do178c:location .
 
 traces:requirement_id rdfs:subPropertyOf do178c:traces .
 traces:requirement_id rdfs:subPropertyOf do178c:requirementId .
+traces:display_name rdfs:subPropertyOf do178c:displayName .

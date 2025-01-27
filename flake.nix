@@ -21,7 +21,7 @@
     };
 
     sphinx-sparql = {
-      url = "git+https://gitlab.dlr.de/ft-ssy-avs/ap/sphinx-sparql.git";
+      url = "git+ssh://git@gitlab.dlr.de/ft-ssy-avs/ap/sphinx-sparql";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

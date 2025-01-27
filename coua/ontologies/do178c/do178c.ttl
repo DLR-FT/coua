@@ -91,3 +91,9 @@ do178c:requirementId a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:range rdfs:Literal ;
 	rdfs:label "DO-178C ID" .
+
+do178c:displayName a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:domain do178c:Location ;
+	rdfs:range rdfs:Literal ;
+	rdfs:label "DO-178C Display Name" .

@@ -5,7 +5,7 @@ from coua.traces import get_traces
 from importlib import resources
 from rdflib import Graph
 
-from . import res
+from tests import res
 
 
 def test_read_traces():

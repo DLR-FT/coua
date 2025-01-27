@@ -5,7 +5,7 @@ from pathlib import Path
 from importlib import resources
 from rdflib import Graph, URIRef, Literal
 
-from . import res
+from tests import res
 
 
 def load_junit_xml(graph: Graph, file: Path):

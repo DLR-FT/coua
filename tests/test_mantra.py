@@ -5,7 +5,7 @@ from coua import mappings
 from pathlib import Path
 from importlib import resources
 from rdflib import Graph
-from . import res
+from tests import res
 
 
 def load_db(graph: Graph, file: Path):

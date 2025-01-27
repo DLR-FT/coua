@@ -8,6 +8,7 @@ default:
   tags: [nix]
   before_script:
     - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.dlr.de/".insteadOf "https://gitlab.dlr.de/"
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.dlr.de/".insteadOf "ssh://git@gitlab.dlr.de/"
     - mkdir -p ~/.config/nix
     - echo 'accept-flake-config = true' >> ~/.config/nix/nix.conf
 

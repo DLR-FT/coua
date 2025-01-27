@@ -1,9 +1,10 @@
 import inspect
-import importlib
 import pkgutil
-import sys
+import os
 
-from typing import Iterable
+from typing import cast
+from importlib.abc import PathEntryFinder, Loader
+from  typing import Iterable
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -42,9 +43,12 @@ class Trace:
 @trace_requirements("Req10")
 def get_traces(path: Path) -> Iterable[Trace]:
     """Get requirement traces from python code"""
-    sys.path.insert(0, str(path))
-    for info in pkgutil.walk_packages(path=[str(path)]):
-        mod = importlib.import_module(info.name)
+
+    search_path: str = os.path.abspath(path)
+    for info in pkgutil.walk_packages(path=[search_path]):
+        finder = cast(PathEntryFinder, info.module_finder)
+        loader = cast(Loader, finder.find_loader(info.name)[0])
+        mod = loader.load_module(info.name)
 
         for name, value in inspect.getmembers(
             mod,

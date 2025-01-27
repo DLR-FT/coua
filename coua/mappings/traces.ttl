@@ -57,4 +57,11 @@
 			rml:reference "@line" ;
 			rr:termType rml:Literal ;
 		] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate traces:display_name;
+		rr:objectMap [
+			rr:template "{@file}:{@line}";
+			rr:termType rml:Literal ;
+		] ;
 	] .

@@ -4,7 +4,7 @@ from coua import mappings
 from pathlib import Path
 from importlib import resources
 from rdflib import Graph, URIRef
-from . import res
+from tests import res
 
 
 def load_needy_json(graph: Graph, file: Path):

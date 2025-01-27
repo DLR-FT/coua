@@ -1,6 +1,8 @@
 import os
 import sys
 
+from typing import List
+
 sys.path.append(os.path.abspath("../.."))
 
 # Configuration file for the Sphinx documentation builder.
@@ -23,8 +25,8 @@ extensions = [
     "sphinx.ext.autodoc",
 ]
 
-templates_path = ["_templates"]
-exclude_patterns = []
+templates_path: List[str] = ["_templates"]
+exclude_patterns: List[str] = []
 
 
 # -- Options for HTML output -------------------------------------------------

@@ -3,14 +3,16 @@ PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?Location ?Requirement
 WHERE {
+    ?displayNameProp rdfs:subPropertyOf+ do178c:displayName .
     ?LocationClass rdfs:subClassOf+ do178c:Location .
-    ?Location a ?LocationClass .
+    ?l a ?LocationClass ;
+        ?displayNameProp ?Location .
     OPTIONAL {
         ?locationProp rdfs:subPropertyOf+ do178c:location .
         ?TraceClass rdfs:subClassOf+ do178c:TraceData .
         ?rp2 rdfs:subPropertyOf+ do178c:requirementId .
         ?Event a ?TraceClass ;
-            ?locationProp ?Location ;
+            ?locationProp ?l ;
             ?rp2 ?Requirement .
         ?rp1 rdfs:subPropertyOf+ do178c:requirementId .
         ?ReqClass rdfs:subClassOf+ do178c:LowLevelRequirement .
@@ -18,3 +20,4 @@ WHERE {
             ?rp1 ?Requirement .
     }
 }
+ORDER BY ASC(?Requirement) ASC(?Location)
