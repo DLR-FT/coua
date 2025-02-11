@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from sphinx.application import Sphinx
     from sphinx.util.typing import ExtensionMetadata
 
-from coua.ontologies import DO178C
+from coua.ontologies import DO178C, Coua
 from coua.ontologies.ontology import Ontology
 
 
@@ -30,12 +30,12 @@ class CouaTableDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
     ontology: Ontology
-    query_path_seqment: str
+    query_path_segment: str
 
     def run(self) -> List[Node]:
         domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
         store: Store = domain.store
-        solutions = self.ontology.select(store, self.query_path_seqment)
+        solutions = self.ontology.select(store, self.query_path_segment)
 
         return [sphinx_sparql.render_table(solutions)]
 
@@ -45,14 +45,14 @@ class CouaCrosstabDirective(SphinxDirective):
     has_content = False
     required_arguments = 0
     ontology: Ontology
-    query_path_seqment: str
+    query_path_segment: str
     dimension_x: str
     dimension_y: str
 
     def run(self) -> List[Node]:
         domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
         store: Store = domain.store
-        solutions = self.ontology.select(store, self.query_path_seqment)
+        solutions = self.ontology.select(store, self.query_path_segment)
 
         return [
             sphinx_sparql.render_crosstab(solutions, self.dimension_x, self.dimension_y)
@@ -97,13 +97,13 @@ class CouaDO178CRequirementsSection(SphinxDirective):
 @trace_requirements("Req60")
 class CouaDO178CRequirementsList(CouaTableDirective):
     ontology = DO178C()
-    query_path_seqment = "requirements_list.rq"
+    query_path_segment = "requirements_list.rq"
 
 
 @trace_requirements("Req61")
 class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
     ontology = DO178C()
-    query_path_seqment = "tracability_matrix.rq"
+    query_path_segment = "tracability_matrix.rq"
     dimension_x = "Requirement"
     dimension_y = "Location"
 
@@ -111,7 +111,7 @@ class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
 @trace_requirements("Req62")
 class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
-    query_path_seqment = "coverage_matrix.rq"
+    query_path_segment = "coverage_matrix.rq"
     dimension_x = "Requirement"
     dimension_y = "TestCase"
 
@@ -119,9 +119,15 @@ class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
 @trace_requirements("Req66")
 class CouaUseCaseCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
-    query_path_seqment = "use_case_coverage.rq"
+    query_path_segment = "use_case_coverage.rq"
     dimension_x = "Req"
     dimension_y = "UC"
+
+
+@trace_requirements("Req34")
+class CouaCheckTable(CouaTableDirective):
+    ontology = Coua()
+    query_path_segment = "checks.rq"
 
 
 @trace_requirements("Req64")
@@ -132,6 +138,7 @@ class CouaDomain(Domain):
     label = "Coua domain"
     data_version = 0
     directives = {
+        "check_list": CouaCheckTable,
         "requirements_list": CouaDO178CRequirementsList,
         "requirements_section": CouaDO178CRequirementsSection,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,

@@ -112,6 +112,11 @@ Adding support for new data formats
 #. *(optional)* In this ontology, specify which classes and properties will be used in queries for DO-178C by using `subClass` and `subProperty`.
 #. *(optional)* Add custom queries for your ontology to `coua/ontologies/<your-ontology>/select` and `coua/ontologies/<your-ontology>/ask`. They are available as `YourOntology.select()` and as part of `YourOntology.check()` respectively.
 
+Check results
+-------------
+.. coua:check_list::
+
+
 Requirements
 ------------
 .. coua:requirements_list::

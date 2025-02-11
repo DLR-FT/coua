@@ -1,0 +1,10 @@
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Check ?Status
+WHERE
+{
+  ?Check a coua:Check ;
+    coua:status ?Status .
+}
+ORDER BY ?Check

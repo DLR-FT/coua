@@ -19,6 +19,18 @@ coua:TestCase a owl:Class ;
 	rdfs:subClassOf rdfs:Resource ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
 
+coua:Check a owl:Class ;
+	rdfs:comment "A check performed by Coua" ;
+	rdfs:label "Check" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
+
+coua:status a owl:ObjectProperty ;
+	rdfs:comment "Check result of a check performed by Coua" ;
+	rdfs:label "Check status" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:Check ;
+	rdfs:range rdfs:Literal .
+
 coua:covers a owl:ObjectProperty ;
 	rdfs:comment "Requirement is traced by a test-case" ;
 	rdfs:label "Covers" ;

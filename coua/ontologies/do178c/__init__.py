@@ -44,7 +44,7 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
-    def check(self, graph: Graph) -> Iterable[Tuple[str, bool]]:
+    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, bool]]:
         check_is_do178c(graph)
 
         return super().check(graph)

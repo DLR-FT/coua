@@ -8,7 +8,7 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from coua.ontologies import Ontology
 from coua.traces import trace_requirements
 
-from coua.ontologies.coua import ask as questions
+from coua.ontologies.coua import ask as questions, select as selections
 
 
 @trace_requirements("Req26")
@@ -31,6 +31,9 @@ class COUA(DefinedNamespace):
     HighLevelRequirement: URIRef
     SystemLevelRequirement: URIRef
     UseCase: URIRef
+    # TODO add to ontology file
+    Check: URIRef
+    status: URIRef
     description: URIRef
     owner: URIRef
     useCase: URIRef
@@ -60,3 +63,4 @@ class CouaOntology(Ontology):
 
     namespace = COUA
     questions = questions
+    selections = selections

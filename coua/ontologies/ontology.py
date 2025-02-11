@@ -6,7 +6,7 @@ from importlib.resources import files, Package
 from typing import Iterable, Tuple
 
 from pyoxigraph import QuerySolutions, Store
-from rdflib import Graph
+from rdflib import Graph, URIRef
 from rdflib.namespace import DefinedNamespace
 
 from coua.traces import trace_requirements
@@ -22,7 +22,7 @@ class Ontology:
     questions: Package
     selections: Package
 
-    def check(self, graph: Graph) -> Iterable[Tuple[str, bool]]:
+    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, bool]]:
         """
         Performs checks defined by the ontology implementation.
 
@@ -32,7 +32,9 @@ class Ontology:
         qs = files(self.questions)
         for question in qs.iterdir():
             query = question.read_text()
-            yield question.name, bool(graph.query(query))
+            name = URIRef(value=question.name, base=self.namespace._NS)
+
+            yield name, bool(graph.query(query))
 
     def select(self, store: Store, query_path_segment: str) -> QuerySolutions:
         """
