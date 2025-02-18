@@ -32,7 +32,7 @@ class Ontology:
         qs = files(self.questions)
         for question in qs.iterdir():
             query = question.read_text()
-            name = URIRef(value=question.name, base=self.namespace._NS)
+            name = URIRef(str(self.namespace) + question.name)
 
             yield name, bool(graph.query(query))
 
