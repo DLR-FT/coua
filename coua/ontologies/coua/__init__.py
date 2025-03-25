@@ -33,6 +33,7 @@ class COUA(DefinedNamespace):
     UseCase: URIRef
     # TODO add to ontology file
     Check: URIRef
+    checkName: URIRef
     status: URIRef
     description: URIRef
     owner: URIRef

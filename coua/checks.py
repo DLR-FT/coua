@@ -13,13 +13,22 @@ class CheckResults(dict):
 @trace_requirements("Req50")
 def run_checks(store: Store, ontology: Ontology) -> CheckResults:
     results = CheckResults()
-    for check, status in ontology.check(store):
+    for check, name, status in ontology.check(store):
         results[check] = status
+
+        subject = NamedNode(str(check))
         store.add(
             Quad(
-                subject=NamedNode(str(check)),
+                subject=subject,
                 predicate=NamedNode(str(Coua.namespace.status)),
                 object=Literal(str(status).lower()),
+            )
+        )
+        store.add(
+            Quad(
+                subject=subject,
+                predicate=NamedNode(str(Coua.namespace.checkName)),
+                object=Literal(str(name)),
             )
         )
         store.add(

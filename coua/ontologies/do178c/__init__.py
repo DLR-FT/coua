@@ -2,9 +2,10 @@
 Ontology for DO-178C
 """
 
+from importlib import resources
 from typing import Iterable, Tuple
 
-from rdflib import URIRef, Graph
+from rdflib import URIRef, Literal, Graph
 from rdflib.namespace import RDFS, DefinedNamespace, Namespace
 
 from coua.exceptions import CouaException
@@ -44,10 +45,24 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
-    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, bool]]:
+    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
         check_is_do178c(graph)
+        qs = [
+            (
+                resources.files(self.questions) / "obj-6.3.2.f.rq",
+                Literal("DO-178C-6.3.2.f"),
+            ),
+            (
+                resources.files(self.questions) / "obj-6.3.4.e.rq",
+                Literal("DO-178C-6.3.4.e"),
+            ),
+        ]
+        for question, name in qs:
+            with open(str(question), "r", encoding="utf-8") as f:
+                query = f.read()
+            uri = URIRef(str(self.namespace) + name)
 
-        return super().check(graph)
+            yield uri, name, bool(graph.query(query))
 
 
 @trace_requirements("Req67")

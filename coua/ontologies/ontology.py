@@ -6,7 +6,7 @@ from importlib.resources import files, Package
 from typing import Iterable, Tuple
 
 from pyoxigraph import QuerySolutions, Store
-from rdflib import Graph, URIRef
+from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import DefinedNamespace
 
 from coua.traces import trace_requirements
@@ -22,19 +22,20 @@ class Ontology:
     questions: Package
     selections: Package
 
-    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, bool]]:
+    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
         """
         Performs checks defined by the ontology implementation.
 
         By default will call all ASK questions defined in the ontology module.
+        By default the file name will be used as the display name.
+        Specific classes may override this e.g. with the objective name.
         """
 
         qs = files(self.questions)
         for question in qs.iterdir():
             query = question.read_text()
-            name = URIRef(str(self.namespace) + question.name)
-
-            yield name, bool(graph.query(query))
+            uri = URIRef(str(self.namespace) + question.name)
+            yield uri, Literal(question.name), bool(graph.query(query))
 
     def select(self, store: Store, query_path_segment: str) -> QuerySolutions:
         """

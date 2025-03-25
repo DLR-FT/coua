@@ -24,6 +24,12 @@ coua:Check a owl:Class ;
 	rdfs:label "Check" ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
 
+coua:checkName a owl:ObjectProperty ;
+	rdfs:comment "Coua check name" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:domain coua:Check ;
+	rdfs:range rdfs:Literal .
+
 coua:status a owl:ObjectProperty ;
 	rdfs:comment "Check result of a check performed by Coua" ;
 	rdfs:label "Check status" ;

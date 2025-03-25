@@ -4,7 +4,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?Check ?Status
 WHERE
 {
-  ?Check a coua:Check ;
-    coua:status ?Status .
+  ?check a coua:Check ;
+    coua:status ?Status ;
+    coua:checkName ?Check .
 }
 ORDER BY ?Check

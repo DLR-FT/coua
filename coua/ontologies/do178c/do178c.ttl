@@ -27,6 +27,12 @@ do178c:outputs a owl:ObjectProperty ;
 	rdfs:domain do178c:Objective ;
 	rdfs:range do178c:Output .
 
+do178c:name a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:label "DO-178C objective name" ;
+	rdfs:domain do178c:Objective ;
+	rdfs:range rdfs:Literal .
+
 do178c:Output a rdfs:Bag .
 
 do178c:SoftwareRequirementsData a do178c:Output .
@@ -53,6 +59,8 @@ do178c:location a owl:ObjectProperty ;
 
 do178c:ObjectiveA-2-1 a do178c:Objective ;
 	do178c:outputs ( do178c:SoftwareRequirementsData do178c:TraceData ) .
+
+do178c:ObjectiveA-6.3.2.f a do178c:Objective .
 
 do178c:covers a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
