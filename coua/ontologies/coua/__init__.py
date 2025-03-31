@@ -2,12 +2,11 @@
 Ontology for Coua requirement and use-case formats
 """
 
+from malkoha import trace_requirements
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
-from coua.traces import trace_requirements
-
 from coua.ontologies.coua import ask as questions, select as selections
 
 

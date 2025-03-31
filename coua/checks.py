@@ -1,8 +1,8 @@
+from malkoha import trace_requirements
 from pyoxigraph import Store, Quad, NamedNode, Literal
 from rdflib.namespace import RDF
 
 from coua.ontologies import Ontology, Coua
-from coua.traces import trace_requirements
 
 
 @trace_requirements("Req50")

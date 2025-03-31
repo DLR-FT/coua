@@ -1,4 +1,4 @@
-from coua import trace_requirements
+from malkoha import trace_requirements
 
 
 @trace_requirements("Req123", "Re234")

@@ -7,8 +7,9 @@ name = "coua"
 version = "0.0.1"
 description = "Certification Ontologies Using Automation"
 dependencies = [
+    "malkoha",
     "morph-kgc",
-    "pyoxigraph",
+    "pyoxigraph>=0.4.8",
     "rdflib",
     "sphinx",
     "sphinx-sparql",

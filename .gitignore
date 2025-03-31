@@ -38,9 +38,9 @@ doc/source/junit.ttl
 .coverage
 coverage.xml
 
-doc/source/imported.nt
+doc/source/imported.nq
 
 traces.json
 traces.xml
-spec.nt
-coua.nt
+spec.nq
+coua.nq

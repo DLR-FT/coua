@@ -1,4 +1,5 @@
 from importlib import resources
+from malkoha import trace_requirements
 from pyoxigraph import Store
 
 __all__ = ["Ontology"]
@@ -7,7 +8,6 @@ from coua.ontologies.ontology import Ontology
 from coua.ontologies import cobertura, coua, do178c, junit, mantra, needy, traces
 from coua.ontologies.coua import CouaOntology as Coua  # noqa: F401
 from coua.ontologies.do178c import DO178COntology as DO178C  # noqa: F401
-from coua.traces import trace_requirements
 
 
 @trace_requirements(
@@ -25,4 +25,5 @@ def load_ontologies(store: Store):
     ]
 
     for r in res:
-        store.bulk_load(r[0], r[1])
+        with open(str(r[0]), "rb") as f:
+            store.bulk_load(f, r[1])

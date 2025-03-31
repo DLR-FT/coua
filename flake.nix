@@ -7,7 +7,7 @@
     };
 
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.05";
+      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     };
 
     treefmt-nix = {
@@ -21,7 +21,12 @@
     };
 
     sphinx-sparql = {
-      url = "git+ssh://git@gitlab.dlr.de/ft-ssy-avs/ap/sphinx-sparql";
+      url = "github:DLR-FT/sphinx-ext-sparql";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    malkoha = {
+      url = "github:DLR-FT/malkoha";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -30,6 +35,7 @@
     {
       self,
       flake-utils,
+      malkoha,
       nixpkgs,
       pyproject-nix,
       sphinx-sparql,
@@ -83,6 +89,7 @@
                 pythonEnv
                 pkgs.ruff-lsp
                 pkgs.ruff
+                python.pkgs.pythonPackages.malkoha
                 python.pkgs.pythonPackages.morph-kgc
                 python.pkgs.pythonPackages.pylsp-rope
                 python.pkgs.pythonPackages.python-lsp-ruff
@@ -98,9 +105,11 @@
         python3 = prev.python3.override {
           packageOverrides = final: prev: {
             coua = prev.pythonPackages.callPackage ./default.nix { };
-            jsonpath-python = prev.pythonPackages.callPackage ./nix/jsonpath-python.nix { };
+            # TODO upstream to nixpkgs
+            # TODO upstream to nixpkgs
+            malkoha = prev.pythonPackages.callPackage malkoha { };
             morph-kgc = prev.pythonPackages.callPackage ./nix/morph-kgc.nix { };
-            pyoxigraph = prev.pythonPackages.callPackage ./nix/pyoxigraph.nix { };
+            # TODO upstream to nixpkgs
             sphinx-sparql = prev.pythonPackages.callPackage sphinx-sparql { };
           };
         };

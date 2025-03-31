@@ -5,12 +5,12 @@ Ontology for DO-178C
 from importlib import resources
 from typing import Iterable, Tuple
 
+from malkoha import trace_requirements
 from rdflib import URIRef, Literal, Graph
 from rdflib.namespace import RDFS, DefinedNamespace, Namespace
 
 from coua.exceptions import CouaException
 from coua.ontologies import Ontology
-from coua.traces import trace_requirements
 
 import coua.ontologies.do178c.ask as questions
 import coua.ontologies.do178c.select as selections

@@ -3,13 +3,12 @@ Abstract ontology definitions
 """
 
 from importlib.resources import files, Package
+from malkoha import trace_requirements
 from typing import Iterable, Tuple
 
 from pyoxigraph import QuerySolutions, Store
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import DefinedNamespace
-
-from coua.traces import trace_requirements
 
 
 @trace_requirements("Req28")

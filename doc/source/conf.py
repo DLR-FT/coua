@@ -40,5 +40,5 @@ html_static_path = ["_static"]
 # -- Options for SPARQL extension --------------------------------------------
 
 coua_load = [
-    ("imported.nt", "application/n-triples"),
+    ("imported.nq", "application/n-quads"),
 ]

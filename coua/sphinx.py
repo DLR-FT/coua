@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, List, cast
 import sphinx_sparql
 
 from docutils import nodes
+from malkoha import trace_requirements
 from pyoxigraph import Store, QuerySolutions
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
@@ -14,7 +15,6 @@ from sphinx.util.docutils import SphinxDirective
 from os import path
 
 from coua.ontologies import load_ontologies
-from coua.traces import trace_requirements
 
 if TYPE_CHECKING:
     from docutils.nodes import Node
@@ -159,7 +159,8 @@ def load_store(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
     for input, mime in app.config["coua_load"]:
         if not path.isabs(input):
             input = path.join(app.srcdir, input)
-        store.bulk_load(input, mime)
+        with open(input) as f:
+            store.bulk_load(f, mime)
 
     load_ontologies(store)
 

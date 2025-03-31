@@ -1,14 +1,13 @@
 """
-Ontology for Cobertura coverage format  
+Ontology for Cobertura coverage format
 """
 
-from types import ModuleType
-
+from malkoha import trace_requirements
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
+from types import ModuleType
 
 from coua.ontologies import Ontology
-from coua.traces import trace_requirements
 
 
 @trace_requirements("Req73")

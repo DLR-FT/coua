@@ -35,7 +35,7 @@ Usage
 -----
 
 Before Coua can check the data-items, they first need to be be converted
-into N-Triples (`.nt`). There are many different tools which can do this using
+into N-Quads (`.nq`). There are many different tools which can do this using
 mapping specifications in RML format (RMLMapper, morph-kgc). Coua provides a
 number of these mappings from the data-item formats in the `mappings` directory
 of the source distribution and can use morph-kgc to ingest these files.
@@ -81,20 +81,20 @@ containing the configuration for morph-kgc.
    mappings = "mappings/traces.ttl"
 
 
-By default, `coua check` produces an output file `coua.nt` containing all the
+By default, `coua check` produces an output file `coua.nq` containing all the
 triples used during checking.
 
 Coua also contains a Sphinx extension that you can use to render information
 from the data-items into a human-readable documentation. The extension contains
 a set of pre-defined directives for common documentation required by DO-178C.
 You need to configure the extension so that it knows where to find the data to render.
-Here we use the same N-Triples from `coua.nt` as before.
+Here we use the same N-Triples from `coua.nq` as before.
 
 .. code-block:: python
 
    # doc/source/conf.py
    extensions = [ "coua" ]
-   coua_load = [("coua.nt", "application/n-triples")]
+   coua_load = [("coua.nq", "application/n-triples")]
 
 
 You can use the directives inside a reStructuredText document like so

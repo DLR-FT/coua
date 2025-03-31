@@ -1,0 +1,44 @@
+{"location": {"name": "CheckResults", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/checks.py", "line": 8}, "requirements": ["Req50"]}
+{"location": {"name": "run_checks", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/checks.py", "line": 13}, "requirements": ["Req50"]}
+{"location": {"name": "check_cmd", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/cli.py", "line": 61}, "requirements": ["Req53", "Req57"]}
+{"location": {"name": "init_cmd", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/cli.py", "line": 99}, "requirements": ["Req55"]}
+{"location": {"name": "run", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/cli.py", "line": 19}, "requirements": ["Req53", "Req54", "Req55"]}
+{"location": {"name": "infer_mappings", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 118}, "requirements": ["Req58"]}
+{"location": {"name": "init_config", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 134}, "requirements": ["Req58", "Req57", "Req55"]}
+{"location": {"name": "parse_artifacts", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 16}, "requirements": ["Req58"]}
+{"location": {"name": "parse_config", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 127}, "requirements": ["Req58", "Req57"]}
+{"location": {"name": "parse_malkoha_output", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 37}, "requirements": null}
+{"location": {"name": "parse_morph_config", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/config.py", "line": 104}, "requirements": null}
+{"location": {"name": "CouaException", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/exceptions.py", "line": 4}, "requirements": ["Req67"]}
+{"location": {"name": "load_ontologies", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/__init__.py", "line": 13}, "requirements": ["Req33", "Req26", "Req68", "Req69", "Req70", "Req71", "Req72", "Req73"]}
+{"location": {"name": "Cobertura", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/cobertura/__init__.py", "line": 13}, "requirements": ["Req73"]}
+{"location": {"name": "CoberturaOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/cobertura/__init__.py", "line": 52}, "requirements": ["Req67"]}
+{"location": {"name": "COUA", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/coua/__init__.py", "line": 13}, "requirements": ["Req26"]}
+{"location": {"name": "CouaOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/coua/__init__.py", "line": 58}, "requirements": ["Req26"]}
+{"location": {"name": "DO178C", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/do178c/__init__.py", "line": 19}, "requirements": ["Req68"]}
+{"location": {"name": "DO178COntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/do178c/__init__.py", "line": 38}, "requirements": ["Req68"]}
+{"location": {"name": "check_is_do178c", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/do178c/__init__.py", "line": 68}, "requirements": ["Req67"]}
+{"location": {"name": "JUnit", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/junit/__init__.py", "line": 13}, "requirements": ["Req69"]}
+{"location": {"name": "JunitOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/junit/__init__.py", "line": 56}, "requirements": ["Req69"]}
+{"location": {"name": "Mantra", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/mantra/__init__.py", "line": 13}, "requirements": ["Req70"]}
+{"location": {"name": "MantraOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/mantra/__init__.py", "line": 32}, "requirements": ["Req70"]}
+{"location": {"name": "Needy", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/needy/__init__.py", "line": 13}, "requirements": ["Req71"]}
+{"location": {"name": "NeedyOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/needy/__init__.py", "line": 37}, "requirements": ["Req71"]}
+{"location": {"name": "Ontology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/ontology.py", "line": 14}, "requirements": ["Req28"]}
+{"location": {"name": "Traces", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/traces/__init__.py", "line": 13}, "requirements": ["Req72"]}
+{"location": {"name": "TracesOntology", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/ontologies/traces/__init__.py", "line": 29}, "requirements": ["Req72"]}
+{"location": {"name": "CouaCheckTable", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 127}, "requirements": ["Req34"]}
+{"location": {"name": "CouaCrosstabDirective", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 43}, "requirements": ["Req61", "Req62"]}
+{"location": {"name": "CouaDO178CCoverageMatrix", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 111}, "requirements": ["Req62"]}
+{"location": {"name": "CouaDO178CRequirementsList", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 97}, "requirements": ["Req60"]}
+{"location": {"name": "CouaDO178CRequirementsSection", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 62}, "requirements": ["Req60"]}
+{"location": {"name": "CouaDO178CTracabilityMatrix", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 103}, "requirements": ["Req61"]}
+{"location": {"name": "CouaDomain", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 133}, "requirements": ["Req64"]}
+{"location": {"name": "CouaTableDirective", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 28}, "requirements": ["Req60"]}
+{"location": {"name": "CouaUseCaseCoverageMatrix", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 119}, "requirements": ["Req66"]}
+{"location": {"name": "load_store", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 154}, "requirements": ["Req65"]}
+{"location": {"name": "setup", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/sphinx.py", "line": 170}, "requirements": ["Req64"]}
+{"location": {"name": "Location", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/traces.py", "line": 25}, "requirements": null}
+{"location": {"name": "Trace", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/traces.py", "line": 33}, "requirements": null}
+{"location": {"name": "get_traces", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/traces.py", "line": 44}, "requirements": null}
+{"location": {"name": "trace_requirements", "file": "/home/schu_t26/git/gitlab.dlr.de/ft-ssy-avs/ap/coua/coua/traces.py", "line": 14}, "requirements": null}

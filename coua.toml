@@ -7,6 +7,5 @@ file_path = "junit.xml"
 file_path = "coverage.xml"
 mappings = "coua/mappings/cobertura.ttl"
 
-[artifacts.Traces.morph]
-file_path = "traces.xml"
-mappings = "coua/mappings/traces.ttl"
+[artifacts."traces.json"]
+type = "malkoha"
