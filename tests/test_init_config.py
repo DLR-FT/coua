@@ -7,7 +7,7 @@ from coua.config import init_config
 class TestInitConfig:
     def test_init_config_junit_recognized(self):
         file = io.StringIO("")
-        init_config(file, ["junit.xml"], "do178c")
+        init_config(file, ["junit.xml"], ["do178c"])
         file.flush()
         assert "JUnit" in file.getvalue()
 

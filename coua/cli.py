@@ -46,7 +46,10 @@ def run():
 
     init = subcmds.add_parser("init", help="Init project")
     init.add_argument(
-        "--mode", default="do178c", help="Chooses the check mode for the project"
+        "--mode",
+        default=["do178c"],
+        nargs="*",
+        help="Chooses the check mode for the project",
     )
     init.set_defaults(func=init_cmd)
 
