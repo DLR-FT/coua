@@ -51,7 +51,7 @@ cert: doc/build/html/index.html
 check: check-format commit-check mypy pylint cert
 
 clean:
-	rm -f junit.xml coverage.xml traces.json coua.nq spec.nq doc/source/imported.nq
+	rm -f junit.xml coverage.xml traces.json spec.nq doc/source/imported.nq
 	$(MAKE) -C doc clean
 
 serve: doc/build/html/coua_db

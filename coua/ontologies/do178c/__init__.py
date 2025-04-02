@@ -33,6 +33,8 @@ class DO178C(DefinedNamespace):
     TestCase: URIRef
     covers: URIRef
     traces: URIRef
+    requirementDescription: URIRef
+    requirementRationale: URIRef
 
 
 @trace_requirements("Req68")
@@ -45,6 +47,7 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
+    @trace_requirements("Req68")
     def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
         check_is_do178c(graph)
         qs = list(

@@ -1,4 +1,3 @@
-PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
@@ -7,12 +6,24 @@ WHERE
 {
   ?reqclass rdfs:subClassOf+ do178c:Requirement .
   ?req a ?reqclass .
-  ?req coua:description ?Description .
-  ?req coua:requirementId ?Requirement .
-  OPTIONAL { ?req coua:rationale ?Rationale }
+
+  ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
+  ?req ?requirementId ?Requirement .
+
   OPTIONAL {
-    ?req coua:traces ?tr.
-    ?tr coua:requirementId ?Trace .
+    ?description rdfs:subPropertyOf+ do178c:requirementDescription .
+    ?req ?description ?Description .
+  }
+
+  OPTIONAL {
+    ?rationale rdfs:subPropertyOf+ do178c:requirementRationale .
+    ?req ?rationale ?Rationale .
+  }
+  OPTIONAL {
+    ?traces rdfs:subPropertyOf+ do178c:traces .
+    ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
+    ?req ?traces ?tr.
+    ?tr ?requirementId ?Trace .
    }
 }
 ORDER BY ?Requirement
