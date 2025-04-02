@@ -47,16 +47,25 @@ class DO178COntology(Ontology):
 
     def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
         check_is_do178c(graph)
-        qs = [
-            (
-                resources.files(self.questions) / "obj-6.3.2.f.rq",
-                Literal("DO-178C-6.3.2.f"),
-            ),
-            (
-                resources.files(self.questions) / "obj-6.3.4.e.rq",
-                Literal("DO-178C-6.3.4.e"),
-            ),
-        ]
+        qs = list(
+            map(
+                lambda p: (resources.files(self.questions) / p[0], Literal(p[0])),
+                [
+                    (
+                        "obj-6.3.2.f.rq",
+                        "DO-178C-6.3.2.f",
+                    ),
+                    (
+                        "obj-6.3.4.e.rq",
+                        "DO-178C-6.3.4.e",
+                    ),
+                    (
+                        "obj-6.3.1.f.rq",
+                        "DO-178C-6.3.1.f",
+                    ),
+                ],
+            )
+        )
         for question, name in qs:
             with open(str(question), "r", encoding="utf-8") as f:
                 query = f.read()

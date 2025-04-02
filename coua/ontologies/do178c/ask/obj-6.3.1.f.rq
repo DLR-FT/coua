@@ -1,0 +1,21 @@
+# High-level requirements are traceable to system requirements.
+
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ASK {
+	FILTER NOT EXISTS {
+		SELECT ?ReqHigh ?ReqSys
+		WHERE
+		{
+			?reqLowClass rdfs:subClassOf+ do178c:HighLevelRequirement .
+			?ReqLow a ?reqLowClass .
+			FILTER NOT EXISTS {
+				?reqHighClass rdfs:subClassOf+ do178c:SystemLevelRequirement .
+				?ReqHigh a ?reqHighClass .
+				?tracesProp rdfs:subPropertyOf+ do178c:traces .
+				?ReqLow ?tracesProp ?ReqHigh .
+			}
+		}
+	}
+}
