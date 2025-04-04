@@ -59,7 +59,7 @@
 		] ;
 	] ;
 	rr:predicateObjectMap [
-		rr:predicate traces:display_name;
+		rr:predicate traces:displayName;
 		rr:objectMap [
 			rr:template "{@file}:{@line}";
 			rr:termType rml:Literal ;

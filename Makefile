@@ -1,12 +1,15 @@
-.PHONY: all check-formatting commit-check mypy check test clean cert serve
+.PHONY: all check-formatting commit-check mypy check clean serve
 
 SOURCEDIRS := "coua"
 PYTHON_SRCS := $(shell find $(SOURCEDIRS) -name '*.py')
 PYTHON_SRCS += $(wildcard tests/*.py)
 RDF_SRCS := $(shell find $(SOURCEDIRS) -name '*.ttl')
 QUERIES := $(shell find $(SOURCEDIRS) -name '*.rq')
+DOC := $(shell find doc -name '*.rst')
+DOC += $(shell find doc -name '*.py')
 SRCS := $(PYTHON_SRCS)
 SRCS += $(RDF_SRCS)
+SRCS += $(DOC_SRCS)
 SRCS += $(QUERIES)
 
 all: check test cert
@@ -38,7 +41,7 @@ doc/source/imported.nq: spec.nq $(SRCS) junit.xml coverage.xml traces.json
 	coua check --output doc/source/imported.nq --extra-triples spec.nq
 
 # Generates documentation from data items in doc/source/imported.nq
-doc/build/html/index.html: doc/source/imported.nq
+doc/build/html/index.html: doc/source/imported.nq $(DOC)
 	$(MAKE) -C doc clean
 	$(MAKE) -C doc html
 

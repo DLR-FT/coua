@@ -1,29 +1,62 @@
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?Requirement ?Description ?Rationale ?Trace
+SELECT ?Requirement ?Description ?Rationale ?Trace ?TestCase ?SourceCode
 WHERE
 {
   ?reqclass rdfs:subClassOf+ do178c:Requirement .
   ?req a ?reqclass .
 
+  # ID
   ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
   ?req ?requirementId ?Requirement .
 
+  # Description
   OPTIONAL {
     ?description rdfs:subPropertyOf+ do178c:requirementDescription .
     ?req ?description ?Description .
   }
 
+  # Rationale
   OPTIONAL {
     ?rationale rdfs:subPropertyOf+ do178c:requirementRationale .
     ?req ?rationale ?Rationale .
   }
+
+  # Traces to other requirements
   OPTIONAL {
     ?traces rdfs:subPropertyOf+ do178c:traces .
     ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
     ?req ?traces ?tr.
     ?tr ?requirementId ?Trace .
-   }
+  }
+
+  # Test cases coverage
+  OPTIONAL {
+    ?tcClass rdfs:subClassOf+ do178c:TestCase .
+    ?coversProp rdfs:subPropertyOf+ do178c:covers .
+    ?displayName rdfs:subPropertyOf+ do178c:testCaseName .
+    ?testCase a ?tcClass ;
+      ?displayName ?TestCase ;
+      # We match up the the requirment IDs here
+      # Would be better to use do178c:covers, but missing classification of requirment IDs in mapping files to requirmeent IRIs ...
+      ?coversProp ?Requirement .
+  }
+
+  # source code tracings
+  OPTIONAL {
+    ?displayNameProp rdfs:subPropertyOf+ do178c:displayName .
+    ?LocationClass rdfs:subClassOf+ do178c:Location .
+    ?l a ?LocationClass ;
+        ?displayNameProp ?SourceCode .
+    ?traceClass rdfs:subClassOf+ do178c:TraceData .
+    ?locationProp rdfs:subPropertyOf+ do178c:location .
+    ?rp2 rdfs:subPropertyOf+ do178c:requirementId .
+    ?e a ?traceClass ;
+        ?locationProp ?l ;
+        ?rp2 ?Requirement .
+    ?Low rdfs:subClassOf+ do178c:LowLevelRequirement .
+    ?req a ?Low .
+  }
 }
 ORDER BY ?Requirement

@@ -18,8 +18,6 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. automodule:: coua
-
 Coua checks your data items against a certification standard.
 
 Quick Start

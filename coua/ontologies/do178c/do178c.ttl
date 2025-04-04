@@ -112,6 +112,12 @@ do178c:requirementRationale a owl:ObjectProperty ;
 	rdfs:domain do178c:Requirement ;
 	rdfs:label "DO-178C requirement rationale" .
 
+do178c:testCaseName a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:domain do178c:TestCase ;
+	rdfs:range rdfs:Literal ;
+	rdfs:label "DO-178C Display Name" .
+
 do178c:displayName a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:domain do178c:Location ;

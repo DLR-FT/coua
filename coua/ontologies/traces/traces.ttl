@@ -53,4 +53,4 @@ traces:location rdfs:subPropertyOf do178c:location .
 
 traces:requirement_id rdfs:subPropertyOf do178c:traces .
 traces:requirement_id rdfs:subPropertyOf do178c:requirementId .
-traces:display_name rdfs:subPropertyOf do178c:displayName .
+traces:displayName rdfs:subPropertyOf do178c:displayName .

@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, cast
+from typing import TYPE_CHECKING, List, cast, Iterator
 
 import sphinx_sparql
 
+from dataclasses import dataclass
 from docutils import nodes
 from malkoha import trace_requirements
 from pyoxigraph import Store, QuerySolutions
@@ -60,6 +61,19 @@ class CouaCrosstabDirective(SphinxDirective):
 
 
 @trace_requirements("Req60")
+@dataclass
+class Requirement:
+    id: str
+    description: str
+    rationale: str
+
+    requirement_traces: set[str]
+    # TODO make actual link to code in documentation
+    source_locations: set[str]
+    test_cases: set[str]
+
+
+@trace_requirements("Req60")
 class CouaDO178CRequirementsSection(SphinxDirective):
     has_content = False
     required_arguments = 0
@@ -70,28 +84,91 @@ class CouaDO178CRequirementsSection(SphinxDirective):
         store: Store = domain.store
         solutions = self.ontology.select(store, "requirements_list.rq")
 
-        return [self.render_requirements_paragraphs(solutions)]
+        return [
+            self.render_requirements_paragraphs(self.aggregate_requirements(solutions))
+        ]
 
-    def render_requirements_paragraphs(
+    def aggregate_requirements(
         self, solutions: QuerySolutions
+    ) -> Iterator[Requirement]:
+        id = None
+        description = ""
+        rationale = ""
+        requirement_traces = set()
+        source_locations = set()
+        test_cases = set()
+        for s in solutions:
+            if id and s["Requirement"].value != id:
+                yield Requirement(
+                    id,
+                    description,
+                    rationale,
+                    requirement_traces,
+                    source_locations,
+                    test_cases,
+                )
+                requirement_traces = set()
+                source_locations = set()
+                test_cases = set()
+            id = s["Requirement"].value
+            description = s["Description"].value
+            if s["Rationale"]:
+                rationale = s["Rationale"].value
+            if s["Trace"]:
+                requirement_traces.add(s["Trace"].value)
+            if s["SourceCode"]:
+                source_locations.add(s["SourceCode"].value)
+            if s["TestCase"]:
+                test_cases.add(s["TestCase"].value)
+        if id:
+            yield Requirement(
+                id,
+                description,
+                rationale,
+                requirement_traces,
+                source_locations,
+                test_cases,
+            )
+            requirement_traces = set()
+            source_locations = set()
+            test_cases = set()
+
+    # TODO merge all solutions for a requirement into one section
+    def render_requirements_paragraphs(
+        self, requirements: Iterator[Requirement]
     ) -> nodes.section:
         section = nodes.section(ids=["Requirements"])
         section += [nodes.title(text="Requirements")]
-        for s in solutions:
-            reqid = s["Requirement"].value
-            req = nodes.section(ids=[reqid])
-            req += [nodes.title(text=reqid)]
-            for par in ["Description", "Rationale"]:
-                if s[par]:
-                    req += [nodes.paragraph(text=s[par].value)]
-            if s["Trace"]:
-                trace = s["Trace"].value
-                references = nodes.paragraph(text="References: ")
-                references += [nodes.reference(text=trace, refuri=f"#{trace}")]
-                req += [references]
+        for r in requirements:
+            id = r.id
+            req = nodes.section(ids=[id])
+            req += [nodes.title(text=id)]
+            for par in [r.description, r.rationale]:
+                req += [nodes.paragraph(text=par)]
+            for name, thing in [
+                ("Traces", r.requirement_traces),
+                ("Source Code", r.source_locations),
+                ("Test Cases", r.test_cases),
+            ]:
+                if thing:
+                    req += [self.ref_thing(thing, name)]
             section += [req]
 
         return section
+
+    def ref_thing(self, things: set[str], title: str) -> nodes.section:
+        sources = nodes.section(ids=[f"{id}.{title}"])
+        sources += [nodes.title(text=title)]
+        srcs = nodes.bullet_list()
+        for source in things:
+            li = nodes.list_item()
+            p = nodes.paragraph()
+            p += [nodes.reference(text=source, refuri=f"#{source}")]
+            li += p
+            srcs += li
+        sources += [srcs]
+
+        return sources
 
 
 @trace_requirements("Req60")
@@ -109,7 +186,7 @@ class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
 
 
 @trace_requirements("Req62")
-class CouaDO178CCoverageMatrix(CouaCrosstabDirective):
+class CouaDO178CRequirementsTestCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
     query_path_segment = "coverage_matrix.rq"
     dimension_x = "Requirement"
@@ -142,7 +219,7 @@ class CouaDomain(Domain):
         "requirements_list": CouaDO178CRequirementsList,
         "requirements_section": CouaDO178CRequirementsSection,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
-        "requirements_test_coverage_matrix": CouaDO178CCoverageMatrix,
+        "requirements_test_coverage_matrix": CouaDO178CRequirementsTestCoverageMatrix,
         "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
     }
 
