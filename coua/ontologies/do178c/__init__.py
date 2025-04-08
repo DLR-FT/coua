@@ -51,20 +51,16 @@ class DO178COntology(Ontology):
         check_is_do178c(graph)
         qs = list(
             map(
-                lambda p: (resources.files(self.questions) / p[0], Literal(p[1])),
+                lambda p: (
+                    resources.files(self.questions) / f"obj-{p}.rq",
+                    Literal(f"DO-178C-{p}"),
+                ),
                 [
-                    (
-                        "obj-6.3.2.f.rq",
-                        "DO-178C-6.3.2.f",
-                    ),
-                    (
-                        "obj-6.3.4.e.rq",
-                        "DO-178C-6.3.4.e",
-                    ),
-                    (
-                        "obj-6.3.1.f.rq",
-                        "DO-178C-6.3.1.f",
-                    ),
+                    "5.1.1.a",
+                    "5.2.1.a",
+                    "6.3.1.f",
+                    "6.3.2.f",
+                    "6.3.4.e",
                 ],
             )
         )
