@@ -1,7 +1,7 @@
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?Requirement ?Description ?Rationale ?Trace ?TestCase ?SourceCode
+SELECT ?Requirement ?Description ?Rationale ?Trace ?TestCase ?SourceCode ?Level
 WHERE
 {
   ?reqclass rdfs:subClassOf+ do178c:Requirement .
@@ -10,6 +10,21 @@ WHERE
   # ID
   ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
   ?req ?requirementId ?Requirement .
+
+  OPTIONAL {
+    ?level rdfs:subClassOf+ do178c:SystemLevelRequirement .
+    ?level rdfs:label ?Level .
+  }
+
+  OPTIONAL {
+    ?level rdfs:subClassOf+ do178c:HighLevelRequirement .
+    ?level rdfs:label ?Level .
+  }
+
+  OPTIONAL {
+    ?level rdfs:subClassOf+ do178c:LowLevelRequirement .
+    ?level rdfs:label ?Level .
+  }
 
   # Description
   OPTIONAL {

@@ -66,6 +66,7 @@ class Requirement:
     id: str
     description: str
     rationale: str
+    level: str | None
 
     requirement_traces: set[str]
     # TODO make actual link to code in documentation
@@ -94,6 +95,7 @@ class CouaDO178CRequirementsSection(SphinxDirective):
         id = None
         description = ""
         rationale = ""
+        level = None
         requirement_traces = set()
         source_locations = set()
         test_cases = set()
@@ -103,10 +105,15 @@ class CouaDO178CRequirementsSection(SphinxDirective):
                     id,
                     description,
                     rationale,
+                    level,
                     requirement_traces,
                     source_locations,
                     test_cases,
                 )
+                id = None
+                description = ""
+                rationale = ""
+                level = None
                 requirement_traces = set()
                 source_locations = set()
                 test_cases = set()
@@ -114,6 +121,8 @@ class CouaDO178CRequirementsSection(SphinxDirective):
             description = s["Description"].value
             if s["Rationale"]:
                 rationale = s["Rationale"].value
+            if s["Level"]:
+                level = s["Level"].value
             if s["Trace"]:
                 requirement_traces.add(s["Trace"].value)
             if s["SourceCode"]:
@@ -125,13 +134,11 @@ class CouaDO178CRequirementsSection(SphinxDirective):
                 id,
                 description,
                 rationale,
+                level,
                 requirement_traces,
                 source_locations,
                 test_cases,
             )
-            requirement_traces = set()
-            source_locations = set()
-            test_cases = set()
 
     # TODO merge all solutions for a requirement into one section
     def render_requirements_paragraphs(
@@ -143,8 +150,19 @@ class CouaDO178CRequirementsSection(SphinxDirective):
             id = r.id
             req = nodes.section(ids=[id])
             req += [nodes.title(text=id)]
-            for par in [r.description, r.rationale]:
-                req += [nodes.paragraph(text=par)]
+            for label, content in [
+                ("Level", r.level),
+                ("Description", r.description),
+                ("Rationale", r.rationale),
+            ]:
+                part = nodes.paragraph()
+                t: nodes.Text | nodes.strong
+                if content and len(content) > 1:
+                    t = nodes.Text(content)
+                else:
+                    t = nodes.strong(text="Missing")
+                part += [nodes.emphasis(text=label), nodes.Text(": "), t]
+                req += [part]
             for name, thing in [
                 ("Traces", r.requirement_traces),
                 ("Source Code", r.source_locations),
@@ -156,19 +174,13 @@ class CouaDO178CRequirementsSection(SphinxDirective):
 
         return section
 
-    def ref_thing(self, things: set[str], title: str) -> nodes.section:
-        sources = nodes.section(ids=[f"{id}.{title}"])
-        sources += [nodes.title(text=title)]
-        srcs = nodes.bullet_list()
+    def ref_thing(self, things: set[str], title: str) -> nodes.paragraph:
+        srcs = nodes.paragraph()
+        srcs += [nodes.emphasis(text=title), nodes.Text(":")]
         for source in things:
-            li = nodes.list_item()
-            p = nodes.paragraph()
-            p += [nodes.reference(text=source, refuri=f"#{source}")]
-            li += p
-            srcs += li
-        sources += [srcs]
+            srcs += [nodes.Text(" "), nodes.reference(text=source, refuri=f"#{source}")]
 
-        return sources
+        return srcs
 
 
 @trace_requirements("Req60")
