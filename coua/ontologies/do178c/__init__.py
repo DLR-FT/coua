@@ -2,12 +2,14 @@
 Ontology for DO-178C
 """
 
+from enum import Enum
 from importlib import resources
 from typing import Iterable, Tuple
 
 from malkoha import trace_requirements
 from rdflib import URIRef, Literal, Graph
-from rdflib.namespace import RDFS, DefinedNamespace, Namespace
+from rdflib.namespace import RDFS, DefinedNamespace, Namespace, RDF
+from pyoxigraph import Quad, NamedNode
 
 from coua.exceptions import CouaException
 from coua.ontologies import Ontology
@@ -27,6 +29,12 @@ class DO178C(DefinedNamespace):
     Requirement: URIRef
     LowLevelRequirement: URIRef
     HighLevelRequirement: URIRef
+    Software: URIRef
+    SoftwareLevel: URIRef
+    SoftwareLevelA: URIRef
+    SoftwareLevelB: URIRef
+    SoftwareLevelC: URIRef
+    hasSoftwareLevel: URIRef
     SystemLevelRequirement: URIRef
     requires: URIRef
     TraceData: URIRef
@@ -37,7 +45,7 @@ class DO178C(DefinedNamespace):
     requirementRationale: URIRef
 
 
-@trace_requirements("Req68")
+@trace_requirements("Req68", "Req76")
 class DO178COntology(Ontology):
     """
     RDFlib class for ontology
@@ -47,7 +55,12 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
-    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
+    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
+        software: str = kwargs["software"]
+        software_level: str = kwargs["software_level"]
+        sw = URIRef(software)
+        swl = SoftwareLevel[software_level]
+        activate_software_level(graph, sw, swl)
         check_is_do178c(graph)
         qs = list(
             map(
@@ -70,6 +83,49 @@ class DO178COntology(Ontology):
             uri = URIRef(str(self.namespace) + name)
 
             yield uri, name, bool(graph.query(query))
+
+
+@trace_requirements("Req75")
+class SoftwareLevel(Enum):
+    A = "A"
+    B = "B"
+    C = "C"
+    D = "D"
+
+
+@trace_requirements("Req76")
+def activate_software_level(
+    graph: Graph, software: URIRef, software_level: SoftwareLevel
+):
+    """
+    Activate a SWL
+    """
+    graph.add(
+        Quad(
+            subject=NamedNode(software),
+            predicate=NamedNode(RDF.type),
+            object=NamedNode(DO178C.Software),
+        )
+    )
+    match software_level:
+        case SoftwareLevel.A:
+            level = DO178C.SoftwareLevelA
+        case SoftwareLevel.B:
+            level = DO178C.SoftwareLevelB
+        case SoftwareLevel.C:
+            level = DO178C.SoftwareLevelC
+        case SoftwareLevel.D:
+            level = DO178C.SoftwareLevelD
+        case l:
+            # Should never occur
+            raise ValueError(f"Unrecognized software level {l}")
+    graph.add(
+        Quad(
+            subject=NamedNode(software),
+            predicate=NamedNode(DO178C.hasSoftwareLevel),
+            object=NamedNode(level),
+        )
+    )
 
 
 @trace_requirements("Req67")

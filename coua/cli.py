@@ -61,7 +61,7 @@ def run():
         sys.exit(1)
 
 
-@trace_requirements("Req53", "Req57")
+@trace_requirements("Req53", "Req57", "Req75")
 def check_cmd(args: Namespace):
     config = parse_config(args.config)
     artifacts = config.get("artifacts", dict())
@@ -78,7 +78,8 @@ def check_cmd(args: Namespace):
     for check in config["checks"]:
         match check:
             case "do178c":
-                check_results = run_checks(store, DO178C())
+                options = config.get("do178c")
+                check_results = run_checks(store, DO178C(), **options)
             case "coua":
                 check_results = run_checks(store, Coua())
             case _:

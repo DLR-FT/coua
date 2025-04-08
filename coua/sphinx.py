@@ -219,6 +219,20 @@ class CouaCheckTable(CouaTableDirective):
     query_path_segment = "checks.rq"
 
 
+@trace_requirements("Req77")
+class CouaDO178CSoftwareLevelDirective(SphinxDirective):
+    has_content = False
+    required_arguments = 0
+    ontology = DO178C()
+
+    def run(self) -> List[Node]:
+        domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
+        store: Store = domain.store
+        solutions = self.ontology.select(store, "software_levels.rq")
+
+        return [sphinx_sparql.render_table(solutions)]
+
+
 @trace_requirements("Req64")
 class CouaDomain(Domain):
     """Coua domain"""
@@ -233,6 +247,7 @@ class CouaDomain(Domain):
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
         "requirements_test_coverage_matrix": CouaDO178CRequirementsTestCoverageMatrix,
         "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
+        "software_level_list": CouaDO178CSoftwareLevelDirective,
     }
 
     @property

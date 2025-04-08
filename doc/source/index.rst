@@ -64,7 +64,11 @@ containing the configuration for morph-kgc.
 
    # coua.toml
    
-   mode = "do178c"
+   checks = ["do178c"]
+
+   [do178c]
+   software = "https://example.org/my-software"
+   software_level = "A"
 
    [artifacts.Junit.morph]
    file_path = "junit.xml"
@@ -109,6 +113,11 @@ Adding support for new data formats
 #. Add a new ontology to `coua/ontologies/` that describes the properties and classes of the ingested data.
 #. *(optional)* In this ontology, specify which classes and properties will be used in queries for DO-178C by using `subClass` and `subProperty`.
 #. *(optional)* Add custom queries for your ontology to `coua/ontologies/<your-ontology>/select` and `coua/ontologies/<your-ontology>/ask`. They are available as `YourOntology.select()` and as part of `YourOntology.check()` respectively.
+
+Software and associated software level
+--------------------------------------
+.. coua:software_level_list::
+
 
 Check results
 -------------

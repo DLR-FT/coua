@@ -448,6 +448,26 @@ req:ontology_cobertura a coua:LowLevelRequirement ;
 	coua:requirementId "Req73" ;
 	coua:owner "DLR" ;
 	coua:traces req:ingest .
+req:do178c_appl a coua:HighLevelRequirement ;
+	coua:description "Coua shall provide a way to only apply the objectives of DO-178C that are required for a given software level."@en ;
+	coua:requirementId "Req74" ;
+	coua:owner "DLR" ;
+	coua:traces req:Req00 .
+req:do178c_appl_conf a coua:LowLevelRequirement ;
+	coua:description "Coua shall provide a way to configure the software level of a software."@en ;
+	coua:requirementId "Req75" ;
+	coua:owner "DLR" ;
+	coua:traces req:do178c_appl .
+req:do178c_appl_appl a coua:LowLevelRequirement ;
+	coua:description "Coua shall apply the configured software level before checks are performed."@en ;
+	coua:requirementId "Req76" ;
+	coua:owner "DLR" ;
+	coua:traces req:do178c_appl .
+req:do178c_appl_render a coua:LowLevelRequirement ;
+	coua:description "Coua shall render the software level as part of the certification report."@en ;
+	coua:requirementId "Req77" ;
+	coua:owner "DLR" ;
+	coua:traces req:do178c_appl .
 
 uc:UC05 a coua:UseCase ;
 	coua:ucId "UC05" ;

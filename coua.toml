@@ -1,5 +1,9 @@
 checks = ["do178c", "coua"]
 
+[do178c]
+software = "https://dlr.de/ft/ssy/coua"
+software_level = "A"
+
 [artifacts.Junit.morph]
 file_path = "junit.xml"
 

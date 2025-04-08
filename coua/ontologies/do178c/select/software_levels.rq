@@ -1,0 +1,10 @@
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Software ?SWL
+WHERE
+{
+	?Software a do178c:Software ;
+		do178c:hasSoftwareLevel ?SWL .
+	?SWL a do178c:SoftwareLevel .
+}

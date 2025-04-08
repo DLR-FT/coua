@@ -21,7 +21,7 @@ class Ontology:
     questions: Package
     selections: Package
 
-    def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
+    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
         """
         Performs checks defined by the ontology implementation.
 

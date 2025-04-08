@@ -11,9 +11,9 @@ class CheckResults(dict):
 
 
 @trace_requirements("Req50")
-def run_checks(store: Store, ontology: Ontology) -> CheckResults:
+def run_checks(store: Store, ontology: Ontology, **kwargs) -> CheckResults:
     results = CheckResults()
-    for check, name, status in ontology.check(store):
+    for check, name, status in ontology.check(store, **kwargs):
         results[check] = status
 
         subject = NamedNode(str(check))
