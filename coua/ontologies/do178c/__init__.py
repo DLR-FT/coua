@@ -47,12 +47,11 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
-    @trace_requirements("Req68")
     def check(self, graph: Graph) -> Iterable[Tuple[URIRef, Literal, bool]]:
         check_is_do178c(graph)
         qs = list(
             map(
-                lambda p: (resources.files(self.questions) / p[0], Literal(p[0])),
+                lambda p: (resources.files(self.questions) / p[0], Literal(p[1])),
                 [
                     (
                         "obj-6.3.2.f.rq",
