@@ -28,6 +28,11 @@ do178c:hasSoftwareLevel a owl:ObjectProperty ;
 	rdfs:range do178c:SoftwareLevel ;
 	rdfs:domain owl:Software .
 
+do178c:objectiveDescription a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain do178c:Objective .
+
 do178c:Objective a owl:Class ;
 	rdfs:label "Certification Objective" ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
@@ -98,40 +103,46 @@ do178c:SwlDWithoutIndependence a do178c:Applicability ;
 	do178c:toSoftwareLevel do178c:SoftwareLevelD ;
 	do178c:withIndependence "false"^^xsd:boolean .
 
-do178c:6_3_4_e a do178c:Objective ;
+do178c:Obj_A_5_5 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "Source Code is tracable to low-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
-do178c:5_1_1_a a do178c:Objective ;
+do178c:Obj_A_2_1 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "High-level requirements are developed." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlDWithoutIndependence .
 
-do178c:5_2_1_a a do178c:Objective ;
+do178c:Obj_A_2_4 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "Low-level requirements are developed." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
-do178c:6_3_1_f a do178c:Objective ;
+do178c:Obj_A_3_6 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "High-level requirements are tracable to system requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlDWithoutIndependence .
 
-do178c:6_3_2_f a do178c:Objective ;
+do178c:Obj_A_4_6 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "Low-level requirements are tracable to high-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
-do178c:6_3_4_a a do178c:Objective ;
+do178c:Obj_A_5_1 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:objectiveDescription "Source Code complies with low-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithIndependence ;
 	do178c:hasApplicability do178c:SwlBWithIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .

@@ -1,0 +1,6 @@
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Requirement ?Description ?Rationale ?Trace ?TestCase ?SourceCode ?Level
+WHERE
+{

@@ -5,7 +5,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 ASK { FILTER NOT EXISTS {
     # Check if this objective is applicable
-    do178c:6_3_4_a do178c:hasApplicability ?appl .
+    do178c:Obj_A_5_1 do178c:hasApplicability ?appl .
     ?appl do178c:toSoftwareLevel ?swl .
     ?sw a do178c:Software ;
         do178c:hasSoftwareLevel ?swl .
