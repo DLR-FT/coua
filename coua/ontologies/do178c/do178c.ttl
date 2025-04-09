@@ -130,6 +130,12 @@ do178c:6_3_2_f a do178c:Objective ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
+do178c:6_3_4_a a do178c:Objective ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:hasApplicability do178c:SwlAWithIndependence ;
+	do178c:hasApplicability do178c:SwlBWithIndependence ;
+	do178c:hasApplicability do178c:SwlCWithoutIndependence .
+
 do178c:6_3_4_f a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;

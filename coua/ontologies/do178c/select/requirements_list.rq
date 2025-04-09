@@ -13,17 +13,17 @@ WHERE
 
   OPTIONAL {
     ?level rdfs:subClassOf+ do178c:SystemLevelRequirement .
-    ?level rdfs:label ?Level .
+    BIND ("system" as ?Level) .
   }
 
   OPTIONAL {
     ?level rdfs:subClassOf+ do178c:HighLevelRequirement .
-    ?level rdfs:label ?Level .
+    BIND ("high" as ?Level) .
   }
 
   OPTIONAL {
     ?level rdfs:subClassOf+ do178c:LowLevelRequirement .
-    ?level rdfs:label ?Level .
+    BIND ("low" as ?Level) .
   }
 
   # Description

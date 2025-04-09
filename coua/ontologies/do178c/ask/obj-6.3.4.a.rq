@@ -1,0 +1,29 @@
+# Source Code complies with low-level requirements
+
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ASK { FILTER NOT EXISTS {
+    # Check if this objective is applicable
+    do178c:6_3_4_a do178c:hasApplicability ?appl .
+    ?appl do178c:toSoftwareLevel ?swl .
+    ?sw a do178c:Software ;
+        do178c:hasSoftwareLevel ?swl .
+
+	?rclass rdfs:subClassOf+ do178c:Requirement .
+	?r a ?rclass .
+
+	# Remove all requirements which are implemented in the source code (according to the tracing)
+	MINUS {
+		# Find candidate traces
+		?tc rdfs:subClassOf+ do178c:TraceData .
+		?rp1 rdfs:subPropertyOf+ do178c:requirementId .
+		?lp rdfs:subPropertyOf+ do178c:location .
+		?e a ?tc ;
+			?lp ?l ;
+			?rp1 ?rid .
+		?rp2 rdfs:subPropertyOf+ do178c:requirementId .
+		# Match up by requirement id
+		?r ?rp2 ?rid .
+	}
+}}
