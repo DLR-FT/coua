@@ -251,6 +251,11 @@ coua:rationale a owl:DatatypeProperty ;
 	rdfs:range rdfs:Literal ;
 	rdfs:domain coua:Requirement .
 
+coua:CheckAskUcsCovered a coua:Check ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:comment "All Use-Cases are covered by at least one requirement." ;
+	rdfs:label "Coua UC check" .
+
 coua:Requirement rdfs:subClassOf do178c:Requirement .
 coua:LowLevelRequirement rdfs:subClassOf do178c:LowLevelRequirement .
 coua:HighLevelRequirement rdfs:subClassOf do178c:HighLevelRequirement .

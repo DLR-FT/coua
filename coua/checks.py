@@ -1,6 +1,5 @@
 from malkoha import trace_requirements
 from pyoxigraph import Store, Quad, NamedNode, Literal
-from rdflib.namespace import RDF
 
 from coua.ontologies import Ontology, Coua
 
@@ -16,26 +15,13 @@ def run_checks(store: Store, ontology: Ontology, **kwargs) -> CheckResults:
     for check, name, status in ontology.check(store, **kwargs):
         results[check] = status
 
+        # All checks are subclasses of coua:Check
         subject = NamedNode(str(check))
         store.add(
             Quad(
                 subject=subject,
                 predicate=NamedNode(str(Coua.namespace.status)),
                 object=Literal(str(status).lower()),
-            )
-        )
-        store.add(
-            Quad(
-                subject=subject,
-                predicate=NamedNode(str(Coua.namespace.checkName)),
-                object=Literal(str(name)),
-            )
-        )
-        store.add(
-            Quad(
-                subject=NamedNode(str(check)),
-                predicate=NamedNode(RDF.type),
-                object=NamedNode(str(Coua.namespace.Check)),
             )
         )
 

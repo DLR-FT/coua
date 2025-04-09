@@ -1,11 +1,22 @@
 PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?Check ?Status
+SELECT ?Check ?Status ?Description
 WHERE
 {
-  ?check a coua:Check ;
-    coua:status ?Status ;
-    coua:checkName ?Check .
+  {
+    ?checkC rdfs:subClassOf+ coua:Check .
+    ?check a ?checkC .
+  } UNION {
+    ?check a coua:Check
+  } .
+
+  OPTIONAL {
+    ?check coua:status ?status .
+    BIND (IF(?status = "true", "passed", "failed") AS ?Status)
+  }
+
+  ?check rdfs:label ?Check .
+  ?check rdfs:comment ?Description .
 }
 ORDER BY ?Check

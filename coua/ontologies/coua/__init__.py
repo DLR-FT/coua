@@ -2,8 +2,12 @@
 Ontology for Coua requirement and use-case formats
 """
 
+from importlib import resources
+from importlib.resources import files
+from typing import Iterable, Tuple
+
 from malkoha import trace_requirements
-from rdflib import URIRef
+from rdflib import URIRef, Graph, Literal
 from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
@@ -64,3 +68,22 @@ class CouaOntology(Ontology):
     namespace = COUA
     questions = questions
     selections = selections
+
+    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
+        qs = list(
+            map(
+                lambda p: (
+                    resources.files(self.questions) / p[0],
+                    Literal(p[1]),
+                ),
+                [
+                    ("ask_ucs_covered.rq", "CheckAskUcsCovered"),
+                ],
+            )
+        )
+        for question, name in qs:
+            with open(str(question), "r", encoding="utf-8") as f:
+                query = f.read()
+            uri = URIRef(str(self.namespace) + name)
+
+            yield uri, name, bool(graph.query(query))

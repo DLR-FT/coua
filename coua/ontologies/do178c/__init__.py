@@ -78,6 +78,22 @@ class DO178COntology(Ontology):
                 ],
             )
         )
+        qs = list(
+            map(
+                lambda p: (
+                    resources.files(self.questions) / p[0],
+                    Literal(p[1]),
+                ),
+                [
+                    ("obj-A-2-1.rq", "Obj_A_2_1"),
+                    ("obj-A-2-4.rq", "Obj_A_2_4"),
+                    ("obj-A-3-6.rq", "Obj_A_3_6"),
+                    ("obj-A-4-6.rq", "Obj_A_4_6"),
+                    ("obj-A-5-1.rq", "Obj_A_5_1"),
+                    ("obj-A-5-5.rq", "Obj_A_5_5"),
+                ],
+            )
+        )
         for question, name in qs:
             with open(str(question), "r", encoding="utf-8") as f:
                 query = f.read()

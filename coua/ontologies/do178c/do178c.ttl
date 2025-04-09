@@ -1,3 +1,4 @@
+@prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
 @prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -27,11 +28,6 @@ do178c:hasSoftwareLevel a owl:ObjectProperty ;
 	rdfs:label "DO-178C Software Level of software" ;
 	rdfs:range do178c:SoftwareLevel ;
 	rdfs:domain owl:Software .
-
-do178c:objectiveDescription a owl:ObjectProperty ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	rdfs:range rdfs:Literal ;
-	rdfs:domain do178c:Objective .
 
 do178c:Objective a owl:Class ;
 	rdfs:label "Certification Objective" ;
@@ -105,14 +101,16 @@ do178c:SwlDWithoutIndependence a do178c:Applicability ;
 
 do178c:Obj_A_5_5 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "Source Code is tracable to low-level requirements." ;
+	rdfs:label "DO-178C A-5-5" ;
+	rdfs:comment "Source Code is tracable to low-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
 do178c:Obj_A_2_1 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "High-level requirements are developed." ;
+	rdfs:label "DO-178C A-2-1" ;
+	rdfs:comment "High-level requirements are developed." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence ;
@@ -120,14 +118,16 @@ do178c:Obj_A_2_1 a do178c:Objective ;
 
 do178c:Obj_A_2_4 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "Low-level requirements are developed." ;
+	rdfs:label "DO-178C A-2-4" ;
+	rdfs:comment "Low-level requirements are developed." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
 do178c:Obj_A_3_6 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "High-level requirements are tracable to system requirements." ;
+	rdfs:label "DO-178C A-3-6" ;
+	rdfs:comment "High-level requirements are tracable to system requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence ;
@@ -135,22 +135,18 @@ do178c:Obj_A_3_6 a do178c:Objective ;
 
 do178c:Obj_A_4_6 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "Low-level requirements are tracable to high-level requirements." ;
+	rdfs:label "DO-178C A-4-6" ;
+	rdfs:comment "Low-level requirements are tracable to high-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
 do178c:Obj_A_5_1 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:objectiveDescription "Source Code complies with low-level requirements." ;
+	rdfs:label "DO-178C A-5-1" ;
+	rdfs:comment "Source Code complies with low-level requirements." ;
 	do178c:hasApplicability do178c:SwlAWithIndependence ;
 	do178c:hasApplicability do178c:SwlBWithIndependence ;
-	do178c:hasApplicability do178c:SwlCWithoutIndependence .
-
-do178c:6_3_4_f a do178c:Objective ;
-	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	do178c:hasApplicability do178c:SwlAWithoutIndependence ;
-	do178c:hasApplicability do178c:SwlBWithoutIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
 do178c:outputs a owl:ObjectProperty ;
@@ -250,3 +246,5 @@ do178c:displayName a owl:ObjectProperty ;
 	rdfs:domain do178c:Location ;
 	rdfs:range rdfs:Literal ;
 	rdfs:label "DO-178C Display Name" .
+
+do178c:Objective rdfs:subClassOf coua:Check .

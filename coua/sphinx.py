@@ -179,7 +179,10 @@ class CouaDO178CRequirementsSection(SphinxDirective):
         srcs += [nodes.emphasis(text=title), nodes.Text(": ")]
         ts = list(things)
         for source in ts[:-1]:
-            srcs += [nodes.reference(text=source, refuri=f"#{source}"), nodes.Text(", ")]
+            srcs += [
+                nodes.reference(text=source, refuri=f"#{source}"),
+                nodes.Text(", "),
+            ]
         if ts:
             s = ts[-1]
             srcs += [nodes.reference(text=s, refuri=f"#{s}")]

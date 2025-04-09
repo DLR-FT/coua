@@ -2,6 +2,7 @@
 Abstract ontology definitions
 """
 
+from abc import abstractmethod
 from importlib.resources import files, Package
 from malkoha import trace_requirements
 from typing import Iterable, Tuple
@@ -21,6 +22,7 @@ class Ontology:
     questions: Package
     selections: Package
 
+    @abstractmethod
     def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
         """
         Performs checks defined by the ontology implementation.
@@ -29,12 +31,8 @@ class Ontology:
         By default the file name will be used as the display name.
         Specific classes may override this e.g. with the objective name.
         """
-
-        qs = files(self.questions)
-        for question in qs.iterdir():
-            query = question.read_text()
-            uri = URIRef(str(self.namespace) + question.name)
-            yield uri, Literal(question.name), bool(graph.query(query))
+        while False:
+            yield None
 
     def select(self, store: Store, query_path_segment: str) -> QuerySolutions:
         """
