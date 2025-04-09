@@ -1,3 +1,4 @@
+name = "Coua"
 checks = ["do178c", "coua"]
 
 [do178c]
