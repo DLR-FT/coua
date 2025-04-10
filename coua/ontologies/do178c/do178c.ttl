@@ -99,6 +99,26 @@ do178c:SwlDWithoutIndependence a do178c:Applicability ;
 	do178c:toSoftwareLevel do178c:SoftwareLevelD ;
 	do178c:withIndependence "false"^^xsd:boolean .
 
+do178c:SwlAWithIndependence a do178c:Applicability ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:toSoftwareLevel do178c:SoftwareLevelA ;
+	do178c:withIndependence "true"^^xsd:boolean .
+
+do178c:SwlBWithIndependence a do178c:Applicability ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:toSoftwareLevel do178c:SoftwareLevelB ;
+	do178c:withIndependence "true"^^xsd:boolean .
+
+do178c:SwlCWithIndependence a do178c:Applicability ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:toSoftwareLevel do178c:SoftwareLevelC ;
+	do178c:withIndependence "true"^^xsd:boolean .
+
+do178c:SwlDWithIndependence a do178c:Applicability ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	do178c:toSoftwareLevel do178c:SoftwareLevelD ;
+	do178c:withIndependence "true"^^xsd:boolean .
+
 do178c:Obj_A_5_5 a do178c:Objective ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C A-5-5" ;
