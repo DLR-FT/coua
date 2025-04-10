@@ -9,7 +9,7 @@ class CheckResults(dict):
     pass
 
 
-@trace_requirements("Req50")
+@trace_requirements("Req50", "Req41")
 def run_checks(store: Store, ontology: Ontology, **kwargs) -> CheckResults:
     results = CheckResults()
     for check, name, status in ontology.check(store, **kwargs):

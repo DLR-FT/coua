@@ -4,6 +4,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> a owl:Ontology ;
 	dc:title "The Coua schema" .
@@ -50,6 +51,13 @@ coua:traces a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
 	rdfs:domain coua:Requirement ;
 	rdfs:range coua:Requirement .
+
+coua:notImplemented a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> ;
+	rdfs:comment "Requirement is not yet implemented." ;
+	rdfs:label "Not implemented" ;
+	rdfs:domain coua:Requirement ;
+	rdfs:range xsd:boolean .
 
 coua:name a owl:DatatypeProperty ;
 	rdfs:comment "Test case name" ;

@@ -29,7 +29,7 @@ class Mantra(DefinedNamespace):
     requirement: URIRef
 
 
-@trace_requirements("Req70")
+@trace_requirements("Req70", "Req51")
 class MantraOntology(Ontology):
     """
     RDFLib ontology

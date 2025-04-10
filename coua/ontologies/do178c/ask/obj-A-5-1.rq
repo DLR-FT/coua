@@ -1,10 +1,12 @@
 # Source Code complies with low-level requirements
 
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ASK { FILTER NOT EXISTS {
-    do178c:Obj_A_5_1 do178c:hasApplicability ?appl .
+     do178c:Obj_A_5_1 do178c:hasApplicability ?appl .
     ?appl do178c:toSoftwareLevel ?swl .
     ?sw a do178c:Software ;
         do178c:hasSoftwareLevel ?swl .
@@ -21,9 +23,7 @@ ASK { FILTER NOT EXISTS {
         ?tc rdfs:subClassOf+ do178c:TraceData .
         ?rp1 rdfs:subPropertyOf+ do178c:requirementId .
         ?e a ?tc ;
-            ?rp1 ?rid2 .
-
-        # Match up by requirement id
-        FILTER(?rid = ?rid2)
+            ?rp1 ?rid .
     }
+    MINUS{ ?r coua:notImplemented "true"^^xsd:boolean }
 }}

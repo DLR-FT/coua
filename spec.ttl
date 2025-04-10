@@ -6,6 +6,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix req: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/requirements#> .
 @prefix uc: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/use-cases#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/resources/manifest#> a owl:Ontology ;
 	dc:title "Certification data for Coua" .
@@ -41,19 +42,19 @@ req:check a coua:HighLevelRequirement ;
 	coua:requirementId "Req100" ;
 	coua:owner "DLR" ;
 	coua:description "Coua shall provide the current satisfiability of the relevant objectives."@en .
-req:Req01 a coua:LowLevelRequirement ;
+req:Req01 a coua:HighLevelRequirement ;
 	coua:traces req:ingest ;
 	coua:requirementId "Req01" ;
 	coua:description "The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC04 ;
 	coua:rationale "In a typical Git-based workflow, CI provides automated checks of the software development process and software and tests. The results of these checks are provided in various machine-readable formats."@en .
-req:Req02 a coua:LowLevelRequirement ;
+req:Req02 a coua:HighLevelRequirement ;
 	coua:requirementId "Req02" ;
 	coua:traces req:ingest ;
 	coua:description "The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools."@en ;
 	coua:owner "DLR" .
-req:Req03 a coua:LowLevelRequirement ;
+req:Req03 a coua:HighLevelRequirement ;
 	coua:requirementId "Req03" ;
 	coua:traces req:report ;
 	coua:description "The certification report shall include all certification objectives and references to all required evidences it has access to."@en ;
@@ -61,56 +62,54 @@ req:Req03 a coua:LowLevelRequirement ;
 	coua:useCase uc:UC01 .
 req:ci a coua:HighLevelRequirement ;
 	coua:requirementId "Req04" ;
-	coua:traces req:Req00 ;
+	coua:traces req:Req20 ;
 	coua:description "While CI is in use, when changes are committed to the SCM, Coua shall generate a certification report."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
-req:ingest a coua:HighLevelRequirement ;
+req:ingest a coua:SystemLevelRequirement ;
 	coua:requirementId "Req05" ;
-	coua:traces req:Req00 ;
 	coua:description "Coua shall be able to ingest requirements, evidences, justifications and data-items from artifacts produced by COTS tools."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC04 .
 req:Req06 a coua:LowLevelRequirement ;
 	coua:requirementId "Req06" ;
 	coua:description "Coua shall provide means to specify how to obtain artifacts created by other tools."@en ;
-	coua:traces req:ingest ;
+	coua:traces req:Req02 ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC06 .
-req:Req07 a coua:LowLevelRequirement ;
+req:Req07 a coua:HighLevelRequirement ;
 	coua:traces req:report ;
 	coua:requirementId "Req12" ;
 	coua:description "When the certification report is generated, Coua shall always produce the same report for the same project state."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC05 .
-req:Req08 a coua:LowLevelRequirement ;
-	coua:traces req:ingest ;
+req:Req08 a coua:HighLevelRequirement ;
+	coua:traces req:Req00 ;
 	coua:requirementId "Req08" ;
 	coua:description "Coua shall provide means to extend the ontologies of generalized standards such as DO-178C to project-specific certification objectives"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC6 .
-req:Req09 a coua:LowLevelRequirement ;
+req:Req09 a coua:HighLevelRequirement ;
 	coua:traces req:report ;
 	coua:requirementId "Req09" ;
-	coua:description "Coua shall provide means to identify which ontologies were used to perform verification and validation in the certification report."@en ;
+	coua:description "Coua shall provide means to identify which objectives were used to perform verification and validation in the certification report."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC6 .
-req:Req10 a coua:LowLevelRequirement ;
-	coua:traces req:check ;
+req:Req10 a coua:HighLevelRequirement ;
+	coua:traces req:Req00 ;
 	coua:requirementId "Req10" ;
 	coua:description "Coua shall track the association between artifacts like requirements, test cases, source code and object code (tracing)."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC8 .
-req:Req11 a coua:LowLevelRequirement ;
-	coua:traces req:check ;
+req:Req11 a coua:HighLevelRequirement ;
+	coua:traces req:Req00 ;
 	coua:requirementId "Req11" ;
 	coua:description "Coua shall track the association between artifacts and objectives."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC08 .
-req:report a coua:HighLevelRequirement ;
-	coua:traces req:Req00 ;
+req:report a coua:SystemLevelRequirement ;
 	coua:requirementId "Req12" ;
-	coua:description "Coua shall generate certification reports."@en ;
+	coua:description "Coua shall generate a certification report."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC01 .
 req:Req13 a coua:LowLevelRequirement ;
@@ -120,18 +119,21 @@ req:Req13 a coua:LowLevelRequirement ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req14 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req14" ;
 	coua:traces req:check ;
 	coua:description "While Coua performs validation activities, if any failing unsatisfiable objectives are encountered, Coua shall not indicate that its activities have failed. "@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req15 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req15" ;
 	coua:traces req:check ;
 	coua:description "Coua shall provide a way to mark objectives as unsatisfiable"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req16 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req16" ;
 	coua:traces req:check ;
 	coua:description "Coua shall provide a way to remove the unsatisfiable mark from objectives."@en ;
@@ -139,14 +141,15 @@ req:Req16 a coua:LowLevelRequirement ;
 	coua:useCase uc:UC10 .
 req:Req17 a coua:LowLevelRequirement ;
 	coua:requirementId "Req17" ;
-	coua:traces req:ci ;
+	coua:traces req:check;
 	coua:description "While CI is in use, Coua shall signal failed objectives as errors"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
 req:Req18 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req18" ;
-	coua:traces req:ingest ;
-	coua:description "Coua shall ingest artifacts in the Static Analysis Results Interchange Format (SARIF) format without additional processing"@en ;
+	coua:traces req:Req01 ;
+	coua:description "Coua shall ingest artifacts in the Static Analysis Results Interchange Format (SARIF) format."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC07 .
 req:indep a coua:HighLevelRequirement ;
@@ -155,49 +158,53 @@ req:indep a coua:HighLevelRequirement ;
 	coua:description "Coua shall be executable independently of CI, e.g. locally on a developer’s or tester’s computer"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC05 .
-req:Req20 a coua:LowLevelRequirement ;
+req:Req20 a coua:SystemLevelRequirement ;
 	coua:requirementId "Req20" ;
-	coua:traces req:ci ;
 	coua:description "Coua shall be executable in CI"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
 req:Req21 a coua:LowLevelRequirement ;
 	coua:requirementId "Req21" ;
-	coua:traces req:ingest ;
+	coua:traces req:Req01 ;
 	coua:description "Coua shall provide means for ingesting artifacts from the local filesystem"@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC03 .
 req:Req22 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:notImplemented "true"^^xsd:boolean ;
+	coua:traces req:Req03 ;
 	coua:requirementId "Req22" ;
 	coua:description "When Coua produces a certification report, where data from artifacts is used, Coua shall include data about the tools that produced the artifacts."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC05 .
 req:Req23 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req23" ;
-	coua:traces req:ingest ;
+	coua:traces req:Req01 ;
 	coua:description "If the ontology contains syntactical errors, then Coua shall refuse to evaluate the ontology and produce a meaningful error message."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC06 .
 req:Req24 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req24" ;
-	coua:traces req:ingest ;
+	coua:traces req:Req01 ;
 	coua:description "If an artifact contains syntactical errors, then Coua shall refuse to produce a certification report that includes it and issue a meaningful error message."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC04 .
 req:Req25 a coua:LowLevelRequirement ;
 	coua:requirementId "Req25" ;
-	coua:traces req:ingest ;
+	coua:traces req:Req01 ;
 	coua:description "Coua shall allow for importing requirements data in a Comma Separated Values (CSV) format."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC04 .
 req:Req26 a coua:LowLevelRequirement ;
 	coua:requirementId "Req26" ;
-	coua:traces req:ingest ;
+	coua:traces req:ontologies  ;
 	coua:description "Coua shall specify an ontology for requirements data."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC08 .
-req:Req27 a coua:LowLevelRequirement ;
+req:Req27 a coua:HighLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
+	# TODO Provide justification why this is not traced in the source code (it is provided by providing coua as a sphinx plugin, sphinx allows any extra content in the RST format)
 	coua:requirementId "Req27" ;
 	coua:traces req:report ;
 	coua:description "Coua shall allow for defining custom content in the certification report."@en ;
@@ -209,7 +216,8 @@ req:Req28 a coua:LowLevelRequirement ;
 	coua:description "Coua shall allow a project to run custom queries on the ontologies."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC01 .
-req:Req29 a coua:LowLevelRequirement ;
+req:Req29 a coua:HighLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req29" ;
 	coua:traces req:report ;
 	coua:description "Coua shall provide a well-defined output schema for the certification report."@en ;
@@ -228,98 +236,106 @@ req:ontologies a coua:HighLevelRequirement ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC06 .
 req:Req33 a coua:LowLevelRequirement ;
-	coua:traces req:ingest ;
+	coua:traces req:Req02 ;
 	coua:requirementId "Req33" ;
 	coua:description "Coua shall be able to ingest ontologies in the OWL2 format."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC04 .
 req:Req34 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:requirementId "Req34" ;
 	coua:description "The certification report shall clearly display which objective is satisfied."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC01 .
 req:Req35 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:requirementId "Req35" ;
 	coua:description "If the certification report indicates that all objectives are met, Coua shall make it clear that this is not guaranteed."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC01 .
 req:Req36 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req36" ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:description "The certification report shall clearly display whether an objective has regressed."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
 req:Req37 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:requirementId "Req37" ;
 	coua:description "The certification report shall mark failing satisfiable objectives."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req38 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:notImplemented "true"^^xsd:boolean ;
+	coua:traces req:check ;
 	coua:requirementId "Req38" ;
 	coua:description "The certification report shall mark not yet satisfiable objectives."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req39 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req39" ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:description "When an objective is violated, the certification report shall highlight the precise artifacts that are the source of the violation."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC07 .
 req:Req40 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:notImplemented "true"^^xsd:boolean ;
+	coua:traces req:Req03 ;
 	coua:requirementId "Req40" ;
 	coua:description "The certification report shall be human-readable."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC01 .
 req:Req41 a coua:LowLevelRequirement ;
 	coua:requirementId "Req41" ;
-	coua:traces req:report ;
+	coua:traces req:Req03 ;
 	coua:description "The certification report shall be machine-readable."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC09 .
 req:Req42 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req42" ;
-	coua:traces req:report ;
+	coua:traces req:Req03 ;
 	coua:description "The certification reports shall have the same contents in both human- and machine- readable forms."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC09 .
 req:Req43 a coua:LowLevelRequirement ;
 	coua:requirementId "Req43" ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:description "The certification report shall include all failed objectives."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
 req:Req44 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req44" ;
-	coua:traces req:report ;
+	coua:traces req:check ;
 	coua:description "The certification report shall present unsatisfiable objectives less prominently."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req45 a coua:LowLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req45" ;
-	coua:traces req:report ;
+	coua:traces req:Req03 ;
 	coua:description "While the artifacts provide the required information, the certification report shall include all data items and evidences required to build an assurance case."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req46 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+	coua:notImplemented "true"^^xsd:boolean ;
+	coua:traces req:Req03 ;
 	coua:requirementId "Req46" ;
 	coua:description "The certification framework shall allow for defining custom content in the rendered certification report."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
-req:Req47 a coua:LowLevelRequirement ;
-	coua:traces req:report ;
+req:Req47 a coua:SystemLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req47" ;
 	coua:description "Coua shall finish producing the report in a time that allows for fast feedback during development."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
-req:Req48 a coua:LowLevelRequirement ;
+req:Req48 a coua:SystemLevelRequirement ;
+	coua:notImplemented "true"^^xsd:boolean ;
 	coua:requirementId "Req48" ;
-	coua:traces req:report ;
 	coua:description "Coua shall use not more than half of the memory that is available in the CI or in the development requirement."@en ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC02 .
@@ -333,7 +349,7 @@ req:Req51 a coua:LowLevelRequirement ;
 	coua:requirementId "Req51" ;
 	coua:description "Coua shall be able to access trace data from mantra.db."@en ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest ;
+	coua:traces req:Req02 ;
 	coua:useCase uc:UC08 .
 req:cli a coua:HighLevelRequirement ;
 	coua:requirementId "Req52" ;
@@ -418,66 +434,71 @@ req:Req67 a coua:LowLevelRequirement ;
 	coua:requirementId "Req67" ;
 	coua:owner "DLR" ;
 	coua:traces req:check .
-req:ontology_do178c a coua:LowLevelRequirement ;
+req:ontology_do178c a coua:HighLevelRequirement ;
 	coua:description "Coua shall provide an ontology for DO-178C."@en ;
 	coua:requirementId "Req68" ;
 	coua:owner "DLR" ;
-	coua:traces req:check .
+	coua:traces req:Req00 .
 req:ontology_junit a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide an ontology for JUnit test reports."@en ;
 	coua:requirementId "Req69" ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest .
+	coua:traces req:Req01 .
 req:ontology_mantra a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide an ontology for requirements from a mantra database."@en ;
 	coua:requirementId "Req70" ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest .
+	coua:traces req:Req01 .
 req:ontology_mantra a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide an ontology for cargo-needy trace data."@en ;
 	coua:requirementId "Req71" ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest .
+	coua:traces req:Req01 .
 req:ontology_traces a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide an ontology for its own trace format for Python source code."@en ;
 	coua:requirementId "Req72" ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest .
+	coua:traces req:Req01 .
 req:ontology_cobertura a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide an ontology for its own trace format for Python source code."@en ;
 	coua:requirementId "Req73" ;
 	coua:owner "DLR" ;
-	coua:traces req:ingest .
-req:do178c_appl a coua:HighLevelRequirement ;
+	coua:traces req:Req01 .
+req:do178c_appl a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide a way to only apply the objectives of DO-178C that are required for a given software level."@en ;
 	coua:requirementId "Req74" ;
 	coua:owner "DLR" ;
-	coua:traces req:Req00 .
+	coua:traces req:ontology_do178c .
 req:do178c_appl_conf a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide a way to configure the software level of a software."@en ;
 	coua:requirementId "Req75" ;
 	coua:owner "DLR" ;
-	coua:traces req:do178c_appl .
+	coua:traces req:ontology_do178c .
 req:do178c_appl_appl a coua:LowLevelRequirement ;
 	coua:description "Coua shall apply the configured software level before checks are performed."@en ;
 	coua:requirementId "Req76" ;
 	coua:owner "DLR" ;
-	coua:traces req:do178c_appl .
+	coua:traces req:ontology_do178c .
 req:do178c_appl_render a coua:LowLevelRequirement ;
 	coua:description "Coua shall render the software level as part of the certification report."@en ;
 	coua:requirementId "Req77" ;
 	coua:owner "DLR" ;
-	coua:traces req:do178c_appl .
-req:do178c_independence a coua:HighLevelRequirement ;
+	coua:traces req:ontology_do178c .
+req:do178c_independence a coua:LowLevelRequirement ;
 	coua:description "Coua shall notify the reader of the reviewer that independence is required for an objective."@en ;
 	coua:requirementId "Req78" ;
 	coua:owner "DLR" ;
-	coua:traces req:Req00 .
+	coua:traces req:ontology_do178c .
 req:do178c_report_independence a coua:LowLevelRequirement ;
 	coua:description "Coua shall contain a directive that allows the developer to render the list of objectives that require independent review in the report."@en ;
 	coua:requirementId "Req79" ;
 	coua:owner "DLR" ;
-	coua:traces req:do178c_independence .
+	coua:traces req:ontology_do178c .
+req:do178c_namespace a coua:LowLevelRequirement ;
+	coua:description "Coua shall provide a namespace for DO-178C terms."@en ;
+	coua:requirementId "Req80" ;
+	coua:owner "DLR" ;
+	coua:traces req:ontology_do178c .
 
 uc:UC05 a coua:UseCase ;
 	coua:ucId "UC05" ;

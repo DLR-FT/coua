@@ -219,6 +219,13 @@ do178c:Requirement a owl:Class ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Software Requirement" .
 
+do178c:justification a owl:ObjectProperty ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:label "DO-178C Justification" ;
+	rdfs:comment "A justification for a requirement not being fulfilled" ;
+	rdfs:domain do178c:Requirement ;
+	rdfs:range rdfs:Literal .
+
 do178c:LowLevelRequirement a owl:Class ;
 	rdfs:subClassOf do178c:Requirement ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;

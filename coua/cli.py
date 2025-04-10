@@ -61,7 +61,7 @@ def run():
         sys.exit(1)
 
 
-@trace_requirements("Req53", "Req57", "Req75")
+@trace_requirements("Req53", "Req57", "Req75", "Req13", "Req17")
 def check_cmd(args: Namespace):
     config = parse_config(args.config)
     artifacts = config.get("artifacts", dict())

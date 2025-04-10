@@ -14,7 +14,7 @@ from io import IOBase
 from typing import List, Dict, Any
 
 
-@trace_requirements("Req58")
+@trace_requirements("Req58", "Req21", "Req25", "Req06")
 def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
     morph_config = ""
     for section, artifact in artifacts.items():

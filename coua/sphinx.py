@@ -220,13 +220,13 @@ class CouaUseCaseCoverageMatrix(CouaCrosstabDirective):
     dimension_y = "UC"
 
 
-@trace_requirements("Req34")
+@trace_requirements("Req34", "Req37", "Req43", "Req63")
 class CouaCheckTable(CouaTableDirective):
     ontology = Coua()
     query_path_segment = "checks.rq"
 
 
-@trace_requirements("Req79")
+@trace_requirements("Req78", "Req79", "Req35")
 class CouaDO178CWithIndependence(CouaTableDirective):
     has_content = False
     required_arguments = 0
@@ -244,8 +244,14 @@ class CouaDO178CWithIndependence(CouaTableDirective):
             p += [nodes.Text(s["Objective"]), nodes.Text(", ")]
         s = sol[-1]
         p += [nodes.Text(s["Objective"])]
+        disclaimer = nodes.paragraph()
+        disclaimer += [
+            nodes.Text(
+                " This report is machine-generated and is only binding once signed by a human."
+            )
+        ]
 
-        return [p]
+        return [p, disclaimer]
 
 
 @trace_requirements("Req77")

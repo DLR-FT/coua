@@ -18,7 +18,7 @@ import coua.ontologies.do178c.ask as questions
 import coua.ontologies.do178c.select as selections
 
 
-@trace_requirements("Req68")
+@trace_requirements("Req80")
 class DO178C(DefinedNamespace):
     """
     RDFlib class for ontology namespace
@@ -45,7 +45,7 @@ class DO178C(DefinedNamespace):
     requirementRationale: URIRef
 
 
-@trace_requirements("Req68", "Req76")
+@trace_requirements("Req68", "Req76", "Req74")
 class DO178COntology(Ontology):
     """
     RDFlib class for ontology
