@@ -1,0 +1,15 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Objective {
+	?sw a do178c:Software ;
+	    do178c:hasSoftwareLevel ?swl .
+
+	?obj a do178c:Objective ;
+		do178c:hasApplicability ?appl ;
+		rdfs:label ?Objective .
+
+	?appl do178c:toSoftwareLevel ?swl ;
+		do178c:withIndependence "true"^^xsd:boolean .
+}

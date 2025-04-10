@@ -468,6 +468,16 @@ req:do178c_appl_render a coua:LowLevelRequirement ;
 	coua:requirementId "Req77" ;
 	coua:owner "DLR" ;
 	coua:traces req:do178c_appl .
+req:do178c_independence a coua:HighLevelRequirement ;
+	coua:description "Coua shall notify the reader of the reviewer that independence is required for an objective."@en ;
+	coua:requirementId "Req78" ;
+	coua:owner "DLR" ;
+	coua:traces req:Req00 .
+req:do178c_report_independence a coua:LowLevelRequirement ;
+	coua:description "Coua shall contain a directive that allows the developer to render the list of objectives that require independent review in the report."@en ;
+	coua:requirementId "Req79" ;
+	coua:owner "DLR" ;
+	coua:traces req:do178c_independence .
 
 uc:UC05 a coua:UseCase ;
 	coua:ucId "UC05" ;

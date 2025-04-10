@@ -124,10 +124,9 @@ Check results
 .. coua:check_list::
 
 
-Requirements
-------------
-.. coua:requirements_list::
+The following objectives require an independent review:
 
+.. coua:requires_independence::
 
 Requirements (section format)
 -----------------------------

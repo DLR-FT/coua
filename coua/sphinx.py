@@ -226,6 +226,28 @@ class CouaCheckTable(CouaTableDirective):
     query_path_segment = "checks.rq"
 
 
+@trace_requirements("Req79")
+class CouaDO178CWithIndependence(CouaTableDirective):
+    has_content = False
+    required_arguments = 0
+    ontology = DO178C()
+
+    def run(self) -> List[Node]:
+        domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
+        store: Store = domain.store
+        solutions = self.ontology.select(store, "requires_independence.rq")
+        p = nodes.paragraph()
+        sol = list(solutions)
+        if not sol:
+            return [p]
+        for s in sol[:-1]:
+            p += [nodes.Text(s["Objective"]), nodes.Text(", ")]
+        s = sol[-1]
+        p += [nodes.Text(s["Objective"])]
+
+        return [p]
+
+
 @trace_requirements("Req77")
 class CouaDO178CSoftwareLevelDirective(SphinxDirective):
     has_content = False
@@ -249,6 +271,7 @@ class CouaDomain(Domain):
     data_version = 0
     directives = {
         "check_list": CouaCheckTable,
+        "requires_independence": CouaDO178CWithIndependence,
         "requirements_list": CouaDO178CRequirementsList,
         "requirements_section": CouaDO178CRequirementsSection,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
