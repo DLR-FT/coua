@@ -204,6 +204,12 @@ class CouaDO178CTracabilityMatrix(CouaCrosstabDirective):
     dimension_y = "Location"
 
 
+@trace_requirements("Req38")
+class CouaNotImplemented(CouaTableDirective):
+    ontology = Coua()
+    query_path_segment = "not_implemented.rq"
+
+
 @trace_requirements("Req62")
 class CouaDO178CRequirementsTestCoverageMatrix(CouaCrosstabDirective):
     ontology = DO178C()
@@ -284,6 +290,7 @@ class CouaDomain(Domain):
         "requirements_test_coverage_matrix": CouaDO178CRequirementsTestCoverageMatrix,
         "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
         "software_level_list": CouaDO178CSoftwareLevelDirective,
+        "not_implemented": CouaNotImplemented,
     }
 
     @property

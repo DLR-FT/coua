@@ -1,0 +1,16 @@
+# Requirements that are not yet implemented
+
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?ID ?Description
+WHERE
+{
+  ?rclass rdfs:subClassOf+ coua:Requirement .
+  ?r a ?rclass ;
+	coua:requirementId ?ID ;
+	coua:description ?Description ;
+    coua:notImplemented "true"^^xsd:boolean .
+}
+ORDER BY ?ID

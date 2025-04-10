@@ -145,3 +145,8 @@ Requirements Test Coverage Matrix
 Use-Cases Coverage Matrix
 -------------------------
 .. coua:use_cases_coverage_matrix::
+
+
+Low-Level Requirements not yet implemented
+------------------------------------------
+.. coua:not_implemented::

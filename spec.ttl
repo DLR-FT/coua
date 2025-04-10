@@ -267,7 +267,6 @@ req:Req37 a coua:LowLevelRequirement ;
 	coua:owner "DLR" ;
 	coua:useCase uc:UC10 .
 req:Req38 a coua:LowLevelRequirement ;
-	coua:notImplemented "true"^^xsd:boolean ;
 	coua:traces req:check ;
 	coua:requirementId "Req38" ;
 	coua:description "The certification report shall mark not yet satisfiable objectives."@en ;
