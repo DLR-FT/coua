@@ -57,5 +57,9 @@ clean:
 	rm -f junit.xml coverage.xml traces.json spec.nq doc/source/imported.nq
 	$(MAKE) -C doc clean
 
+doc/build/html/coua_db: doc/source/imported.nq
+	mkdir -p doc/build/html/coua_db
+	oxigraph load --location $@ --format application/n-quads < $<
+
 serve: doc/build/html/coua_db
 	oxigraph serve-read-only --location $<
