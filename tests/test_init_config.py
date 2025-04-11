@@ -17,4 +17,4 @@ class TestInitConfig:
         file.flush()
         cfg = tomllib.loads(file.getvalue())
         assert "checks" in cfg
-        assert "do178c" in cfg["checks"]
+        assert "do178c" in cfg["checks"]["suites"]

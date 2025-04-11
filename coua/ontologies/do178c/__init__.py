@@ -4,7 +4,7 @@ Ontology for DO-178C
 
 from enum import Enum
 from importlib import resources
-from typing import Iterable, Tuple
+from typing import Set, Tuple, Iterable
 
 from malkoha import trace_requirements
 from rdflib import URIRef, Literal, Graph
@@ -14,6 +14,7 @@ from pyoxigraph import Quad, NamedNode
 from coua.exceptions import CouaException
 from coua.ontologies import Ontology
 
+from coua.ontologies.ontology import CheckResult
 import coua.ontologies.do178c.ask as questions
 import coua.ontologies.do178c.select as selections
 
@@ -55,29 +56,15 @@ class DO178COntology(Ontology):
     questions = questions
     selections = selections
 
-    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
+    def check(
+        self, graph: Graph, disabled_checks: Set[URIRef], **kwargs
+    ) -> Iterable[Tuple[URIRef, Literal, CheckResult]]:
         software: str = kwargs["software"]
         software_level: str = kwargs["software_level"]
         sw = URIRef(software)
         swl = SoftwareLevel[software_level]
         activate_software_level(graph, sw, swl)
         check_is_do178c(graph)
-        qs = list(
-            map(
-                lambda p: (
-                    resources.files(self.questions) / f"obj-{p}.rq",
-                    Literal(f"DO-178C-{p}"),
-                ),
-                [
-                    "A-2-1",
-                    "A-2-4",
-                    "A-3-6",
-                    "A-4-6",
-                    "A-5-1",
-                    "A-5-5",
-                ],
-            )
-        )
         qs = list(
             map(
                 lambda p: (
@@ -95,11 +82,14 @@ class DO178COntology(Ontology):
             )
         )
         for question, name in qs:
+            uri = URIRef(str(self.namespace) + name)
+            if str(uri) in disabled_checks:
+                continue
+
             with open(str(question), "r", encoding="utf-8") as f:
                 query = f.read()
-            uri = URIRef(str(self.namespace) + name)
 
-            yield uri, name, bool(graph.query(query))
+            yield uri, name, CheckResult(bool(graph.query(query)))
 
 
 @trace_requirements("Req75")

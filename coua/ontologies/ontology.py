@@ -3,13 +3,19 @@ Abstract ontology definitions
 """
 
 from abc import abstractmethod
+from enum import Enum
 from importlib.resources import files, Package
 from malkoha import trace_requirements
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Set
 
 from pyoxigraph import QuerySolutions, Store
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import DefinedNamespace
+
+
+class CheckResult(Enum):
+    Passed = True
+    Failed = False
 
 
 @trace_requirements("Req28")
@@ -23,7 +29,9 @@ class Ontology:
     selections: Package
 
     @abstractmethod
-    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
+    def check(
+        self, graph: Graph, disabled_checks: Set[URIRef], **kwargs
+    ) -> Iterable[Tuple[URIRef, Literal, CheckResult]]:
         """
         Performs checks defined by the ontology implementation.
 

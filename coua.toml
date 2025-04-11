@@ -1,5 +1,12 @@
+[project]
 name = "Coua"
-checks = ["do178c", "coua"]
+
+[checks]
+suites = ["do178c", "coua"]
+disabled = [
+  # URIs of disabled checks, they will run, but their result will not be counted as a failure
+  "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#Obj_A_5_1"
+]
 
 [do178c]
 software = "https://dlr.de/ft/ssy/coua"

@@ -131,7 +131,8 @@ def parse_config(path: str) -> dict:
 
 @trace_requirements("Req58", "Req57", "Req55")
 def init_config(config: IOBase, files: List[str], checks: List[str]):
-    config.write("checks = [")
+    config.write("[checks]\n")
+    config.write("suites = [")
     for check in checks:
         config.write(f'"{check}", ')
     config.write("]\n")

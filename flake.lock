@@ -174,11 +174,11 @@
         "pyproject-nix": "pyproject-nix_3"
       },
       "locked": {
-        "lastModified": 1743421285,
-        "narHash": "sha256-89fzdBrZbAMV5pOUu1aLF/4fpr5oEVkty35ouz5kW2U=",
+        "lastModified": 1744705913,
+        "narHash": "sha256-k3rfq9FdtysV4kuW/oN26a6vKeLfMSiQfY/7n+MpKfk=",
         "owner": "DLR-FT",
         "repo": "sphinx-ext-sparql",
-        "rev": "7078891370acce1e2b0554d2a7df9cda45841f21",
+        "rev": "d66917d875d592025adf65ee3c27402f18d21ea5",
         "type": "github"
       },
       "original": {

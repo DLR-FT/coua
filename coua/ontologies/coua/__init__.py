@@ -3,14 +3,14 @@ Ontology for Coua requirement and use-case formats
 """
 
 from importlib import resources
-from importlib.resources import files
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Set
 
 from malkoha import trace_requirements
 from rdflib import URIRef, Graph, Literal
 from rdflib.namespace import DefinedNamespace, Namespace
 
 from coua.ontologies import Ontology
+from coua.ontologies.ontology import CheckResult
 from coua.ontologies.coua import ask as questions, select as selections
 
 
@@ -69,7 +69,9 @@ class CouaOntology(Ontology):
     questions = questions
     selections = selections
 
-    def check(self, graph: Graph, **kwargs) -> Iterable[Tuple[URIRef, Literal, bool]]:
+    def check(
+        self, graph: Graph, disabled_checks: Set[URIRef], **kwargs
+    ) -> Iterable[Tuple[URIRef, Literal, CheckResult]]:
         qs = list(
             map(
                 lambda p: (
@@ -82,8 +84,12 @@ class CouaOntology(Ontology):
             )
         )
         for question, name in qs:
-            with open(str(question), "r", encoding="utf-8") as f:
-                query = f.read()
             uri = URIRef(str(self.namespace) + name)
 
-            yield uri, name, bool(graph.query(query))
+            if str(uri) in disabled_checks:
+                continue
+
+            with open(str(question), "r", encoding="utf-8") as f:
+                query = f.read()
+
+            yield uri, name, CheckResult(bool(graph.query(query)))

@@ -6,6 +6,7 @@ from argparse import ArgumentParser, Namespace
 
 from malkoha import trace_requirements
 from os import listdir
+from rdflib import URIRef
 
 from coua.config import parse_config, parse_artifacts, init_config
 from coua.checks import run_checks, CheckResults
@@ -75,13 +76,19 @@ def check_cmd(args: Namespace):
     store.flush()
 
     results = CheckResults()
-    for check in config["checks"]:
+    if "disabled" in config["checks"]:
+        disabled_checks = [URIRef(x) for x in config["checks"]["disabled"]]
+    else:
+        disabled_checks = []
+    for check in config["checks"]["suites"]:
         match check:
             case "do178c":
                 options = config.get("do178c")
-                check_results = run_checks(store, DO178C(), **options)
+                check_results = run_checks(
+                    store, DO178C(), set(disabled_checks), **options
+                )
             case "coua":
-                check_results = run_checks(store, Coua())
+                check_results = run_checks(store, Coua(), disabled_checks)
             case _:
                 sys.exit(f"Unknown ontology {check}")
 
