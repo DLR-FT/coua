@@ -25,7 +25,7 @@ def run_checks(
             Quad(
                 subject=subject,
                 predicate=NamedNode(str(Coua.namespace.status)),
-                object=Literal(str(status).lower()),
+                object=Literal(bool(status)),
             )
         )
     # Mark disabled checks as disabled
@@ -35,7 +35,7 @@ def run_checks(
             Quad(
                 subject=NamedNode(disabled),
                 predicate=NamedNode(str(Coua.namespace.checkDisabled)),
-                object=Literal("true^^http://www.w3.org/2001/XMLSchema#boolean"),
+                object=Literal(True),
             )
         )
 

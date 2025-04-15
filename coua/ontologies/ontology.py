@@ -13,9 +13,19 @@ from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import DefinedNamespace
 
 
+@trace_requirements("Req28")
 class CheckResult(Enum):
     Passed = True
     Failed = False
+
+    def __str__(self):
+        if self == CheckResult.Failed:
+            return "false^^<http://www.w3.org/2001/XMLSchema#boolean>"
+        else:
+            return "true^^<http://www.w3.org/2001/XMLSchema#boolean>"
+
+    def __bool__(self):
+        return self.value
 
 
 @trace_requirements("Req28")

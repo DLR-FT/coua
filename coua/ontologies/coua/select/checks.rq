@@ -21,7 +21,7 @@ WHERE
   BIND(
     IF(bound(?disabled),
       "disabled",
-      IF(?status = "true",
+      IF(?status = "true"^^xsd:boolean,
         "passed",
         "failed")) AS ?Status)
 
