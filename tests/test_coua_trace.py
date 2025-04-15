@@ -1,4 +1,4 @@
-from coua.config import parse_malkoha_output
+from coua.ontologies.traces import parse_malkoha_output
 from importlib import resources
 from pyoxigraph import Store
 

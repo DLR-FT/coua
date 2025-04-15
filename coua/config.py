@@ -1,15 +1,13 @@
 import morph_kgc
 import tomllib
 import importlib
-import json
-import urllib
 
 from malkoha import trace_requirements
-from malkoha.data import Trace
-from pyoxigraph import Store, NamedNode, Quad, Literal
+from pyoxigraph import Store
 from pathlib import Path
 
 from coua import mappings
+from coua.ontologies.traces import parse_malkoha_output
 from io import IOBase
 from typing import List, Dict, Any
 
@@ -33,70 +31,6 @@ def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
                     parse_malkoha_output(g, section)
 
     return g
-
-
-@trace_requirements("Req58")
-def parse_malkoha_output(g: Store, path: str):
-    with open(path, "r", encoding="utf-8") as f:
-        for line in f:
-            d = json.loads(line)
-            trace = Trace(
-                d["location"]["name"],
-                d["location"]["file"],
-                d["location"]["line"],
-                d["requirements"],
-            )
-            t = "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/traces"
-            file = urllib.parse.quote(trace.location.file, safe="")
-            line = trace.location.line
-            g.extend(
-                (
-                    Quad(
-                        NamedNode(f"{t}#location/{file}/{line}"),
-                        NamedNode(f"{t}#file"),
-                        Literal(trace.location.file),
-                    ),
-                    Quad(
-                        NamedNode(f"{t}#location/{file}/{line}"),
-                        NamedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-                        NamedNode(f"{t}#Location"),
-                    ),
-                    Quad(
-                        NamedNode(f"{t}#location/{file}/{line}"),
-                        NamedNode(f"{t}#line"),
-                        Literal(trace.location.line),
-                    ),
-                    Quad(
-                        NamedNode(f"{t}#location/{file}/{line}"),
-                        NamedNode(f"{t}#displayName"),
-                        Literal(trace.location.name),
-                    ),
-                    Quad(
-                        NamedNode(f"{t}#event/{file}/{line}"),
-                        NamedNode(f"{t}#location"),
-                        NamedNode(f"{t}#location/{file}/{line}"),
-                    ),
-                )
-            )
-            if trace.requirements:
-                for requirement in trace.requirements:
-                    g.extend(
-                        (
-                            Quad(
-                                NamedNode(f"{t}#event/{file}/{line}"),
-                                NamedNode(f"{t}#requirement_id"),
-                                Literal(requirement),
-                            ),
-                            Quad(
-                                NamedNode(f"{t}#event/{file}/{line}"),
-                                NamedNode(
-                                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-                                ),
-                                NamedNode(f"{t}#Event"),
-                            ),
-                        )
-                    )
-
 
 @trace_requirements("Req58")
 def parse_morph_config(section: str, artifact: dict) -> str:
