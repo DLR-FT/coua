@@ -11,20 +11,7 @@ WHERE
   ?requirementId rdfs:subPropertyOf+ do178c:requirementId .
   ?req ?requirementId ?Requirement .
 
-  OPTIONAL {
-    ?level rdfs:subClassOf+ do178c:SystemLevelRequirement .
-    BIND ("system" as ?Level) .
-  }
-
-  OPTIONAL {
-    ?level rdfs:subClassOf+ do178c:HighLevelRequirement .
-    BIND ("high" as ?Level) .
-  }
-
-  OPTIONAL {
-    ?level rdfs:subClassOf+ do178c:LowLevelRequirement .
-    BIND ("low" as ?Level) .
-  }
+  ?reqclass rdfs:label ?Level
 
   # Description
   OPTIONAL {
