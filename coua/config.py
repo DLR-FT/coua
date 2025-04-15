@@ -8,6 +8,7 @@ from pathlib import Path
 
 from coua import mappings
 from coua.ontologies.traces import parse_malkoha_output
+from coua.ontologies.cobertura import CoberturaParser
 from io import IOBase
 from typing import List, Dict, Any
 
@@ -29,8 +30,17 @@ def parse_artifacts(artifacts: Dict[str, Any]) -> Store:
             match artifact["type"]:
                 case "malkoha":
                     parse_malkoha_output(g, section)
+                case "cobertura":
+                    parse_cobertura_output(g, section)
 
     return g
+
+
+@trace_requirements("Req81")
+def parse_cobertura_output(g, section):
+    with open(section, "r", encoding="utf-8") as f:
+        CoberturaParser.parse(g, f.read())
+
 
 @trace_requirements("Req58")
 def parse_morph_config(section: str, artifact: dict) -> str:

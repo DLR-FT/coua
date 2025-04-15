@@ -1,3 +1,4 @@
+@prefix coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#> .
 @prefix do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -183,4 +184,14 @@ c:timestamp a owl:DatatypeProperty ;
 	rdfs:domain c:coverage ;
 	rdfs:range rdfs:Literal .
 
-# c:line rdfs:subClassOf do178c:Location .
+
+c:check_all_lines_covered a owl:Class ;
+	rdfs:label "All lines covered" ;
+	rdfs:comment "Source code is covered by test cases (line coverage)." ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/cobertura#> .
+
+c:all_lines_covered a coua:Check .
+
+# TODO add query and mappings for Obj-A-7-7 (statement coverage)
+# FIXME: c:test should store test name from test coverage context, but not part of cobertura format yet
+# TODO idea: create check in this ontology and write check result for DO-178C objective into graph?

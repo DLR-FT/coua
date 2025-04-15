@@ -169,6 +169,14 @@ do178c:Obj_A_5_1 a do178c:Objective ;
 	do178c:hasApplicability do178c:SwlBWithIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
+do178c:Obj_A_7_7 a do178c:Objective ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:label "DO-178C A-7-7" ;
+	rdfs:comment "Test coverage of software structure (statement coverage) is achieved." ;
+	do178c:hasApplicability do178c:SwlAWithIndependence ;
+	do178c:hasApplicability do178c:SwlBWithIndependence ;
+	do178c:hasApplicability do178c:SwlCWithoutIndependence .
+
 do178c:outputs a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C outputs" ;
@@ -205,9 +213,9 @@ do178c:location a owl:ObjectProperty ;
 	rdfs:domain do178c:TraceData ;
 	rdfs:range do178c:Location .
 
-do178c:covers a owl:ObjectProperty ;
+do178c:coversRequirement a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	rdfs:label "DO-178C Coverage Data" ;
+	rdfs:label "DO-178C Test Coverage Data" ;
 	rdfs:domain do178c:TestCase ;
 	rdfs:range do178c:Requirement .
 
@@ -273,5 +281,15 @@ do178c:displayName a owl:ObjectProperty ;
 	rdfs:domain do178c:Location ;
 	rdfs:range rdfs:Literal ;
 	rdfs:label "DO-178C Display Name" .
+
+#do178c:statementCoveredByTestCase a owl:ObjectProperty ;
+#	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+#	rdfs:label "DO-178C Test Coverage Data" ;
+#	rdfs:range do178c:TestCase ;
+#	rdfs:domain do178c:Location .
+
+do178c:SoftwareVerificationResult a owl:Class ;
+	rdfs:label "DO-178C Software Verification Result" ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> .
 
 do178c:Objective rdfs:subClassOf coua:Check .

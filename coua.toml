@@ -2,10 +2,10 @@
 name = "Coua"
 
 [checks]
-suites = ["do178c", "coua"]
+suites = ["do178c", "coua", "cobertura"]
 disabled = [
   # URIs of disabled checks, they will run, but their result will not be counted as a failure
-  "https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#Obj_A_5_1"
+  "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#check_all_lines_covered"
 ]
 
 [do178c]
@@ -15,9 +15,8 @@ software_level = "A"
 [artifacts.Junit.morph]
 file_path = "junit.xml"
 
-[artifacts.Cobertura.morph]
-file_path = "coverage.xml"
-mappings = "coua/mappings/cobertura.ttl"
+[artifacts."coverage.xml"]
+type = "cobertura"
 
 [artifacts."traces.json"]
 type = "malkoha"

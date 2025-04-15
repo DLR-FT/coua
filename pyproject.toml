@@ -51,6 +51,7 @@ pylint.enabled = true
 
 [tool.pytest.ini_options]
 addopts = [
+    "--cov-context=test",
     "--import-mode=importlib",
 ]
 pythonpath = "."

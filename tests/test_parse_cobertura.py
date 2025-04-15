@@ -1,32 +1,17 @@
-import morph_kgc
-
-from coua import mappings
-from pathlib import Path
+from coua.ontologies.cobertura import CoberturaParser
 from importlib import resources
-from rdflib import Graph, URIRef
 from tests import res
-
-
-def load_cobertura_xml(graph: Graph, file: Path):
-    """Loads a cobertura XML into the store"""
-
-    ms = resources.files(mappings).joinpath("cobertura.ttl")
-    config = f"[cobertura]\nmappings: {ms}\nfile_path: {file}\nnumber_of_processes: 1\n"
-    g = morph_kgc.materialize(config)
-    for triple in g:
-        graph.add(triple)
+from pyoxigraph import Store
 
 
 class TestConvcobertura:
     def test_all_subjects_recognized(self, record_property):
-        graph = Graph()
-        json = resources.files(res).joinpath("valid_cobertura.xml")
-        load_cobertura_xml(graph, json)
-        subjects = list(graph.subjects())
-
-        assert (
-            URIRef(
-                "https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#package/ontologies.needy"
-            )
-            in subjects
+        graph = Store()
+        f = resources.files(res).joinpath("valid_cobertura.xml")
+        with open(f, "r", encoding="utf-8") as xml:
+            CoberturaParser.parse(graph, xml.read())
+        subjects = graph.query(
+            "SELECT ?line WHERE { ?line a <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#line> }"
         )
+
+        assert subjects

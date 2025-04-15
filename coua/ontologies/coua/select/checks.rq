@@ -12,9 +12,8 @@ WHERE
     ?check a coua:Check
   } .
 
-  OPTIONAL {
-    ?check coua:status ?status .
-  }
+  ?check coua:status ?status .
+
   OPTIONAL {
     ?check coua:checkDisabled ?disabled
   }

@@ -278,7 +278,7 @@ coua:SystemLevelRequirement rdfs:subClassOf do178c:SystemLevelRequirement .
 coua:TestCase rdfs:subClassOf do178c:TestCase .
 coua:description rdfs:subPropertyOf do178c:requirementDescription .
 coua:rationale rdfs:subPropertyOf do178c:requirementRationale .
-coua:covers rdfs:subPropertyOf do178c:covers .
+coua:covers rdfs:subPropertyOf do178c:coversRequirement .
 coua:traces rdfs:subPropertyOf do178c:traces .
 coua:requires rdfs:subPropertyOf do178c:requires .
 coua:requirementId rdfs:subPropertyOf do178c:requirementId .

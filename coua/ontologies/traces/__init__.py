@@ -5,11 +5,12 @@ Ontology for Coua traces.xml
 import urllib
 import json
 
-from malkoha import trace_requirements, Trace
+from malkoha import trace_requirements
+from malkoha.data import Trace
 from rdflib import URIRef
 from rdflib.namespace import DefinedNamespace, Namespace
 from types import ModuleType
-from oxigraph import NamedNode, Quad, Literal, Store
+from pyoxigraph import NamedNode, Quad, Literal, Store
 
 from coua.ontologies import Ontology
 

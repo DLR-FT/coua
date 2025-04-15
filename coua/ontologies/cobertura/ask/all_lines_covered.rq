@@ -1,0 +1,14 @@
+# Line coverage
+
+PREFIX c: <https://raw.githubusercontent.com/cobertura/web/master/htdocs/xml/coverage-04.dtd#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ASK {
+	FILTER NOT EXISTS {
+		?Line a c:line .
+		OPTIONAL {
+			?Line c:hits ?hits
+		}
+		FILTER(!bound(?hits) || ?hits < "1")
+	}
+}

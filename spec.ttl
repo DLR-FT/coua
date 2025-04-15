@@ -463,6 +463,10 @@ req:ontology_cobertura a coua:LowLevelRequirement ;
 	coua:requirementId "Req73" ;
 	coua:owner "DLR" ;
 	coua:traces req:Req01 .
+req:parser_cobertura a coua:LowLevelRequirement ;
+	coua:description "Coua shall provide a parser for coverage information in the cobertura format."@en ;
+	coua:requirementId "Req81" ;
+	coua:traces req:Req01 .
 req:do178c_appl a coua:LowLevelRequirement ;
 	coua:description "Coua shall provide a way to only apply the objectives of DO-178C that are required for a given software level."@en ;
 	coua:requirementId "Req74" ;

@@ -241,5 +241,5 @@ junit:requirement a owl:DatatypeProperty ;
 # Technically the range is "rdfs:Literal", so this maybe makes no sense?
 junit:name rdfs:subPropertyOf do178c:testCaseName .
 junit:testcase rdfs:subClassOf do178c:TestCase .
-junit:requirement rdfs:subPropertyOf do178c:covers ;
+junit:requirement rdfs:subPropertyOf do178c:coversRequirement ;
 	rdfs:subPropertyOf do178c:requirementId .

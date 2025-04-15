@@ -10,7 +10,7 @@ from rdflib import URIRef
 
 from coua.config import parse_config, parse_artifacts, init_config
 from coua.checks import run_checks, CheckResults
-from coua.ontologies import DO178C, Coua, load_ontologies
+from coua.ontologies import DO178C, Cobertura, Coua, load_ontologies
 
 from pyoxigraph import RdfFormat
 
@@ -89,8 +89,10 @@ def check_cmd(args: Namespace):
                 )
             case "coua":
                 check_results = run_checks(store, Coua(), disabled_checks)
+            case "cobertura":
+                check_results = run_checks(store, Cobertura(), disabled_checks)
             case _:
-                sys.exit(f"Unknown ontology {check}")
+                sys.exit(f'Unknown suite "{check}"')
 
         for check, status in check_results.items():
             if status:

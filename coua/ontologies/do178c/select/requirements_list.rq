@@ -36,12 +36,12 @@ WHERE
   # Test cases coverage
   OPTIONAL {
     ?tcClass rdfs:subClassOf+ do178c:TestCase .
-    ?coversProp rdfs:subPropertyOf+ do178c:covers .
+    ?coversProp rdfs:subPropertyOf+ do178c:coversRequirement .
     ?displayName rdfs:subPropertyOf+ do178c:testCaseName .
     ?testCase a ?tcClass ;
       ?displayName ?TestCase ;
       # We match up the the requirment IDs here
-      # Would be better to use do178c:covers, but missing classification of requirment IDs in mapping files to requirmeent IRIs ...
+      # Would be better to use do178c:testCovers, but missing classification of requirment IDs in mapping files to requirmeent IRIs ...
       ?coversProp ?Requirement .
   }
 

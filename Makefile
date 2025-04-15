@@ -37,8 +37,8 @@ traces.json: $(SRCS)
 spec.nq: spec.ttl
 	python -c "import pyoxigraph;  g = pyoxigraph.parse(open('spec.ttl'), format=pyoxigraph.RdfFormat.TURTLE); pyoxigraph.serialize(g, format=pyoxigraph.RdfFormat.N_QUADS, output='spec.nq')"
 	
-doc/source/imported.nq: spec.nq $(SRCS) junit.xml coverage.xml traces.json
-	coua check --output doc/source/imported.nq --extra-triples spec.nq
+doc/source/imported.nq: spec.nq $(SRCS) junit.xml coverage.xml traces.json coua.toml
+	python -c 'import coua; coua.run()' check --output doc/source/imported.nq --extra-triples spec.nq
 
 # Generates documentation from data items in doc/source/imported.nq
 doc/build/html/index.html: doc/source/imported.nq $(DOC)

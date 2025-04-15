@@ -8,6 +8,7 @@ from coua.ontologies.ontology import Ontology
 from coua.ontologies import cobertura, coua, do178c, junit, mantra, needy, traces
 from coua.ontologies.coua import CouaOntology as Coua  # noqa: F401
 from coua.ontologies.do178c import DO178COntology as DO178C  # noqa: F401
+from coua.ontologies.cobertura import CoberturaOntology as Cobertura  # noqa: F401
 
 
 @trace_requirements(
