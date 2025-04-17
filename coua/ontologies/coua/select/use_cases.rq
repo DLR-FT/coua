@@ -1,0 +1,47 @@
+PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?ID ?Title ?Story ?Goal ?Scope ?Level ?Actor (GROUP_CONCAT(DISTINCT ?s;SEPARATOR=" | ") AS ?Stakeholder) ?Trigger (GROUP_CONCAT(DISTINCT ?pre;SEPARATOR=" | ") AS ?Pre) (GROUP_CONCAT(DISTINCT ?fs;SEPARATOR=" | ") AS ?Flow) (GROUP_CONCAT(DISTINCT ?post;SEPARATOR=" | ") AS ?Post) ?Extension
+WHERE {
+  ?uc a coua:UseCase ;
+  coua:story ?story ;
+  coua:ucId ?ID .
+  OPTIONAL {
+    ?uc coua:title ?Title 
+  }
+  OPTIONAL {
+    ?uc coua:actor ?Actor 
+  }
+  OPTIONAL {
+    ?uc coua:goal ?Goal 
+  }
+  OPTIONAL {
+    ?uc coua:scope ?Scope 
+  }
+  OPTIONAL {
+    ?uc coua:level ?Level 
+  }
+  OPTIONAL {
+    ?uc coua:story ?Story 
+  }
+  OPTIONAL {
+    ?uc coua:stakeholder ?s .
+  }
+  OPTIONAL {
+    ?uc coua:precondition ?pre
+  }
+  OPTIONAL {
+    ?uc coua:postcondition ?post
+  }
+  OPTIONAL {
+    ?uc coua:trigger ?Trigger 
+  }
+  OPTIONAL {
+    ?uc coua:flow ?f .
+    ?f rdf:rest*/rdf:first ?fs 
+  }
+  OPTIONAL {
+    ?uc coua:extension ?Extension 
+  }
+}
+GROUP BY ?ID ?Title ?Story ?Goal ?Scope ?Level ?Actor ?Trigger ?Extension
+ORDER BY ?ID

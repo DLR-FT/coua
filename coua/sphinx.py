@@ -85,6 +85,7 @@ class CouaDO178CRequirementsSection(SphinxDirective):
         store: Store = domain.store
         solutions = self.ontology.select(store, "requirements_list.rq")
 
+        # FIXME: do aggregation in SPARQL
         return [
             self.render_requirements_paragraphs(self.aggregate_requirements(solutions))
         ]
@@ -169,25 +170,56 @@ class CouaDO178CRequirementsSection(SphinxDirective):
                 ("Test Cases", r.test_cases),
             ]:
                 if thing:
-                    req += [self.ref_thing(thing, name)]
+                    req += [ref_thing(thing, name)]
             section += [req]
 
         return section
 
-    def ref_thing(self, things: set[str], title: str) -> nodes.paragraph:
-        srcs = nodes.paragraph()
-        srcs += [nodes.emphasis(text=title), nodes.Text(": ")]
-        ts = list(things)
-        for source in ts[:-1]:
-            srcs += [
-                nodes.reference(text=source, refuri=f"#{source}"),
-                nodes.Text(", "),
-            ]
-        if ts:
-            s = ts[-1]
-            srcs += [nodes.reference(text=s, refuri=f"#{s}")]
 
-        return srcs
+@trace_requirements("Req60")
+def ref_thing(things: set[str], title: str) -> nodes.paragraph:
+    srcs = nodes.paragraph()
+    srcs += [nodes.emphasis(text=title), nodes.Text(": ")]
+    ts = list(things)
+    for source in ts[:-1]:
+        srcs += [
+            nodes.reference(text=source, refuri=f"#{source}"),
+            nodes.Text(", "),
+        ]
+    if ts:
+        s = ts[-1]
+        srcs += [nodes.reference(text=s, refuri=f"#{s}")]
+
+    return srcs
+
+
+@trace_requirements("Req66")
+class CouaUseCaseSection(SphinxDirective):
+    has_content = False
+    required_arguments = 0
+    ontology = Coua()
+
+    def run(self) -> List[Node]:
+        domain: CouaDomain = cast(CouaDomain, self.env.get_domain("coua"))
+        store: Store = domain.store
+        section = nodes.section(ids=["Use cases"])
+        section += [nodes.title(text="Use cases")]
+        ucs = self.ontology.select(store, "use_cases.rq")
+        for uc in ucs:
+            sub = nodes.section(ids=[str(uc["ID"].value)])
+            sub += [nodes.title(text=str(uc["Title"].value))]
+            for var in ucs.variables:
+                if uc[var]:
+                    par = nodes.paragraph()
+                    par += [
+                        nodes.Text(var.value),
+                        nodes.Text(": "),
+                        nodes.Text(str(uc[var].value)),
+                    ]
+                    sub += [par]
+            section += [sub]
+
+        return [section]
 
 
 @trace_requirements("Req60")
@@ -285,12 +317,13 @@ class CouaDomain(Domain):
         "check_list": CouaCheckTable,
         "requires_independence": CouaDO178CWithIndependence,
         "requirements_list": CouaDO178CRequirementsList,
-        "requirements_section": CouaDO178CRequirementsSection,
+        "requirements": CouaDO178CRequirementsSection,
         "source_code_tracability_matrix": CouaDO178CTracabilityMatrix,
         "requirements_test_coverage_matrix": CouaDO178CRequirementsTestCoverageMatrix,
         "use_cases_coverage_matrix": CouaUseCaseCoverageMatrix,
         "software_level_list": CouaDO178CSoftwareLevelDirective,
         "not_implemented": CouaNotImplemented,
+        "use_cases": CouaUseCaseSection,
     }
 
     @property

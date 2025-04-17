@@ -128,10 +128,9 @@ The following objectives require an independent review:
 
 .. coua:requires_independence::
 
-Requirements (section format)
------------------------------
-.. coua:requirements_section::
+.. coua:requirements::
 
+.. coua:use_cases::
 
 Source Code Tracability Matrix
 ------------------------------

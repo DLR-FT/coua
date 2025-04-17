@@ -579,7 +579,7 @@ uc:UC10 a coua:UseCase ;
 	coua:extension "As a developer, I want to remove the marker from the objective I am working on so that I am notified of regressions."@en .
 
 uc:UC09 a coua:UseCase ;
-	coua:ucId "UC10" ;
+	coua:ucId "UC09" ;
 	coua:title "Machine-Readable Certification Report"@en ;
 	coua:actor "Developer" ;
 	coua:goal "DLR-SMART2" ;
