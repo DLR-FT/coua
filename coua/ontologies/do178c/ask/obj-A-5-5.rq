@@ -37,12 +37,6 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 ASK { FILTER NOT EXISTS {
-    # Check if this objective is applicable
-    do178c:Obj_A_5_5 do178c:hasApplicability ?appl .
-    ?appl do178c:toSoftwareLevel ?swl .
-    ?sw a do178c:Software ;
-        do178c:hasSoftwareLevel ?swl .
-
     ?LocationClass rdfs:subClassOf+ do178c:Location .
     ?Location a ?LocationClass .
     MINUS {

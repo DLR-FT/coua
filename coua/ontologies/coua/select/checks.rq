@@ -1,4 +1,5 @@
 PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
@@ -17,12 +18,21 @@ WHERE
   OPTIONAL {
     ?check coua:checkDisabled ?disabled
   }
+  OPTIONAL {
+    # Check applicability of objective
+    ?check do178c:hasApplicability ?appl .
+    ?appl do178c:toSoftwareLevel ?swl .
+    ?sw a do178c:Software ;
+      do178c:hasSoftwareLevel ?swl .
+  }
   BIND(
     IF(bound(?disabled),
       "disabled",
-      IF(?status = "true"^^xsd:boolean,
-        "passed",
-        "failed")) AS ?Status)
+      IF(strStarts(?check, do178c:) && (!bound(?appl)),
+        "not applicable",
+        IF(?status = "true"^^xsd:boolean,
+          "passed",
+          "failed"))) AS ?Status)
 
   ?check rdfs:label ?Check .
   ?check rdfs:comment ?Description .

@@ -6,11 +6,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ASK { FILTER NOT EXISTS {
-     do178c:Obj_A_5_1 do178c:hasApplicability ?appl .
-    ?appl do178c:toSoftwareLevel ?swl .
-    ?sw a do178c:Software ;
-        do178c:hasSoftwareLevel ?swl .
-
     ?rclass rdfs:subClassOf+ do178c:LowLevelRequirement .
     ?r a ?rclass .
 

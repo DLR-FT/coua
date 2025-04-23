@@ -1,0 +1,16 @@
+# List of applicable objectives for a SWL
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?Objective ?swl {
+	?sw a do178c:Software ;
+		# swl is bound by initBindings
+	    do178c:hasSoftwareLevel ?swl .
+
+	?appl do178c:toSoftwareLevel ?swl .
+
+	?Objective a do178c:Objective ;
+		do178c:hasApplicability ?appl .
+}

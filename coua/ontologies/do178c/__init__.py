@@ -4,12 +4,12 @@ Ontology for DO-178C
 
 from enum import Enum
 from importlib import resources
-from typing import Set, Tuple, Iterable
+from typing import Set, Tuple, Iterable, List, cast
 
 from malkoha import trace_requirements
 from rdflib import URIRef, Literal, Graph
 from rdflib.namespace import RDFS, DefinedNamespace, Namespace, RDF
-from pyoxigraph import Quad, NamedNode
+from pyoxigraph import Quad, NamedNode, Variable, QuerySolution
 
 from coua.exceptions import CouaException
 from coua.ontologies import Ontology
@@ -46,6 +46,29 @@ class DO178C(DefinedNamespace):
     requirementRationale: URIRef
 
 
+@trace_requirements("Req75")
+class SoftwareLevel(Enum):
+    A = "A"
+    B = "B"
+    C = "C"
+    D = "D"
+
+    def do178c(self):
+        match self:
+            case SoftwareLevel.A:
+                level = DO178C.SoftwareLevelA
+            case SoftwareLevel.B:
+                level = DO178C.SoftwareLevelB
+            case SoftwareLevel.C:
+                level = DO178C.SoftwareLevelC
+            case SoftwareLevel.D:
+                level = DO178C.SoftwareLevelD
+            case l:
+                # Should never occur
+                raise ValueError(f"Unrecognized software level {l}")
+        return level
+
+
 @trace_requirements("Req68", "Req76", "Req74")
 class DO178COntology(Ontology):
     """
@@ -79,11 +102,12 @@ class DO178COntology(Ontology):
                     ("obj-A-5-1.rq", "Obj_A_5_1"),
                     ("obj-A-5-5.rq", "Obj_A_5_5"),
                 ],
-            )
+            ),
         )
+        applicable = self.applicable_objectives(graph, swl)
         for question, name in qs:
             uri = URIRef(str(self.namespace) + name)
-            if str(uri) in disabled_checks:
+            if str(uri) in disabled_checks or str(uri) not in applicable:
                 continue
 
             with open(str(question), "r", encoding="utf-8") as f:
@@ -91,13 +115,20 @@ class DO178COntology(Ontology):
 
             yield uri, name, CheckResult(bool(graph.query(query)))
 
+    # TODO add requirement for checking only applicable objectives
+    def applicable_objectives(
+        self, graph: Graph, software_level: SoftwareLevel
+    ) -> List[URIRef]:
+        query = resources.files(self.selections) / "applicable_objectives.rq"
+        with open(str(query), "r", encoding="utf-8") as f:
+            objs = graph.query(
+                f.read(),
+                substitutions={Variable("swl"): NamedNode(software_level.do178c())},
+            )
+        # Query solutions are slightly incompatible with rdflib graph
+        obs = [cast(QuerySolution, obj)["Objective"].value for obj in objs]
 
-@trace_requirements("Req75")
-class SoftwareLevel(Enum):
-    A = "A"
-    B = "B"
-    C = "C"
-    D = "D"
+        return obs
 
 
 @trace_requirements("Req76")
@@ -114,18 +145,7 @@ def activate_software_level(
             object=NamedNode(DO178C.Software),
         )
     )
-    match software_level:
-        case SoftwareLevel.A:
-            level = DO178C.SoftwareLevelA
-        case SoftwareLevel.B:
-            level = DO178C.SoftwareLevelB
-        case SoftwareLevel.C:
-            level = DO178C.SoftwareLevelC
-        case SoftwareLevel.D:
-            level = DO178C.SoftwareLevelD
-        case l:
-            # Should never occur
-            raise ValueError(f"Unrecognized software level {l}")
+    level = software_level.do178c()
     graph.add(
         Quad(
             subject=NamedNode(software),

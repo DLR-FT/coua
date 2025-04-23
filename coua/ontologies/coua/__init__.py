@@ -57,6 +57,7 @@ class COUA(DefinedNamespace):
     time: URIRef
     failureType: URIRef
     failure: URIRef
+    checkDisabled: URIRef
 
 
 @trace_requirements("Req26")
