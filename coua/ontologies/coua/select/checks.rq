@@ -1,9 +1,9 @@
-PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
+ PREFIX coua: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/schema#>
 PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?Check ?Status ?Description
+SELECT ?Check ?Status ?Description ?disabled
 WHERE
 {
   {
@@ -28,7 +28,7 @@ WHERE
   BIND(
     IF(bound(?disabled),
       "disabled",
-      IF(strStarts(?check, do178c:) && (!bound(?appl)),
+      IF(bound(?swl) && !bound(?appl),
         "not applicable",
         IF(?status = "true"^^xsd:boolean,
           "passed",

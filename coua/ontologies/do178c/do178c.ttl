@@ -23,11 +23,15 @@ do178c:Software a owl:Class ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Software" .
 
+do178c:Output a owl:Class ;
+	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
+	rdfs:label "DO-178C Activity Output" .
+
 do178c:hasSoftwareLevel a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
 	rdfs:label "DO-178C Software Level of software" ;
 	rdfs:range do178c:SoftwareLevel ;
-	rdfs:domain owl:Software .
+	rdfs:domain do178c:Software .
 
 do178c:Objective a owl:Class ;
 	rdfs:label "Certification Objective" ;
@@ -177,9 +181,9 @@ do178c:Obj_A_7_7 a do178c:Objective ;
 	do178c:hasApplicability do178c:SwlBWithIndependence ;
 	do178c:hasApplicability do178c:SwlCWithoutIndependence .
 
-do178c:outputs a owl:ObjectProperty ;
+do178c:output a owl:ObjectProperty ;
 	rdfs:isDefinedBy <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#> ;
-	rdfs:label "DO-178C outputs" ;
+	rdfs:label "DO-178C output" ;
 	rdfs:domain do178c:Objective ;
 	rdfs:range do178c:Output .
 
@@ -188,8 +192,6 @@ do178c:name a owl:ObjectProperty ;
 	rdfs:label "DO-178C objective name" ;
 	rdfs:domain do178c:Objective ;
 	rdfs:range rdfs:Literal .
-
-do178c:Output a rdfs:Bag .
 
 do178c:SoftwareRequirementsData a do178c:Output .
 
