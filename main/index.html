@@ -1,0 +1,3408 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Welcome to Coua’s documentation! &#8212; Coua  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-coua-s-documentation">
+<h1>Welcome to Coua’s documentation!<a class="headerlink" href="#welcome-to-coua-s-documentation" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<p>Coua checks your data items against a certification standard.</p>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>coua<span class="w"> </span>init
+coua<span class="w"> </span>check
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>Before Coua can check the data-items, they first need to be be converted
+into N-Quads (<cite>.nq</cite>). There are many different tools which can do this using
+mapping specifications in RML format (RMLMapper, morph-kgc). Coua provides a
+number of these mappings from the data-item formats in the <cite>mappings</cite> directory
+of the source distribution and can use morph-kgc to ingest these files.</p>
+<p>Provided mappings for data-item are:</p>
+<ul class="simple">
+<li><p>JUnit</p></li>
+<li><p>Cobertura</p></li>
+<li><p>Needy</p></li>
+<li><p>Mantra</p></li>
+<li><p>Coua trace format</p></li>
+<li><p>Coua requirements and use-cases</p></li>
+</ul>
+<p>For this to work, your data needs to contain additional N-Triples declaring
+which data is to be used as DO-178C data items. For the mapped data-items
+listed above, this information already is declared by Coua. To manually add the
+items, simply declare <cite>rdfs:subClass</cite> and <cite>rdfs:subProperty</cite> relations from your
+classes and properties to the DO-178C ontology of Coua. See <cite>coua/ontologies/junit/junit.ttl</cite>
+for an example.</p>
+<p>To configure coua to check your artifacts, create a configuration file
+containing the configuration for morph-kgc.</p>
+<ul class="simple">
+<li><p><cite>mode</cite>: Standard to check the project against</p></li>
+<li><p><cite>artifacts.*.morph</cite>: Settings for morph-kgc, each section</p></li>
+</ul>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># coua.toml</span>
+
+<span class="n">checks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;do178c&quot;</span><span class="p">]</span>
+
+<span class="k">[do178c]</span>
+<span class="n">software</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://example.org/my-software&quot;</span>
+<span class="n">software_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;A&quot;</span>
+
+<span class="k">[artifacts.Junit.morph]</span>
+<span class="n">file_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;junit.xml&quot;</span>
+<span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mappings/junit.ttl&quot;</span>
+
+<span class="k">[artifacts.Cobertura.morph]</span>
+<span class="n">file_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;coverage.xml&quot;</span>
+<span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mappings/cobertura.ttl&quot;</span>
+
+<span class="k">[artifacts.Traces.morph]</span>
+<span class="n">file_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;traces.json&quot;</span>
+<span class="n">mappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mappings/traces.ttl&quot;</span>
+</pre></div>
+</div>
+<p>By default, <cite>coua check</cite> produces an output file <cite>coua.nq</cite> containing all the
+triples used during checking.</p>
+<p>Coua also contains a Sphinx extension that you can use to render information
+from the data-items into a human-readable documentation. The extension contains
+a set of pre-defined directives for common documentation required by DO-178C.
+You need to configure the extension so that it knows where to find the data to render.
+Here we use the same N-Triples from <cite>coua.nq</cite> as before.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># doc/source/conf.py</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;coua&quot;</span> <span class="p">]</span>
+<span class="n">coua_load</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;coua.nq&quot;</span><span class="p">,</span> <span class="s2">&quot;application/n-triples&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>You can use the directives inside a reStructuredText document like so</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">coua:source_code_coverage_matrix</span><span class="p">::</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-support-for-new-data-formats">
+<h2>Adding support for new data formats<a class="headerlink" href="#adding-support-for-new-data-formats" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Add a new mapping file to <cite>mappings/</cite> that specifies how to ingest the data.</p></li>
+<li><p>Add a new ontology to <cite>coua/ontologies/</cite> that describes the properties and classes of the ingested data.</p></li>
+<li><p><em>(optional)</em> In this ontology, specify which classes and properties will be used in queries for DO-178C by using <cite>subClass</cite> and <cite>subProperty</cite>.</p></li>
+<li><p><em>(optional)</em> Add custom queries for your ontology to <cite>coua/ontologies/&lt;your-ontology&gt;/select</cite> and <cite>coua/ontologies/&lt;your-ontology&gt;/ask</cite>. They are available as <cite>YourOntology.select()</cite> and as part of <cite>YourOntology.check()</cite> respectively.</p></li>
+</ol>
+</section>
+<section id="software-and-associated-software-level">
+<h2>Software and associated software level<a class="headerlink" href="#software-and-associated-software-level" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Software</p></th>
+<th class="head"><p>SWL</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>https://dlr.de/ft/ssy/coua</p></td>
+<td><p>A</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="check-results">
+<h2>Check results<a class="headerlink" href="#check-results" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>Status</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Coua UC check</p></td>
+<td><p>passed</p></td>
+<td><p>All Use-Cases are covered by at least one requirement.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DO-178C A-2-1</p></td>
+<td><p>passed</p></td>
+<td><p>High-level requirements are developed.</p></td>
+</tr>
+<tr class="row-even"><td><p>DO-178C A-2-4</p></td>
+<td><p>passed</p></td>
+<td><p>Low-level requirements are developed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DO-178C A-3-6</p></td>
+<td><p>passed</p></td>
+<td><p>High-level requirements are tracable to system requirements.</p></td>
+</tr>
+<tr class="row-even"><td><p>DO-178C A-4-6</p></td>
+<td><p>passed</p></td>
+<td><p>Low-level requirements are tracable to high-level requirements.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DO-178C A-5-1</p></td>
+<td><p>passed</p></td>
+<td><p>Source Code complies with low-level requirements.</p></td>
+</tr>
+<tr class="row-even"><td><p>DO-178C A-5-5</p></td>
+<td><p>passed</p></td>
+<td><p>Source Code is tracable to low-level requirements.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The following objectives require an independent review:</p>
+<p>“DO-178C A-5-1”, “DO-178C A-7-7”</p>
+<p> This report is machine-generated and is only binding once signed by a human.</p>
+<section id="Requirements">
+<h3>Requirements<a class="headerlink" href="#Requirements" title="Link to this heading">¶</a></h3>
+<section id="Req00">
+<h4>Req00<a class="headerlink" href="#Req00" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: The software is automatically checked for certifiability.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+</section>
+<section id="Req01">
+<h4>Req01<a class="headerlink" href="#Req01" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: The certification framework shall provide a library of functions for ingesting artifacts produced by COTS tools.</p>
+<p><em>Rationale</em>: In a typical Git-based workflow, CI provides automated checks of the software development process and software and tests. The results of these checks are provided in various machine-readable formats.</p>
+<p><em>Traces</em>: <a class="reference external" href="#Req05">Req05</a></p>
+</section>
+<section id="Req02">
+<h4>Req02<a class="headerlink" href="#Req02" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: The framework shall provide means for describing the interfaces, inputs and outputs of custom COTS tools.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req05">Req05</a></p>
+</section>
+<section id="Req03">
+<h4>Req03<a class="headerlink" href="#Req03" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: The certification report shall include all certification objectives and references to all required evidences it has access to.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req12">Req12</a></p>
+</section>
+<section id="Req04">
+<h4>Req04<a class="headerlink" href="#Req04" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: While CI is in use, when changes are committed to the SCM, Coua shall generate a certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req20">Req20</a></p>
+</section>
+<section id="Req05">
+<h4>Req05<a class="headerlink" href="#Req05" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: Coua shall be able to ingest requirements, evidences, justifications and data-items from artifacts produced by COTS tools.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+</section>
+<section id="Req06">
+<h4>Req06<a class="headerlink" href="#Req06" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide means to specify how to obtain artifacts created by other tools.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req02">Req02</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_artifacts">parse_artifacts</a></p>
+</section>
+<section id="Req08">
+<h4>Req08<a class="headerlink" href="#Req08" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide means to extend the ontologies of generalized standards such as DO-178C to project-specific certification objectives</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req09">
+<h4>Req09<a class="headerlink" href="#Req09" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide means to identify which objectives were used to perform verification and validation in the certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req12">Req12</a></p>
+</section>
+<section id="Req10">
+<h4>Req10<a class="headerlink" href="#Req10" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall track the association between artifacts like requirements, test cases, source code and object code (tracing).</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req100">
+<h4>Req100<a class="headerlink" href="#Req100" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide the current satisfiability of the relevant objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req11">
+<h4>Req11<a class="headerlink" href="#Req11" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall track the association between artifacts and objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req12">
+<h4>Req12<a class="headerlink" href="#Req12" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: Coua shall generate a certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req12">Req12</a></p>
+</section>
+<section id="Req13">
+<h4>Req13<a class="headerlink" href="#Req13" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: While Coua performs validation activities, if any failing satisfiable objectives are encountered, Coua shall indicate to the CI that its activities have failed.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#check_cmd">check_cmd</a></p>
+</section>
+<section id="Req14">
+<h4>Req14<a class="headerlink" href="#Req14" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: While Coua performs validation activities, if any failing unsatisfiable objectives are encountered, Coua shall not indicate that its activities have failed. </p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req15">
+<h4>Req15<a class="headerlink" href="#Req15" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a way to mark objectives as unsatisfiable</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req16">
+<h4>Req16<a class="headerlink" href="#Req16" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a way to remove the unsatisfiable mark from objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req17">
+<h4>Req17<a class="headerlink" href="#Req17" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: While CI is in use, Coua shall signal failed objectives as errors</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#check_cmd">check_cmd</a></p>
+</section>
+<section id="Req18">
+<h4>Req18<a class="headerlink" href="#Req18" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall ingest artifacts in the Static Analysis Results Interchange Format (SARIF) format.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+</section>
+<section id="Req19">
+<h4>Req19<a class="headerlink" href="#Req19" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall be executable independently of CI, e.g. locally on a developer’s or tester’s computer</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req20">
+<h4>Req20<a class="headerlink" href="#Req20" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: Coua shall be executable in CI</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+</section>
+<section id="Req21">
+<h4>Req21<a class="headerlink" href="#Req21" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide means for ingesting artifacts from the local filesystem</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_artifacts">parse_artifacts</a></p>
+<p><em>Test Cases</em>: <a class="reference external" href="#test_requirements_property_is_parsed">test_requirements_property_is_parsed</a>, <a class="reference external" href="#test_all_subjects_recognized">test_all_subjects_recognized</a></p>
+</section>
+<section id="Req22">
+<h4>Req22<a class="headerlink" href="#Req22" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: When Coua produces a certification report, where data from artifacts is used, Coua shall include data about the tools that produced the artifacts.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+</section>
+<section id="Req23">
+<h4>Req23<a class="headerlink" href="#Req23" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: If the ontology contains syntactical errors, then Coua shall refuse to evaluate the ontology and produce a meaningful error message.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+</section>
+<section id="Req24">
+<h4>Req24<a class="headerlink" href="#Req24" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: If an artifact contains syntactical errors, then Coua shall refuse to produce a certification report that includes it and issue a meaningful error message.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+</section>
+<section id="Req25">
+<h4>Req25<a class="headerlink" href="#Req25" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall allow for importing requirements data in a Comma Separated Values (CSV) format.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_artifacts">parse_artifacts</a></p>
+</section>
+<section id="Req26">
+<h4>Req26<a class="headerlink" href="#Req26" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall specify an ontology for requirements data.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req32">Req32</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#CouaOntology">CouaOntology</a>, <a class="reference external" href="#COUA">COUA</a></p>
+</section>
+<section id="Req27">
+<h4>Req27<a class="headerlink" href="#Req27" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall allow for defining custom content in the certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req12">Req12</a></p>
+</section>
+<section id="Req28">
+<h4>Req28<a class="headerlink" href="#Req28" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall allow a project to run custom queries on the ontologies.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CheckResult">CheckResult</a>, <a class="reference external" href="#Ontology">Ontology</a></p>
+</section>
+<section id="Req29">
+<h4>Req29<a class="headerlink" href="#Req29" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a well-defined output schema for the certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req12">Req12</a></p>
+</section>
+<section id="Req31">
+<h4>Req31<a class="headerlink" href="#Req31" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: When a new version of the component is released, the artifact archive shall version and permanently record all software, configuration and non-reproducible artifacts that are required for recreating the certification report for that version.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req32">
+<h4>Req32<a class="headerlink" href="#Req32" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: The ontologies shall model all necessary knowledge from the certification objectives that specify what is required for certification approval.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req33">
+<h4>Req33<a class="headerlink" href="#Req33" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall be able to ingest ontologies in the OWL2 format.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req02">Req02</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a></p>
+</section>
+<section id="Req34">
+<h4>Req34<a class="headerlink" href="#Req34" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall clearly display which objective is satisfied.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaCheckTable">CouaCheckTable</a></p>
+</section>
+<section id="Req35">
+<h4>Req35<a class="headerlink" href="#Req35" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: If the certification report indicates that all objectives are met, Coua shall make it clear that this is not guaranteed.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CWithIndependence">CouaDO178CWithIndependence</a></p>
+</section>
+<section id="Req36">
+<h4>Req36<a class="headerlink" href="#Req36" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall clearly display whether an objective has regressed.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req37">
+<h4>Req37<a class="headerlink" href="#Req37" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall mark failing satisfiable objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaCheckTable">CouaCheckTable</a></p>
+</section>
+<section id="Req38">
+<h4>Req38<a class="headerlink" href="#Req38" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall mark not yet satisfiable objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaNotImplemented">CouaNotImplemented</a></p>
+</section>
+<section id="Req39">
+<h4>Req39<a class="headerlink" href="#Req39" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: When an objective is violated, the certification report shall highlight the precise artifacts that are the source of the violation.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req40">
+<h4>Req40<a class="headerlink" href="#Req40" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall be human-readable.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+</section>
+<section id="Req41">
+<h4>Req41<a class="headerlink" href="#Req41" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall be machine-readable.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#run_checks">run_checks</a></p>
+</section>
+<section id="Req42">
+<h4>Req42<a class="headerlink" href="#Req42" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification reports shall have the same contents in both human- and machine- readable forms.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+</section>
+<section id="Req43">
+<h4>Req43<a class="headerlink" href="#Req43" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall include all failed objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaCheckTable">CouaCheckTable</a></p>
+</section>
+<section id="Req44">
+<h4>Req44<a class="headerlink" href="#Req44" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification report shall present unsatisfiable objectives less prominently.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+</section>
+<section id="Req45">
+<h4>Req45<a class="headerlink" href="#Req45" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: While the artifacts provide the required information, the certification report shall include all data items and evidences required to build an assurance case.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+</section>
+<section id="Req46">
+<h4>Req46<a class="headerlink" href="#Req46" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: The certification framework shall allow for defining custom content in the rendered certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req03">Req03</a></p>
+</section>
+<section id="Req47">
+<h4>Req47<a class="headerlink" href="#Req47" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: Coua shall finish producing the report in a time that allows for fast feedback during development.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+</section>
+<section id="Req48">
+<h4>Req48<a class="headerlink" href="#Req48" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: System Level Requirement</p>
+<p><em>Description</em>: Coua shall use not more than half of the memory that is available in the CI or in the development requirement.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+</section>
+<section id="Req50">
+<h4>Req50<a class="headerlink" href="#Req50" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall validate if the objectives for certification of the project are satisfied</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#run_checks">run_checks</a>, <a class="reference external" href="#CheckResults">CheckResults</a></p>
+</section>
+<section id="Req51">
+<h4>Req51<a class="headerlink" href="#Req51" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall be able to access trace data from mantra.db.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req02">Req02</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#MantraOntology">MantraOntology</a></p>
+</section>
+<section id="Req52">
+<h4>Req52<a class="headerlink" href="#Req52" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide its functionality via a command line interface (CLI).</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req53">
+<h4>Req53<a class="headerlink" href="#Req53" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a CLI command to check the objectives.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req52">Req52</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#check_cmd">check_cmd</a>, <a class="reference external" href="#run">run</a></p>
+</section>
+<section id="Req54">
+<h4>Req54<a class="headerlink" href="#Req54" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a CLI command to trace requirements from Python source code.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req52">Req52</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#run">run</a></p>
+</section>
+<section id="Req55">
+<h4>Req55<a class="headerlink" href="#Req55" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a CLI command to initialize a project for use with Coua.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req52">Req52</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#init_config">init_config</a>, <a class="reference external" href="#init_cmd">init_cmd</a>, <a class="reference external" href="#run">run</a></p>
+</section>
+<section id="Req56">
+<h4>Req56<a class="headerlink" href="#Req56" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall be configurable using a configuration file</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req57">
+<h4>Req57<a class="headerlink" href="#Req57" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall allow for configuration of the ontologies to check against.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req52">Req52</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_config">parse_config</a>, <a class="reference external" href="#init_config">init_config</a>, <a class="reference external" href="#check_cmd">check_cmd</a></p>
+</section>
+<section id="Req58">
+<h4>Req58<a class="headerlink" href="#Req58" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall allow for configuration of the kinds locations and mappings of the data items.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req52">Req52</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_config">parse_config</a>, <a class="reference external" href="#parse_malkoha_output">parse_malkoha_output</a>, <a class="reference external" href="#parse_morph_config">parse_morph_config</a>, <a class="reference external" href="#parse_artifacts">parse_artifacts</a>, <a class="reference external" href="#infer_mappings">infer_mappings</a>, <a class="reference external" href="#init_config">init_config</a></p>
+</section>
+<section id="Req59">
+<h4>Req59<a class="headerlink" href="#Req59" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a plugin that generates documentation about the certifiability status of the software.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req60">
+<h4>Req60<a class="headerlink" href="#Req60" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a directive that renders a list of requirements.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CRequirementsList">CouaDO178CRequirementsList</a>, <a class="reference external" href="#ref_thing">ref_thing</a>, <a class="reference external" href="#Requirement">Requirement</a>, <a class="reference external" href="#CouaTableDirective">CouaTableDirective</a>, <a class="reference external" href="#CouaDO178CRequirementsSection">CouaDO178CRequirementsSection</a></p>
+</section>
+<section id="Req61">
+<h4>Req61<a class="headerlink" href="#Req61" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a directive that renders a tracability matrix.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CTracabilityMatrix">CouaDO178CTracabilityMatrix</a>, <a class="reference external" href="#CouaCrosstabDirective">CouaCrosstabDirective</a></p>
+</section>
+<section id="Req62">
+<h4>Req62<a class="headerlink" href="#Req62" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a directive that renders a coverage matrix.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CRequirementsTestCoverageMatrix">CouaDO178CRequirementsTestCoverageMatrix</a>, <a class="reference external" href="#CouaCrosstabDirective">CouaCrosstabDirective</a></p>
+</section>
+<section id="Req63">
+<h4>Req63<a class="headerlink" href="#Req63" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a directive that renders status of each certification objective.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaCheckTable">CouaCheckTable</a></p>
+</section>
+<section id="Req64">
+<h4>Req64<a class="headerlink" href="#Req64" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide the directives as a Sphinx extension.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#setup">setup</a>, <a class="reference external" href="#CouaDomain">CouaDomain</a></p>
+</section>
+<section id="Req65">
+<h4>Req65<a class="headerlink" href="#Req65" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall use the same data for the checks as for generating the documents.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_store">load_store</a></p>
+</section>
+<section id="Req66">
+<h4>Req66<a class="headerlink" href="#Req66" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a directive for rendering use cases and their coverage by high level requirements.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req59">Req59</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaUseCaseSection">CouaUseCaseSection</a>, <a class="reference external" href="#CouaUseCaseCoverageMatrix">CouaUseCaseCoverageMatrix</a></p>
+</section>
+<section id="Req67">
+<h4>Req67<a class="headerlink" href="#Req67" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall issue an warning if the input data items have no defined relation to the checked ontology.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req100">Req100</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaException">CouaException</a>, <a class="reference external" href="#check_is_do178c">check_is_do178c</a>, <a class="reference external" href="#CoberturaOntology">CoberturaOntology</a></p>
+</section>
+<section id="Req68">
+<h4>Req68<a class="headerlink" href="#Req68" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: High Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for DO-178C.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req00">Req00</a></p>
+</section>
+<section id="Req69">
+<h4>Req69<a class="headerlink" href="#Req69" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for JUnit test reports.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#JUnit">JUnit</a>, <a class="reference external" href="#JunitOntology">JunitOntology</a></p>
+</section>
+<section id="Req70">
+<h4>Req70<a class="headerlink" href="#Req70" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for cargo-needy trace data.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#MantraOntology">MantraOntology</a>, <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#Mantra">Mantra</a></p>
+</section>
+<section id="Req71">
+<h4>Req71<a class="headerlink" href="#Req71" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for cargo-needy trace data.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#Needy">Needy</a>, <a class="reference external" href="#NeedyOntology">NeedyOntology</a></p>
+</section>
+<section id="Req72">
+<h4>Req72<a class="headerlink" href="#Req72" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for its own trace format for Python source code.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#Traces">Traces</a>, <a class="reference external" href="#TracesOntology">TracesOntology</a></p>
+</section>
+<section id="Req73">
+<h4>Req73<a class="headerlink" href="#Req73" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide an ontology for its own trace format for Python source code.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#load_ontologies">load_ontologies</a>, <a class="reference external" href="#Cobertura">Cobertura</a></p>
+</section>
+<section id="Req74">
+<h4>Req74<a class="headerlink" href="#Req74" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a way to only apply the objectives of DO-178C that are required for a given software level.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#DO178COntology">DO178COntology</a></p>
+</section>
+<section id="Req75">
+<h4>Req75<a class="headerlink" href="#Req75" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a way to configure the software level of a software.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#check_cmd">check_cmd</a>, <a class="reference external" href="#SoftwareLevel">SoftwareLevel</a></p>
+</section>
+<section id="Req76">
+<h4>Req76<a class="headerlink" href="#Req76" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall apply the configured software level before checks are performed.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#activate_software_level">activate_software_level</a>, <a class="reference external" href="#DO178COntology">DO178COntology</a></p>
+</section>
+<section id="Req77">
+<h4>Req77<a class="headerlink" href="#Req77" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall render the software level as part of the certification report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CSoftwareLevelDirective">CouaDO178CSoftwareLevelDirective</a></p>
+</section>
+<section id="Req78">
+<h4>Req78<a class="headerlink" href="#Req78" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall notify the reader of the reviewer that independence is required for an objective.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CWithIndependence">CouaDO178CWithIndependence</a></p>
+</section>
+<section id="Req79">
+<h4>Req79<a class="headerlink" href="#Req79" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall contain a directive that allows the developer to render the list of objectives that require independent review in the report.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#CouaDO178CWithIndependence">CouaDO178CWithIndependence</a></p>
+</section>
+<section id="Req80">
+<h4>Req80<a class="headerlink" href="#Req80" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a namespace for DO-178C terms.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req68">Req68</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#DO178C">DO178C</a></p>
+</section>
+<section id="Req81">
+<h4>Req81<a class="headerlink" href="#Req81" title="Link to this heading">¶</a></h4>
+<p><em>Level</em>: Low Level Requirement</p>
+<p><em>Description</em>: Coua shall provide a parser for coverage information in the cobertura format.</p>
+<p><em>Rationale</em>: <strong>Missing</strong></p>
+<p><em>Traces</em>: <a class="reference external" href="#Req01">Req01</a></p>
+<p><em>Source Code</em>: <a class="reference external" href="#parse_cobertura_output">parse_cobertura_output</a>, <a class="reference external" href="#CoberturaParser">CoberturaParser</a></p>
+</section>
+</section>
+<section id="Use cases">
+<h3>Use cases<a class="headerlink" href="#Use cases" title="Link to this heading">¶</a></h3>
+<section id="UC01">
+<h4>Check Objectives<a class="headerlink" href="#UC01" title="Link to this heading">¶</a></h4>
+<p>ID: UC01</p>
+<p>Title: Check Objectives</p>
+<p>Story: As the certification authority I want to be able to inspect all relevant data and documents for certification so that I can verify that sufficient evidence is provided to show that the certification objectives are completed.</p>
+<p>Goal: DLR-SMART1</p>
+<p>Scope: Certification Report</p>
+<p>Level: User</p>
+<p>Actor: Certification Authority</p>
+<p>Stakeholder: Vendor | Certification Authority</p>
+<p>Trigger: The certification liaison process enters a new iteration.</p>
+<p>Pre: The Software Accomplishment Summary is created by the CI.</p>
+<p>Flow: The certification authority reviews the materials and determines compliance. | The certification authority submits their findings to the vendor. | The vendor prepares the certification report along with all supporting materials. | The certification authority obtains the report along with the supporting materials from the vendor.</p>
+<p>Post: The certification authority can determine which objectives are not completed. | The certification authority can determine that all objectives are completed.</p>
+<p>Extension: As a vendor I want the report to clearly state if all objectives are met so that I can determine when the report is ready to be handed in to the CA.</p>
+</section>
+<section id="UC02">
+<h4>Continuous Testing<a class="headerlink" href="#UC02" title="Link to this heading">¶</a></h4>
+<p>ID: UC02</p>
+<p>Title: Continuous Testing</p>
+<p>Story: As a software developer I want the CI to check the progress towards the certification objectives so that I can prevent regressions and assess the effectiveness of my attempts to make progress towards the objectives.</p>
+<p>Goal: DLR-SMART2</p>
+<p>Scope: Certification Report</p>
+<p>Level: User</p>
+<p>Actor: Developer</p>
+<p>Stakeholder: Developer | Tester</p>
+<p>Trigger: A developer submits code or documents to the SCM.</p>
+<p>Pre: Transformations for creating evidences from the artifacts are available. | The projects defines which evidence to use for which objective. | The CI produces or discovers artifacts that can be used for generating evidence towards the certification objectives, such as trace-data, test-results, requirements, coverage data.</p>
+<p>Flow: The CI runs the certification framework, producing a certification report.</p>
+<p>Post: The CI indicates the progress towards each objective and which change produces a regression.</p>
+<p>Extension: As a reviewer I want to check the certification status before accepting changes to the software so that no regressions from the certification objectives are made when applying a change.</p>
+</section>
+<section id="UC03">
+<h4>Retrieve Artifact<a class="headerlink" href="#UC03" title="Link to this heading">¶</a></h4>
+<p>ID: UC03</p>
+<p>Title: Retrieve Artifact</p>
+<p>Story: As the vendor I want to retrieve or reproduce the software, configuration, required build environment, test environment, artifacts, evidences and certification progress during any point during any iteration of the software life cycle so that I can trace defective changes and make corrective changes to previous versions.</p>
+<p>Goal: DLR-SMART2</p>
+<p>Scope: ADF</p>
+<p>Level: System</p>
+<p>Actor: System Integrator</p>
+<p>Stakeholder: Developer | Systems Integrator</p>
+<p>Trigger: A change of the software, its requirements or its configuration items is accepted.</p>
+<p>Pre: All changes to the software, configuration and non-reproducible artifacts that represent the state of the project at a given time during the software lifecycle are versioned and permanently recorded.</p>
+<p>Flow: The developer or systems integrator makes a checkout of the revision in question from the SCM. | The developer or systems integrator reproducibly recreates or retrieves all artifacts.</p>
+<p>Post: The results from running the certification framework to evaluate the objectives is identical to previous runs using the same revision. | The artifacts are identical to the artifacts that were previously created using the revision.</p>
+<p>Extension: As a software developer or systems integrator I want to reproduce a previous state of the integrated software to reproduce a situation in which a fault occurs so that I can identify the defective change.</p>
+</section>
+<section id="UC04">
+<h4>Use COTS Tools<a class="headerlink" href="#UC04" title="Link to this heading">¶</a></h4>
+<p>ID: UC04</p>
+<p>Title: Use COTS Tools</p>
+<p>Story: As a developer I want to use artifacts provided by my existing tooling as inputs for the certification framework so that I can check my certification progress.</p>
+<p>Goal: DLR-SMART3</p>
+<p>Scope: TDF</p>
+<p>Level: User</p>
+<p>Actor: Developer</p>
+<p>Stakeholder: Developer | Reviewer</p>
+<p>Trigger: An output of a COTS tool is to be used as an input for the certification framework.</p>
+<p>Pre: The certification framework provides a means for describing how artifacts are created by custom tools. | The certification framework provides ingestion methods for some pre-defined artifact types.</p>
+<p>Flow: The developer defines which artifact type the artifact has using the ADF and the tool which creates the artifact type using the TDF.</p>
+<p>Post: The definitions are used by the certification framework to discover or create the artifacts and ingest them.</p>
+<p>Extension: As a developer, I want the certification framework to provide default definitions for some tools, so that I don’t have to provide my own.</p>
+</section>
+<section id="UC05">
+<h4>Shared Reality<a class="headerlink" href="#UC05" title="Link to this heading">¶</a></h4>
+<p>ID: UC05</p>
+<p>Title: Shared Reality</p>
+<p>Story: As a developer I want the certification framework to produce the same results every time I give it the same inputs as someone else so that everyone has a shared reality of the current certification status of the project.</p>
+<p>Goal: DLR-SMART3</p>
+<p>Scope: ADF</p>
+<p>Level: System</p>
+<p>Actor: Developer</p>
+<p>Stakeholder: Developer | Reviewer | Certification Authority</p>
+<p>Trigger: The certification status is queried by a stakeholder.</p>
+<p>Pre: The project’s artifacts are reproducible in a way that they do not change if they are created twice from the same data.</p>
+<p>Flow: All stakeholders run the certification framework using the same version of the artifacts. | The artifacts are reproducibly retrieved or created.</p>
+<p>Post: All stakeholders get the same certification results.</p>
+<p>Extension: As the certification authority I want to inspect the identical report as the developer so that I am sure to certify the right revision of the product.</p>
+</section>
+<section id="UC06">
+<h4>Defining Ontologies<a class="headerlink" href="#UC06" title="Link to this heading">¶</a></h4>
+<p>ID: UC06</p>
+<p>Title: Defining Ontologies</p>
+<p>Story: As the vendor I want to define my own extensions to the certification objectives to check additional or adapted objectives so that I can adapt my processes to the requirements of the CA.</p>
+<p>Goal: DLR-SMART2</p>
+<p>Scope: Ontologies</p>
+<p>Level: User</p>
+<p>Actor: Vendor</p>
+<p>Stakeholder: Vendor</p>
+<p>Trigger: The CA requires that an objective or requirement that is not explicitly specified by an ontology for an existing regulation is added.</p>
+<p>Pre: The certification framework defines ontology classes for objectives, data-items, evidences and other outputs.</p>
+<p>Flow: The vendor adds definitions for the objectives including what inputs are needed to evaluate them.</p>
+<p>Post: The objective is related to other objectives and evaluated by the certification framework using the artifacts.</p>
+<p>Extension: As the certification authority I want to have a mechanised description of the objective and its inputs to have a common and definite language with the vendor.</p>
+</section>
+<section id="UC07">
+<h4>Tracking Artifact Dependencies<a class="headerlink" href="#UC07" title="Link to this heading">¶</a></h4>
+<p>ID: UC07</p>
+<p>Title: Tracking Artifact Dependencies</p>
+<p>Story: As the vendor I want to track down why an objective is not completed so that I can take appropriate action.</p>
+<p>Goal: DLR-SMART2</p>
+<p>Scope: ADF</p>
+<p>Level: User</p>
+<p>Actor: Vendor</p>
+<p>Stakeholder: Developer | Vendor | Certification Authority</p>
+<p>Trigger: Changes are made to the product.</p>
+<p>Pre: An ontology links objectives to input and output artifacts. | The inputs and outputs are tracable onto each other if there is a relationship between them and this relationship is expressed in the ontology.</p>
+<p>Flow: The certification framework evaluates the relationships between the inputs and outputs and traces them back to objectives. | The relationship is displayed as part of the certification report.</p>
+<p>Post: An incomplete objective is detected by tracing the defect from individual artifacts to one or more objectives.</p>
+<p>Extension: As the CA I want to inspect the report to verify that each objective has been completed.</p>
+</section>
+<section id="UC08">
+<h4>Tracing<a class="headerlink" href="#UC08" title="Link to this heading">¶</a></h4>
+<p>ID: UC08</p>
+<p>Title: Tracing</p>
+<p>Story: As a developer I want to track the contents of artifacts like requirements, test cases, source code and object code onto each other so that I can use the tracing as a data-item.</p>
+<p>Goal: DLR-SMART3</p>
+<p>Scope: ADF</p>
+<p>Level: User</p>
+<p>Actor: Software Developer</p>
+<p>Stakeholder: Developer | Reviewer</p>
+<p>Trigger: A new artifact is added.</p>
+<p>Pre: The artifact types that should be traced are modeled using the ADF.</p>
+<p>Flow: The developer uses an existing class defintion or creates a new class definition for the ADF inside an ontology. | The developer declares that a specific artifact is of that type. | The certification framework understands the defition and can use the contents of the artifacts for tracing.</p>
+<p>Post: The report shows the tracing between the artifacts.</p>
+<p>Extension: As the certification authority I want to inspect the report to verify that sufficient coverage of requirements, source and object code exists.</p>
+</section>
+<section id="UC09">
+<h4>Machine-Readable Certification Report<a class="headerlink" href="#UC09" title="Link to this heading">¶</a></h4>
+<p>ID: UC09</p>
+<p>Title: Machine-Readable Certification Report</p>
+<p>Story: As a developer I want the certification report to be machine-readable so that it be processed by additional tools.</p>
+<p>Goal: DLR-SMART2</p>
+<p>Scope: Certification Report</p>
+<p>Level: User</p>
+<p>Actor: Developer</p>
+<p>Stakeholder: Developer</p>
+<p>Trigger: The certification report is created.</p>
+<p>Pre: The certification report is generated in a standardized format.</p>
+<p>Flow: The certification report data is created and serialized in the standardized format.</p>
+<p>Post: The report data is displayed by the COTS tools.</p>
+<p>Extension: As the vendor, I want to archive the report data to make historical data of my product searchable.</p>
+</section>
+<section id="UC10">
+<h4>Incremental Certification<a class="headerlink" href="#UC10" title="Link to this heading">¶</a></h4>
+<p>ID: UC10</p>
+<p>Title: Incremental Certification</p>
+<p>Story: As a developer, during development, I want to be able to mark objectives which have not yet been worked on as not achievable, so that I can focus on the progress of the objective(s) I am working on.</p>
+<p>Goal: DLR-SMART10</p>
+<p>Scope: Certification Report</p>
+<p>Level: User</p>
+<p>Actor: Developer</p>
+<p>Stakeholder: Developer | Reviewer | Vendor</p>
+<p>Trigger: An objective that is currently not completed, but is planned to be completed in the future.</p>
+<p>Pre: The list of objectives for a project is known.</p>
+<p>Flow: The developer marks the objective as not achievable using the manifest file.</p>
+<p>Post: The certification framework reports the failures of objectives, but the failures of marked objectives are featured less prominently.</p>
+<p>Extension: As a developer, I want to remove the marker from the objective I am working on so that I am notified of regressions.</p>
+</section>
+</section>
+</section>
+<section id="source-code-tracability-matrix">
+<h2>Source Code Tracability Matrix<a class="headerlink" href="#source-code-tracability-matrix" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Req06</p></th>
+<th class="head"><p>Req13</p></th>
+<th class="head"><p>Req17</p></th>
+<th class="head"><p>Req21</p></th>
+<th class="head"><p>Req25</p></th>
+<th class="head"><p>Req26</p></th>
+<th class="head"><p>Req28</p></th>
+<th class="head"><p>Req33</p></th>
+<th class="head"><p>Req34</p></th>
+<th class="head"><p>Req35</p></th>
+<th class="head"><p>Req37</p></th>
+<th class="head"><p>Req38</p></th>
+<th class="head"><p>Req41</p></th>
+<th class="head"><p>Req43</p></th>
+<th class="head"><p>Req50</p></th>
+<th class="head"><p>Req51</p></th>
+<th class="head"><p>Req53</p></th>
+<th class="head"><p>Req54</p></th>
+<th class="head"><p>Req55</p></th>
+<th class="head"><p>Req57</p></th>
+<th class="head"><p>Req58</p></th>
+<th class="head"><p>Req60</p></th>
+<th class="head"><p>Req61</p></th>
+<th class="head"><p>Req62</p></th>
+<th class="head"><p>Req63</p></th>
+<th class="head"><p>Req64</p></th>
+<th class="head"><p>Req65</p></th>
+<th class="head"><p>Req66</p></th>
+<th class="head"><p>Req67</p></th>
+<th class="head"><p>Req69</p></th>
+<th class="head"><p>Req70</p></th>
+<th class="head"><p>Req71</p></th>
+<th class="head"><p>Req72</p></th>
+<th class="head"><p>Req73</p></th>
+<th class="head"><p>Req74</p></th>
+<th class="head"><p>Req75</p></th>
+<th class="head"><p>Req76</p></th>
+<th class="head"><p>Req77</p></th>
+<th class="head"><p>Req78</p></th>
+<th class="head"><p>Req79</p></th>
+<th class="head"><p>Req80</p></th>
+<th class="head"><p>Req81</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>COUA</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CheckResult</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CheckResults</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cobertura</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CoberturaOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CoberturaParser</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p>CouaCheckTable</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaCrosstabDirective</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaDO178CRequirementsList</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaDO178CRequirementsSection</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaDO178CRequirementsTestCoverageMatrix</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaDO178CSoftwareLevelDirective</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaDO178CTracabilityMatrix</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaDO178CWithIndependence</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaDomain</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaException</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaNotImplemented</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaTableDirective</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CouaUseCaseCoverageMatrix</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CouaUseCaseSection</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>DO178C</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>DO178COntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>JUnit</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>JunitOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mantra</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>MantraOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Needy</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>NeedyOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Ontology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Requirement</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>SoftwareLevel</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Traces</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>TracesOntology</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>activate_software_level</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>check_cmd</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>check_is_do178c</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>infer_mappings</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>init_cmd</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>init_config</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>load_ontologies</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>load_store</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>parse_artifacts</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>parse_cobertura_output</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p>parse_config</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>parse_malkoha_output</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>parse_morph_config</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>ref_thing</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>run</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>run_checks</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>setup</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="requirements-test-coverage-matrix">
+<h2>Requirements Test Coverage Matrix<a class="headerlink" href="#requirements-test-coverage-matrix" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Req21</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>https://llg.cubic.org/docs/junit#testcase/test_all_subjects_recognized</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p>https://llg.cubic.org/docs/junit#testcase/test_requirements_property_is_parsed</p></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="use-cases-coverage-matrix">
+<h2>Use-Cases Coverage Matrix<a class="headerlink" href="#use-cases-coverage-matrix" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section>
+<section id="low-level-requirements-not-yet-implemented">
+<h2>Low-Level Requirements not yet implemented<a class="headerlink" href="#low-level-requirements-not-yet-implemented" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Req14</p></td>
+<td><p>While Coua performs validation activities, if any failing unsatisfiable objectives are encountered, Coua shall not indicate that its activities have failed. </p></td>
+</tr>
+<tr class="row-odd"><td><p>Req15</p></td>
+<td><p>Coua shall provide a way to mark objectives as unsatisfiable</p></td>
+</tr>
+<tr class="row-even"><td><p>Req16</p></td>
+<td><p>Coua shall provide a way to remove the unsatisfiable mark from objectives.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req18</p></td>
+<td><p>Coua shall ingest artifacts in the Static Analysis Results Interchange Format (SARIF) format.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req22</p></td>
+<td><p>When Coua produces a certification report, where data from artifacts is used, Coua shall include data about the tools that produced the artifacts.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req23</p></td>
+<td><p>If the ontology contains syntactical errors, then Coua shall refuse to evaluate the ontology and produce a meaningful error message.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req24</p></td>
+<td><p>If an artifact contains syntactical errors, then Coua shall refuse to produce a certification report that includes it and issue a meaningful error message.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req27</p></td>
+<td><p>Coua shall allow for defining custom content in the certification report.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req29</p></td>
+<td><p>Coua shall provide a well-defined output schema for the certification report.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req36</p></td>
+<td><p>The certification report shall clearly display whether an objective has regressed.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req39</p></td>
+<td><p>When an objective is violated, the certification report shall highlight the precise artifacts that are the source of the violation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req40</p></td>
+<td><p>The certification report shall be human-readable.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req42</p></td>
+<td><p>The certification reports shall have the same contents in both human- and machine- readable forms.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req44</p></td>
+<td><p>The certification report shall present unsatisfiable objectives less prominently.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req45</p></td>
+<td><p>While the artifacts provide the required information, the certification report shall include all data items and evidences required to build an assurance case.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req46</p></td>
+<td><p>The certification framework shall allow for defining custom content in the rendered certification report.</p></td>
+</tr>
+<tr class="row-even"><td><p>Req47</p></td>
+<td><p>Coua shall finish producing the report in a time that allows for fast feedback during development.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Req48</p></td>
+<td><p>Coua shall use not more than half of the memory that is available in the CI or in the development requirement.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Coua</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Tim Schubert.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
