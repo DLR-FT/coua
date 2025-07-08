@@ -3,7 +3,7 @@ PREFIX do178c: <https://gitlab.dlr.de/ft-ssy-avs/ap/coua/ontologies/do178c#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?Check ?Status ?Description ?disabled
+SELECT ?Check ?Status ?Description
 WHERE
 {
   {
