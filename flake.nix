@@ -7,7 +7,7 @@
     };
 
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      url = "github:NixOS/nixpkgs/nixos-25.05";
     };
 
     treefmt-nix = {
@@ -50,25 +50,32 @@
       (
         system:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [
-              sphinx-sparql.overlays.default
-              self.overlays.default
-            ];
-          };
+          pkgs = nixpkgs.legacyPackages.${system};
           project = pyproject-nix.lib.project.loadPyproject { projectRoot = ./.; };
-          python = pkgs.python3;
+          python = pkgs.python3.override {
+            packageOverrides = final: prev: {
+              coua = self.packages.${system}.coua;
+              malkoha = self.packages.${system}.malkoha;
+              morph-kgc = self.packages.${system}.morph-kgc;
+              sphinx-sparql = self.packages.${system}.sphinx-sparql;
+            };
+          };
           treefmtEval = treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix;
         in
-        rec {
-          packages.default =
-            let
-              attrs = project.renderers.buildPythonPackage { inherit python; };
-            in
-            python.pkgs.buildPythonPackage attrs;
+        {
+          packages = {
+            coua =
+              let
+                attrs = project.renderers.buildPythonPackage { inherit python; };
+              in
+              python.pkgs.buildPythonPackage attrs;
+            malkoha = pkgs.python3Packages.callPackage malkoha { };
+            morph-kgc = pkgs.python3Packages.callPackage ./nix/morph-kgc.nix { };
+            sphinx-sparql = pkgs.python3Packages.callPackage sphinx-sparql { };
+          };
 
           checks = import ./nix/checks.nix (inputs // { inherit pkgs treefmtEval; });
+
           devShells.default =
             let
               arg = project.renderers.withPackages { inherit python; };
@@ -84,35 +91,14 @@
                 pkgs.python3
                 pkgs.pylint
                 pkgs.oxigraph
-                packages.default # for testing itself
-                packages.default.passthru.optional-dependencies.test
+                self.packages.${system}.coua # for testing itself
+                self.packages.${system}.coua.passthru.optional-dependencies.test
                 pythonEnv
-                pkgs.ruff-lsp
                 pkgs.ruff
-                python.pkgs.pythonPackages.malkoha
-                python.pkgs.pythonPackages.morph-kgc
-                python.pkgs.pythonPackages.pylsp-rope
-                python.pkgs.pythonPackages.python-lsp-ruff
-                python.pkgs.pythonPackages.python-lsp-server
+                python
               ];
             };
           formatter = treefmtEval.config.build.wrapper;
         }
-      )
-    // {
-      overlays.default = final: prev: {
-        coua = self.packages.${prev.system}.default;
-        python3 = prev.python3.override {
-          packageOverrides = final: prev: {
-            coua = prev.pythonPackages.callPackage ./default.nix { };
-            # TODO upstream to nixpkgs
-            # TODO upstream to nixpkgs
-            malkoha = prev.pythonPackages.callPackage malkoha { };
-            morph-kgc = prev.pythonPackages.callPackage ./nix/morph-kgc.nix { };
-            # TODO upstream to nixpkgs
-            sphinx-sparql = prev.pythonPackages.callPackage sphinx-sparql { };
-          };
-        };
-      };
-    };
+      );
 }
