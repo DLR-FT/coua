@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "coua"
-version = "0.0.1"
+version = "0.0.2"
 description = "Certification Ontologies Using Automation"
 dependencies = [
     "malkoha",
